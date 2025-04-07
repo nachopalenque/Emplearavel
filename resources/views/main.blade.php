@@ -45,14 +45,14 @@
         h1{
             font-size: 30px;
         }
-        .title__text--1{
+        .titulo__text--1{
             color:rgb(245, 48, 3);
             font-family: 'Helvetica', 'system-ui', 'sans-serif';
             text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000; 
             font-size:clamp(5rem, 2vw + 1rem, 2.25rem);
 
         }
-        .title__text--0{
+        .titulo__text--0{
             font-family: 'Helvetica', 'system-ui', 'sans-serif';
             color:oklch(98.7% 0.019 192.83);
             text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000; 
@@ -60,7 +60,8 @@
 
 
         }
-        .description__text{
+        .subtitulo__text{
+            font-family: 'Helvetica', 'system-ui', 'sans-serif';
             text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000; 
 
         }
@@ -204,13 +205,13 @@
 
             <article class="seccion__logo--title">
             <h1>
-                <span class="title__text--0">Emple</span><span class="title__text--1">@Ravel</span>
+                <span class="titulo__text--0">Emple</span><span class="titulo__text--1">@Ravel</span>
             </h1> 
             <img src="storage/img/logo/logo.png" class="logo">
 
             </article>
      
-             <h1 class="description__text">Mucho más que un portal del empleado</h1>
+             <h1 class="subtitulo__text">Mucho más que un portal del empleado</h1>
         </section>
 
         </section>
