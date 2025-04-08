@@ -86,7 +86,7 @@ return [
     'auth_logo' => [
         'enabled' => false,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/logo.png',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 50,
@@ -113,7 +113,7 @@ return [
         'enabled' => true,
         'mode' => 'fullscreen',
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/logo.png',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
             'width' => 60,
@@ -157,7 +157,9 @@ return [
     'layout_fixed_sidebar' => null,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
-    'layout_dark_mode' => null,
+    'layout_dark_mode' => 'toggle',
+    'dark_mode_switch' => true,
+
 
     /*
     |--------------------------------------------------------------------------
@@ -320,6 +322,153 @@ return [
             'url' => 'admin/blog',
             'can' => 'manage-blog',
         ],
+
+
+
+
+
+        [
+            'text' => 'Fichajes',
+            'icon' => 'far fa-fw fa-file',
+   
+            'submenu' => [
+                [
+                    'text' => 'level_one',
+                    'url' => '#',
+                ],
+                [
+                    'text' => 'level_one',
+                    'url' => '#',
+                    'submenu' => [
+                        [
+                            'text' => 'level_two',
+                            'url' => '#',
+                        ],
+                        [
+                            'text' => 'level_two',
+                            'url' => '#',
+                            'submenu' => [
+                                [
+                                    'text' => 'level_three',
+                                    'url' => '#',
+                                ],
+                                [
+                                    'text' => 'level_three',
+                                    'url' => '#',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+
+
+                [
+                    'text' => 'level_one',
+                    'url' => '#',
+                ],
+            ],
+        ],
+
+
+
+
+
+
+        [
+            'text' => 'Proyectos',
+            'icon' => 'far fa-fw fa-newspaper',
+   
+            'submenu' => [
+                [
+                    'text' => 'level_one',
+                    'url' => '#',
+                ],
+                [
+                    'text' => 'level_one',
+                    'url' => '#',
+                    'submenu' => [
+                        [
+                            'text' => 'level_two',
+                            'url' => '#',
+                        ],
+                        [
+                            'text' => 'level_two',
+                            'url' => '#',
+                            'submenu' => [
+                                [
+                                    'text' => 'level_three',
+                                    'url' => '#',
+                                ],
+                                [
+                                    'text' => 'level_three',
+                                    'url' => '#',
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+
+
+                [
+                    'text' => 'level_one',
+                    'url' => '#',
+                ],
+            ],
+        ],
+
+
+        [
+            'text' => 'Usuario',
+            'icon' => 'far fa-fw fa-id-card',
+   
+            'submenu' => [
+                [
+                    'text' => 'Mensajes',
+                    'url' => '#',
+                    'icon' => 'fas fa-envelope',
+
+                ],
+
+                [
+                    'text' => 'Perfil',
+                    'url' => '#',
+                    'icon' => 'fas fa-fw fa-user',
+
+                ],
+          
+            ],
+        ],
+
+
+
+
+        [
+            'text' => 'Ajustes',
+            'icon' => 'fas fa-cog',
+   
+            'submenu' => [
+                [
+                    'text' => 'Mensajes',
+                    'url' => '#',
+                    'icon' => 'fas fa-envelope',
+
+                ],
+
+                [
+                    'text' => 'Perfil',
+                    'url' => '#',
+                    'icon' => 'fas fa-fw fa-user',
+
+                ],
+          
+            ],
+        ],
+
+
+
+        /* 
+
+
         [
             'text' => 'pages',
             'url' => 'admin/pages',
@@ -376,7 +525,14 @@ return [
                 ],
             ],
         ],
-        ['header' => 'labels'],
+
+
+
+
+
+
+        
+              ['header' => 'labels'],
         [
             'text' => 'important',
             'icon_color' => 'red',
@@ -392,6 +548,10 @@ return [
             'icon_color' => 'cyan',
             'url' => '#',
         ],
+        
+        */
+
+  
     ],
 
     /*
@@ -533,6 +693,7 @@ return [
             'use_navbar_items' => true,
         ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

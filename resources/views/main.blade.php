@@ -148,7 +148,7 @@
 
         .descripcion__texto--contenido{
             padding:6px;
-            margin:1px;
+            margin:6px;
             text-align:justify;
             hyphens: auto;
             line-height: 1.625;
