@@ -19,9 +19,9 @@
             left:0;
             top:0;
             width: 100vw;
-            height: 5vh;
+            height: 6vh;
             background-color: #333;
-            border-bottom:1px solid gray;
+            outline:2px solid gray;
         }
 
         footer{
@@ -34,6 +34,7 @@
             margin: 1px;
             padding: 3px;
             background-color: #333;
+            outline:2px solid gray;
 
         }
 
@@ -63,7 +64,8 @@
         .subtitulo__text{
             font-family: 'Helvetica', 'system-ui', 'sans-serif';
             text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000; 
-
+            background:transparent;
+            content: " ";
         }
         .menu{
             display: flex;
@@ -77,12 +79,20 @@
             color: white;
             text-decoration: none;
             padding: 6px;
-            margin: 6px;
+            margin: 10px;
+
         }
         .menu__a:hover{
             color:rgb(245, 48, 3);
             outline:1px solid rgb(245, 48, 3);
-            outline-radius: 5px;
+            box-shadow: 0 0 0 1px rgb(245, 48, 3);
+            border-radius: 5px;
+
+            text-decoration: underline;
+            text-underline-position: under; /* subrayado debajo del texto */
+            text-underline-offset: 1px; 
+            text-decoration-color: white;
+
         }
 
         main{
@@ -96,6 +106,8 @@
             left:0;
             width: 100vw;
             height: 30vh;
+            outline:2px solid gray;
+
         }
         
         .seccion__logo{
@@ -107,6 +119,7 @@
             justify-content: center;
             align-items: center;
             color:white;
+            
         }
         .seccion__logo--title{
     
@@ -138,6 +151,8 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            outline:2px solid gray;
+
         }
         .descripcion__texto--titulo{
             padding:6px;
@@ -176,10 +191,10 @@
                     <a href="{{ route('login') }}" class="menu__a">Iniciar Sesión</a>
 
                     @if (Route::has('reagister'))
-                        <a href="{{ route('register') }}" class="menu__a">Registro</a>
+                        <a href="{{ url('/main-register') }}" class="menu__a">Registro</a>
                     @endif
                 @endauth
-                <a href="{{ route('register') }}" class="menu__a">Registro</a>
+                <a href="{{ url('/main-register') }}" class="menu__a">Registro</a>
 
             </section>
         @endif
@@ -211,7 +226,7 @@
 
             </article>
      
-             <h1 class="subtitulo__text">Mucho más que un portal del empleado</h1>
+             <h1 class="subtitulo__text">Mucho más que un portal del empleado...</h1>
         </section>
 
         </section>

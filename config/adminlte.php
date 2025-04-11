@@ -135,7 +135,7 @@ return [
 
     'usermenu_enabled' => true,
     'usermenu_header' => true,
-    'usermenu_header_class' => 'bg-dark',
+    'usermenu_header_class' => 'bg-light',
     'usermenu_image' => true,
     'usermenu_desc' => true,
     'usermenu_profile_url' => true,
@@ -157,8 +157,6 @@ return [
     'layout_fixed_sidebar' => null,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
-    'layout_dark_mode' => 'toggle',
-    'dark_mode_switch' => true,
 
 
     /*
@@ -192,17 +190,36 @@ return [
     |
     */
 
+    /* Por defecto
+
+
     'classes_body' => '',
     'classes_brand' => '',
     'classes_brand_text' => '',
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar' => 'sidebar-light-primary elevation-4',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
+
+    */
+
+    'classes_body' => '',
+    'classes_brand' => 'brand-link',
+    'classes_brand_text' => '',
+    'classes_content_wrapper' => '',
+    'classes_content_header' => '',
+    'classes_content' => '',
+    'classes_sidebar' => 'sidebar-dark-primary elevation-4 sidebar-no-expand',
+
+    'classes_sidebar_nav' => ' ',
+    'classes_topnav' => ' navbar-dark',
+    'classes_topnav_nav' => 'navbar-expand',
+    'classes_topnav_container' => 'container',
+
 
     /*
     |--------------------------------------------------------------------------
@@ -265,7 +282,7 @@ return [
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
-    'profile_url' => false,
+    'profile_url' => 'user/profile',
     'disable_darkmode_routes' => false,
 
     /*
@@ -312,10 +329,22 @@ return [
             'topnav_right' => true,
         ],
 
+        [
+            'type' => 'darkmode-widget',
+            'topnav_right' => true,
+            'sidebar_nav'=> true,
+   
+            
+    
+        ],
+     
+
         // Sidebar items:
         [
+            /*
             'type' => 'sidebar-menu-search',
             'text' => 'search',
+            */
         ],
         [
             'text' => 'blog',
@@ -447,10 +476,18 @@ return [
             'icon' => 'fas fa-cog',
    
             'submenu' => [
+
                 [
-                    'text' => 'Mensajes',
+                    'text' => 'Centro Productivo',
+                    'url' => 'centros/1',
+                    'icon' => 'fas fa-city',
+
+                ],
+
+                [
+                    'text' => 'Personalización',
                     'url' => '#',
-                    'icon' => 'fas fa-envelope',
+                    'icon' => 'fas fa-palette',
 
                 ],
 

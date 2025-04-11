@@ -61,7 +61,7 @@ class User extends Authenticatable
 
     public function adminlte_image(){
       
-        return "storage/img/profile/default.webp";
+        return "$this->profile_photo_url";
     }
     public function adminlte_desc(){
         return 'Administrador';
@@ -75,8 +75,9 @@ class User extends Authenticatable
     ];
     }
 
+
     public function adminlte_profile_url()
     {
-        return 'profile/username';
+        return 'user/profile';
     }
 }

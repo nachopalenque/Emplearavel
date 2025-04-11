@@ -18,6 +18,7 @@
 
     {{-- Navbar right links --}}
     <ul class="navbar-nav ml-auto">
+
         {{-- Custom right links --}}
         @yield('content_top_nav_right')
 
@@ -38,5 +39,6 @@
             @include('adminlte::partials.navbar.menu-item-right-sidebar-toggler')
         @endif
     </ul>
+
 
 </nav>
