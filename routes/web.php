@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CentroController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +19,11 @@ Route::get('/', function () {
     return view('main');
 });
 
+//rutas para la creación del primer centro productivo y la asociación con los usuarios.
 Route::get('/main-register', [CentroController::class,"centroPrincipal"]);
-Route::post('/centrosPrincipal', [CentroController::class,"storePrincipal"]);
+Route::post('/centros-Principal', [CentroController::class,"storePrincipal"]);
+Route::get('/centros-Asociar-Usuario', [CentroController::class,"showUserCentro"]);
+Route::put('/centros-Asociar-Usuario', [UserController::class,"updateUserCentro"]);
 
 
 Route::middleware([
@@ -32,5 +36,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('/centros', CentroController::class);
+    Route::get('/centros-auth', [CentroController::class,"showAuth"]);
+
 
 });

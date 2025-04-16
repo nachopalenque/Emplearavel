@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Centro;
+use App\Http\Controllers\PermisosController;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CentroController extends Controller
@@ -43,9 +45,12 @@ class CentroController extends Controller
 
 
     }
+
+    //esta función se llamara únicamentela primera vez que se cree un Centro Productivo
     public function storePrincipal(Request $request)
     {
         $centros = Centro::all();
+        
         if(count($centros) == 0){
 
             $centro = new Centro();
@@ -58,11 +63,15 @@ class CentroController extends Controller
             $centro->localidad = $request->input('localidad');
             $centro->codigo_postal = $request->input('codigo_postal');
             $centro->estilo = $request->input('estilo');
-    
             $centro->save();
+            //tras guardar el centro productivo incial creamos los roles y permisos del sistema
+            PermisosController::plantillaRolesPermisos();
             return redirect('register');  
 
     
+        }else{
+
+            return view('Mensaje.advertencia', ['Operación no disponible' => $titulo, 'Este usuario no puede crear un Centro Productivo. Pongase en contacto con su administrador.' => $mensaje]);
         }
 
 
@@ -73,7 +82,30 @@ class CentroController extends Controller
      */
     public function show(int $id_centro)
     {
-        return view('Centro.show');    
+        $centro = Centro::find($id_centro);
+        return view('Centro.show', ['centro' => $centro]);    
+    }
+
+    public function showAuth(){
+        $centro = Centro::find(auth()->user()->id_centro);
+        return view('Centro.show', ['centro' => $centro]);
+    }
+
+    public function showUserCentro(){
+        
+        $usuario = User::find(auth()->user()->id);
+
+        if($usuario->id_centro != null){
+
+            return redirect('dashboard');  
+
+        }else{
+
+            $centros = Centro::all();
+            return view('Centro.edit-user', ['centros' => $centros, 'usuario' => $usuario]);
+
+
+        }
     }
 
     /**

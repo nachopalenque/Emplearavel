@@ -20,7 +20,7 @@
                       <!-- text input -->
                       <div class="form-group">
                         <label>Nombre</label>
-                        <input type="text" class="form-control" disabled="">
+                        <input type="text" class="form-control" value="{{$centro->nombre}}" disabled="">
                       </div>
                     </div>
 
@@ -28,7 +28,7 @@
                       <!-- text input -->
                       <div class="form-group">
                         <label>Razón Social</label>
-                        <input type="text" class="form-control" disabled="">
+                        <input type="text" class="form-control" value="{{$centro->razon_social}}" disabled="">
                       </div>
                     </div>
          
@@ -39,8 +39,8 @@
                      <div class="col-sm-6">
                         <!-- text input -->
                         <div class="form-group">
-                            <label>País</label>
-                            <input type="text" class="form-control" disabled="">
+                            <label>CIF</label>
+                            <input type="text" class="form-control" value="{{$centro->CIF}}" disabled="">
                         </div>
 
                      </div>
@@ -50,7 +50,7 @@
                       <!-- text input -->
                         <div class="form-group">
                             <label>Provincia</label>
-                            <input type="text" class="form-control" disabled="">
+                            <input type="text" class="form-control" value="{{$centro->provincia}}" disabled="">
                         </div>
 
                      </div>
@@ -69,7 +69,7 @@
                         <!-- text input -->
                             <div class="form-group">
                                 <label>Localidad</label>
-                                <input type="text" class="form-control" disabled="">
+                                <input type="text" class="form-control" value="{{$centro->localidad}}" disabled="">
                             </div>
 
                         </div>
@@ -78,8 +78,33 @@
                         <div class="col-sm-6">
                         <!-- textarea -->
                             <div class="form-group">
+                            <label>País</label>
+                            <input type="text" class="form-control" value="{{$centro->pais}}" disabled="">
+
+
+                            </div>
+                            
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+
+                    <div class="row">
+
+
+                     
+
+                        <div class="col-sm-6">
+                        <!-- textarea -->
+                            <div class="form-group">
                                 <label>Dirección</label>
-                                <textarea class="form-control" rows="3" disabled=""></textarea>
+                                <textarea class="form-control" rows="3"  disabled="">{{$centro->direccion}}</textarea>
 
 
                             </div>

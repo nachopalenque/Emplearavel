@@ -166,7 +166,7 @@
       <h3>Datos Centro Productivo</h3>
     </div>
     <div class="card-body">
-      <form action="{{url('/centrosPrincipal')}}" method="post">
+      <form action="{{url('/centros-Principal')}}" method="post">
       @csrf
         <div class="row">
           <div class="col">

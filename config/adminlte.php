@@ -1,5 +1,7 @@
 <?php
 
+
+
 return [
 
     /*
@@ -318,6 +320,8 @@ return [
     */
 
     'menu' => [
+
+        
         // Navbar items:
         [
             'type' => 'navbar-search',
@@ -479,7 +483,8 @@ return [
 
                 [
                     'text' => 'Centro Productivo',
-                    'url' => 'centros/1',
+                    
+                    'url' =>  'centros-auth',
                     'icon' => 'fas fa-city',
 
                 ],
