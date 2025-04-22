@@ -35,23 +35,9 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
-
-        
-
-                Event::listen(
-            ReadingDarkModePreference::class,
-            [$this, 'handleReadingDarkModeEvt']
-        );
-
- 
+       
 
 
-        // Register listener for DarkModeWasToggled AdminLTE event.
-
-        Event::listen(
-            DarkModeWasToggled::class,
-            [$this, 'handleDarkModeWasToggledEvt']
-        );
 
 
     }
@@ -64,35 +50,7 @@ class EventServiceProvider extends ServiceProvider
         return false;
     }
 
-    public function handleReadingDarkModeEvt(ReadingDarkModePreference $event)
-    {
-        // TODO: Implement the next method to get the dark mode preference for the
-        // current authenticated user. Usually this preference will be stored on a database,
-        // it is your task to get it.
 
-    
-
-
-
-    }
-
-
-    public function handleDarkModeWasToggledEvt(DarkModeWasToggled $event)
-    {
-        // Get the new dark mode preference (enabled or not).
-
-
-
-           dd('hola');
-
-        // Store the new dark mode preference on the database.
-
-        //$this->storeDarkModeSettingOnDB($darkModeCfg);
-
-        // TODO: Implement previous method to store the new dark mode
-        // preference for the authenticated user. Usually this preference will
-        // be stored on a database, it is your task to store it.
-    }
 
 
     
