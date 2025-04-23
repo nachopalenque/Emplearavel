@@ -65,15 +65,12 @@ class User extends Authenticatable
         return "$this->profile_photo_url";
     }
     public function adminlte_desc(){
-        return 'Administrador';
+        return $this->getRoleNames()->first();
     }
 
     
     public function adminlte_profile(){
-    return [
-        'name' => 'Administrador',
-        'description' => 'Descripción del administrador',
-    ];
+
     }
 
 
