@@ -77,7 +77,7 @@ return [
 
     */
 
-    'home' => '/centros-Asociar-Usuario',
+    'home' => '/centro-Asociar-Usuario',
 
     /*
     |--------------------------------------------------------------------------

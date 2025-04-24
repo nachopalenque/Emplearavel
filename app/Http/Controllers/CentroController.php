@@ -14,7 +14,8 @@ class CentroController extends Controller
      */
     public function index()
     {
-        //
+        $centros = Centro::all();
+        return view('Centro.index', ['centros' => $centros]);
     }
 
     /**
@@ -87,8 +88,20 @@ class CentroController extends Controller
     }
 
     public function showAuth(){
-        $centro = Centro::find(auth()->user()->id_centro);
-        return view('Centro.show', ['centro' => $centro]);
+
+        //Si el usuario autentificado es Administrador podemos ver y administrar todos los centros
+        if(auth()->user()->getRoleNames()->first() == 'Administrador'){
+
+            return $this->index();
+            
+        }else{
+
+            //por el contrario si es un usuario normal solo podemos ver el centro al que pertenece
+            $centro = Centro::find(auth()->user()->id_centro);
+            return view('Centro.show', ['centro' => $centro]);
+
+        }
+
     }
 
     public function showUserCentro(){

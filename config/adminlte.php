@@ -484,7 +484,8 @@ return [
                 [
                     'text' => 'Centro Productivo',
                     
-                    'url' =>  'centros-auth',
+                    'route' => 'user.centro.showAuth',
+
                     'icon' => 'fas fa-city',
 
                 ],
