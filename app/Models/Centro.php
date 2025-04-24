@@ -10,7 +10,7 @@ class Centro extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
+        'id'=>'Id',
         'nombre',
         'razon_social',
         'direccion',
@@ -18,7 +18,6 @@ class Centro extends Model
         'provincia',
         'localidad',
         'codigo_postal',
-        'estilo',
         'CIF',
 
     ];
