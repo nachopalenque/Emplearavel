@@ -9,7 +9,9 @@
 @section('content')
     
 
-@livewire('DataTable',['items' => $centros, 'modelo' => 'App\Models\Centro'])
+@livewire('DataTable',['items' => $centros, 'modelo' => 'App\Models\Centro', 'columNames' => ['Id','Nombre','Razón Social','Dirección','País','Provincia','Localidad','Código Postal','CIF']])
+
+
 
 @stop
 

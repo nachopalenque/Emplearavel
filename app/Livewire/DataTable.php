@@ -8,12 +8,14 @@ class DataTable extends Component
 {
     public $items;
     public $modeloClase;
+    public $columNames;
     
     //Método para inicializar variables
-    public function mount($items,$modelo){
+    public function mount($items,$modelo, $columNames){
 
         $this->modeloClase = new $modelo();
         $this->items = $items;
+        $this->columNames = $columNames;
     }
     public function render()
     {
@@ -23,6 +25,7 @@ class DataTable extends Component
         [
             'columnas' => $columnas,
             'items' => $this->items,
+            'columNames' => $this->columNames
         ]
     );
     }
