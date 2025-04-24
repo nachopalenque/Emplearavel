@@ -10,7 +10,7 @@ class Centro extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id'=>'Id',
+        'id',
         'nombre',
         'razon_social',
         'direccion',
