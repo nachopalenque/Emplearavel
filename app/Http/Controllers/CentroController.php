@@ -31,18 +31,43 @@ class CentroController extends Controller
      */
     public function store(Request $request)
     {
-        $centro = new Centro();
-        $centro->nombre = $request->input('nombre');
-        $centro->razon_social = $request->input('razon_social');
-        $centro->CIF = $request->input('CIF');
-        $centro->direccion = $request->input('direccion');
-        $centro->pais = $request->input('pais');
-        $centro->provincia = $request->input('provincia');
-        $centro->localidad = $request->input('localidad');
-        $centro->codigo_postal = $request->input('codigo_postal');
-        $centro->estilo = $request->input('estilo');
 
-        $centro->save();
+        try {
+
+            $validacion = $request->validate([
+                'nombre' => 'required | unique:centros',
+                'razon_social' => 'required',
+                'CIF' => 'required',
+                'direccion' => 'required',
+                'pais' => 'required',
+                'provincia' => 'required',
+                'localidad' => 'required',
+                'codigo_postal' => 'required',
+            ]);
+
+            $centro = new Centro();
+            $centro->nombre = $request->input('nombre');
+            $centro->razon_social = $request->input('razon_social');
+            $centro->CIF = $request->input('CIF');
+            $centro->direccion = $request->input('direccion');
+            $centro->pais = $request->input('pais');
+            $centro->provincia = $request->input('provincia');
+            $centro->localidad = $request->input('localidad');
+            $centro->codigo_postal = $request->input('codigo_postal');
+            $centro->estilo = $request->input('estilo');
+    
+            $centro->save();
+
+            return back();
+    
+            //return redirect()->route('centro.index');
+           
+        } catch (Exception $e) {
+
+            Log::error($e->getMessage());
+            return redirect()->route('centro.index');
+        }
+    
 
 
     }
@@ -124,15 +149,17 @@ class CentroController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Centro $centro)
+    public function edit($id)
     {
+        $centro = Centro::find($id);
+        return view('Centro.edit', ['centro' => $centro]);
         //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Centro $centro)
+    public function update(Request $request,  $id)
     {
         //
     }

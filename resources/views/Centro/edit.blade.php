@@ -1,26 +1,30 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>crear crentro</title>
-</head>
-<body>
+
+@extends('adminlte::page')
+
+@section('title', 'Centro Productivo')
+
+@section('content_header')
+    <h1>Editar Centro Productivo</h1>
+@stop
+
+@section('content')
 <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Rellene los datos para el nuevo Centro Productivo</h3>
+                <h3 class="card-title">Actualice los datos del Centro Productivo</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="POST" action="{{ route('centro.store') }}">
+              <form method="POST" action="{{ route('centro.update', $centro->id) }}">
               @csrf
+              @method('PUT')
+
               <div class="card-body">
 
                 <div class="row">
 
                     <div class="col">
 
-                    <x-adminlte-input type="text" name="nombre" label="Nombre" placeholder="Ingrese el nombre del Centro Productivo"  label-class="text-lightblue" value="{{ old('nombre') }}" >
+                    <x-adminlte-input type="text" name="nombre" label="Nombre" placeholder="Ingrese el nombre del Centro Productivo"  label-class="text-lightblue" value="{{$centro->nombre}}" >
             
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
@@ -36,7 +40,7 @@
                       
                     
                
-                    <x-adminlte-input type="text" name="razon_social" label="Razón Social" placeholder="Ingrese la Razón Social de su empresa u organización" label-class="text-lightblue" value="{{ old('razon_social') }}">
+                    <x-adminlte-input type="text" name="razon_social" label="Razón Social" placeholder="Ingrese la Razón Social de su empresa u organización" label-class="text-lightblue" value="{{$centro->razon_social}}">
             
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
@@ -56,7 +60,7 @@
 
 
                                     
-                    <x-adminlte-input type="text" name="CIF" label="CIF" placeholder="Ingrese el CIF de su empresa u organización " label-class="text-lightblue" value="{{ old('CIF') }}">
+                    <x-adminlte-input type="text" name="CIF" label="CIF" placeholder="Ingrese el CIF de su empresa u organización " label-class="text-lightblue" value="{{$centro->CIF}}">
             
                         <x-slot name="prependSlot">
                             <div class="input-group-text">
@@ -72,7 +76,7 @@
 
 
                               
-                    <x-adminlte-input type="text" name="provincia" label="Provincia" placeholder="Ingrese la Provincia del Centro Productivo" label-class="text-lightblue" value="{{ old('provincia') }}">
+                    <x-adminlte-input type="text" name="provincia" label="Provincia" placeholder="Ingrese la Provincia del Centro Productivo" label-class="text-lightblue" value="{{$centro->provincia}}">
             
                         <x-slot name="prependSlot">
                             <div class="input-group-text">
@@ -93,7 +97,7 @@
 
 
                                        
-                        <x-adminlte-input type="text" name="localidad" label="Localidad" placeholder="Ingrese la localidad del Centro Productivo" label-class="text-lightblue" value="{{ old('localidad') }}">
+                        <x-adminlte-input type="text" name="localidad" label="Localidad" placeholder="Ingrese la localidad del Centro Productivo" label-class="text-lightblue" value="{{ $centro->localidad }}">
                 
                             <x-slot name="prependSlot">
                                 <div class="input-group-text">
@@ -115,7 +119,7 @@
 
                      
                                        
-                            <x-adminlte-input type="text" name="codigo_postal" label="Código Postal" placeholder="Ingrese el código postal del Centro Productivo" label-class="text-lightblue" value="{{ old('codigo_postal') }}">
+                            <x-adminlte-input type="text" name="codigo_postal" label="Código Postal" placeholder="Ingrese el código postal del Centro Productivo" label-class="text-lightblue" value="{{ $centro->codigo_postal }}">
                                 
                                 <x-slot name="prependSlot">
                                     <div class="input-group-text">
@@ -138,7 +142,7 @@
 
 
                                        
-                        <x-adminlte-input type="text" name="pais" label="País" placeholder="Ingrese el país del Centro Productivo" label-class="text-lightblue" value="{{ old('pais') }}">
+                        <x-adminlte-input type="text" name="pais" label="País" placeholder="Ingrese el país del Centro Productivo" label-class="text-lightblue" value="{{ $centro->pais }}">
                     
                             <x-slot name="prependSlot">
                                 <div class="input-group-text">
@@ -198,7 +202,7 @@
                     <div class="col">
 
                         <x-adminlte-textarea name="direccion" label="Dirección" rows=3 label-class="text-lightblue"
-                            igroup-size="sm" placeholder="Ingrese la Dirección del Centro Productivo" value="{{ old('direccion') }}">
+                            igroup-size="sm" placeholder="Ingrese la Dirección del Centro Productivo" value="{{ $centro->direccion }}">
                             <x-slot name="prependSlot">
                                 <div class="input-group-text">
                                      <i class="fas fa-address-book text-lightblue"></i>
@@ -218,10 +222,18 @@
 
                 <div class="card-footer">
                 <x-adminlte-button class="btn-flat" type="submit" label="Guardar Centro Productivo" theme="success" icon="fas fa-lg fa-save"/>
-                <x-adminlte-button class="btn-flat" type="reset" label="Limpiar formulario" theme="danger" icon="fas fa-lg fa-trash"/>
+                <x-adminlte-button class="btn-flat" type="button" label="Volver a la lista" theme="info" icon="fas fa-lg fa-arrow-left" href="{{route('centro.index')}}"/>
 
                 </div>
               </form>
 </div>
-</body>
-</html>
+@stop
+
+@section('css')
+    {{-- Add here extra stylesheets --}}
+    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+@stop
+
+@section('js')
+    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
+@stop

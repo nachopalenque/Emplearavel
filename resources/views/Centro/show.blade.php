@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <div class="card card-dark">
+    <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Datos centro productivo</h3>
               </div>

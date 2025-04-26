@@ -1,13 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>centro</title>
+</head>
+<body>
 <div>
 <section class="content">
       <div class="container-fluid">
-     
+
+
+     <!-- Modal Nuevo -->
+
+      <div class="modal fade" id="modalNuevo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered  modal-sm modal-md modal-lg modal-xl" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Nuevo {{$modeloNombre}}</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                    @include('Centro.create')
+
+                   
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
+                    </div>
+                  </div>
+                </div>
+      </div>
+
+
+
+    
+
+
+
+
       <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Total registros encontrados: {{ $items->count() }}</h3>
 
                 <div class="card-tools">
-                <button type="button" class="btn btn-block bg-gradient-success mb-3"><i class="fa fa-plus mr-1"></i>Nuevo Elemento</button>
+
+                <button type="button" class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalNuevo" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
 
 
                   <div class="input-group input-group-sm" style="width: 150px;">
@@ -59,8 +100,16 @@
 
                         <td class="text-left py-1 px-3 align-middle">
                           <div class="btn-group btn-group-sm">
-                            <a href="#" class="btn btn-info mr-2"><i class="fas fa-eye"></i></a>
-                            <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                    
+                            <a href="{{ route('centro.edit', ['centro' => $item->id]) }}" id="btnEditar" class="btn btn-info mr-2"><i class="fas fa-eye"></i></a>
+
+                          @if($modeloNombre == 'Centro')
+                          <a href="#" class="btn btn-secondary bg-pink mr-2"><i class="fas fa-user"></i></a>
+                          @endif
+
+                          <a href="#" class="btn btn-danger mr-2"><i class="fas fa-trash"></i></a>
+
+
                           </div>
                       </td>
 
@@ -91,3 +140,20 @@
     </section>
 
 </div>
+
+  
+</body>
+
+
+@if ($errors->any())
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const modalElement = document.getElementById('modalNuevo');
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        });
+    </script>
+@endif
+
+
+</html>
