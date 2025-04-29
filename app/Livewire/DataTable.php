@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Models\Fichaje;
+use App\Models\User;
 
 class DataTable extends Component
 {
@@ -10,6 +12,8 @@ class DataTable extends Component
     public $modeloClase;
     public $columNombres;
     public $modeloNombre;
+
+
     
     //Método para inicializar variables
     public function mount($items,$modelo,$modeloNombre,$columNombres ){
@@ -39,8 +43,44 @@ class DataTable extends Component
         $this->resetValidation(); // Limpia el estado de validación
     }
 
+    public function fichar(){
 
 
+        try{
+            Fichaje::create([
+                'fecha_inicio' => now(),
+                'fecha_fin' => '2025 -04 -29 ??: ??: ??',
+                'id_usuario' => auth()->user()->id, // o cualquier ID válido
+                'estado' => 'en curso',
+                'tiempo_fichaje' => '00:00:00'
+            ]);
+    
+    
+            return redirect()->route('fichaje.index');
+        }
+        catch(Exception $e){
+            
+        }
 
+    }
+
+    public function terminarFichaje($id){
+ 
+        try{
+            $fichaje = Fichaje::find($id);
+            $diff = now()->diffAsCarbonInterval($fichaje->fecha_inicio);
+
+            $fichaje->fecha_fin = now();
+            $fichaje->tiempo_fichaje = $diff->forHumans();
+            $fichaje->estado = 'terminado';
+            $fichaje->save();
+
+            return redirect()->route('fichaje.index');
+
+        }catch(Exception $e){
+            
+        }
+
+    }
 
 }

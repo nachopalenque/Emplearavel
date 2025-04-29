@@ -198,7 +198,7 @@
                     <div class="col">
 
                         <x-adminlte-textarea name="direccion" label="Dirección" rows=3 label-class="text-lightblue"
-                            igroup-size="sm" placeholder="Ingrese la Dirección del Centro Productivo" value="{{ old('direccion') }}">
+                            igroup-size="sm" placeholder="Ingrese la Dirección del Centro Productivo" text="{{ old('direccion') }}">
                             <x-slot name="prependSlot">
                                 <div class="input-group-text">
                                      <i class="fas fa-address-book text-lightblue"></i>

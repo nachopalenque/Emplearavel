@@ -56,4 +56,24 @@ class PermisosController extends Controller
      
 
     }
+
+    public static function authAdmin(){
+        try{
+
+            if(auth()->user()->getRoleNames()->first() == 'Administrador'){
+
+                return true;
+                
+            }else{
+
+                return false;
+    
+            }
+
+        }catch(Exception $e){
+
+        return false;
+        
+        }
+    }
 }

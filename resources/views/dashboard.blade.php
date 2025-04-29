@@ -8,6 +8,13 @@
 
 @section('content')
     <p>Bienvenido {{ auth()->user()->getRoleNames()->first() }} {{ auth()->user()->name }}  </p>
+    <x-adminlte-button 
+    class="btn-sm bg-gradient-info" 
+    type="button" label="Ir al panel de fichajes" 
+    icon="fas fa-lg fa-calendar-check"
+    onclick="window.location.href='{{ route('fichaje.index') }}'"
+    />
+
 @stop
 
 @section('css')

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CentroController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FichajeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +22,9 @@ Route::get('/', function () {
 
 //rutas para la creación del primer centro productivo y la asociación con los usuarios.
 Route::get('/main-register', [CentroController::class,"centroPrincipal"]);
-Route::post('/centro-Principal', [CentroController::class,"storePrincipal"]);
-Route::get('/centro-Asociar-Usuario', [CentroController::class,"showUserCentro"]);
-Route::put('/centro-Asociar-Usuario', [UserController::class,"updateUserCentro"]);
+Route::post('/centro-Principal', [CentroController::class,"storePrincipal"])->name('centro-principal');
+Route::get('/centro-Asociar-Usuario', [CentroController::class,"showUserCentro"])->name('centro-asociar-usuario');
+Route::put('/centro-Asociar-Usuario', [UserController::class,"updateUserCentro"])->name('centro-asociar-usuario');
 
 
 Route::middleware([
@@ -36,6 +37,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('/centro', CentroController::class);
+    Route::resource('/fichaje', FichajeController::class);
     Route::get('/centro-auth', [CentroController::class,"showAuth"])->name('user.centro.showAuth');
 
 

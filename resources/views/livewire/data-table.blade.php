@@ -4,9 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>centro</title>
+  @vite('resources/js/app.js')
 </head>
 <body>
 <div>
+
 <section class="content">
       <div class="container-fluid">
 
@@ -23,9 +25,16 @@
                       </button>
                     </div>
                     <div class="modal-body">
+
+                    <!-- Código de llamada a la creación de un nuevo centro -->
+
+                    @if($modeloNombre == 'Centro')
+
                     @include('Centro.create')
 
-                   
+                    @endif
+
+                 
 
                     </div>
                     <div class="modal-footer">
@@ -44,11 +53,44 @@
 
       <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Total registros encontrados: {{ $items->count() }}</h3>
+                <h3 class="card-title">Total registros encontrados: {{ $items->count() }}</h3><br>
+
+                @if($modeloNombre == 'Fichaje')
+
+                  @if($items->first()?->estado == 'en curso')
+
+                  <h4 class="display-6 text-info">Atención: Hay un fichaje en curso!!</h4>
+
+
+                  @endif
+
+                @endif
+
 
                 <div class="card-tools">
 
+                @if($modeloNombre == 'Fichaje')
+
+                  @if($items->first()?->estado == 'en curso')
+
+                  <button type="button" class="btn btn-block btn-outline-success mb-3" wire:click="terminarFichaje({{$items->first()?->id}})" ><i class="fa fa-plus mr-1"></i>Terminar {{$modeloNombre}}</button>
+
+
+                  @else
+
+                  <button type="button" class="btn btn-block btn-outline-success mb-3" wire:click="fichar" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
+
+
+                  @endif
+
+
+
+
+                @else
                 <button type="button" class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalNuevo" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
+
+                @endif
+
 
 
                   <div class="input-group input-group-sm" style="width: 150px;">
@@ -75,7 +117,9 @@
                       <tr>
                         @foreach($columNames as $columna)
 
-                          @if($columna != 'Id')
+                          @if($columna == 'Id' ||  $columna == 'id_usuario')
+                            <th hidden>{{ $columna }}</th>
+                          @else
                             <th>{{ $columna }}</th>
                           @endif
 
@@ -92,7 +136,9 @@
                       <tr id="{{ $item['id'] }}">
                         @foreach($columnas as $columna)
 
-                          @if($columna !== 'id')
+                          @if($columna == 'id' || $columna == 'id_usuario')
+                          <td hidden>{{ $item[$columna] }}</td>
+                          @else
                           <td>{{ $item[$columna] }}</td>
                           @endif
 
@@ -100,6 +146,8 @@
 
                         <td class="text-left py-1 px-3 align-middle">
                           <div class="btn-group btn-group-sm">
+
+                    
                     
                             <a href="{{ route('centro.edit', ['centro' => $item->id]) }}" id="btnEditar" class="btn btn-info mr-2"><i class="fas fa-eye"></i></a>
 
@@ -107,7 +155,26 @@
                           <a href="#" class="btn btn-secondary bg-pink mr-2"><i class="fas fa-user"></i></a>
                           @endif
 
-                          <a href="#" class="btn btn-danger mr-2"><i class="fas fa-trash"></i></a>
+
+                          @if($modeloNombre == 'Centro')
+                          <form action="{{ route('centro.destroy', ['centro' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
+                          @csrf
+                          @method('DELETE')
+                          <button  type="submit" value="" class="btn  btn-danger mr-2 ">
+                          <i class="fas fa-trash"></i>
+                          </button>
+                          @endif
+
+                          @if($modeloNombre == 'Fichaje')
+                          <form action="{{ route('fichaje.destroy', ['fichaje' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
+                          @csrf
+                          @method('DELETE')
+                          <button  type="submit" value="" class="btn  btn-danger mr-2 ">
+                          <i class="fas fa-trash"></i>
+                          </button>
+                          @endif
+                          
+                        </form>
 
 
                           </div>
@@ -144,8 +211,9 @@
   
 </body>
 
-
+<!--   aquí lo que hago es que me muestre el modal de nuevo si hay errores de validación -->
 @if ($errors->any())
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const modalElement = document.getElementById('modalNuevo');
@@ -153,6 +221,29 @@
             modal.show();
         });
     </script>
+@endif
+
+@if (session('eliminado') == 'ok')
+
+    <script>
+
+       window.addEventListener('DOMContentLoaded', (event) => {
+            mensajeConfirmacionEliminado();
+        });
+        
+      </script>
+@endif
+
+
+@if (session('creado') == 'ok')
+
+    <script>
+      
+       window.addEventListener('DOMContentLoaded', (event) => {
+        mensajeConfirmacionNuevoElemento();
+        });
+        
+      </script>
 @endif
 
 

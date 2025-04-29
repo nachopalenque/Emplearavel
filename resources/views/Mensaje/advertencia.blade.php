@@ -16,7 +16,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Home</a></li>
               <li class="breadcrumb-item active">404 Error Page</li>
             </ol>
           </div>
@@ -26,7 +26,7 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="error-page">
+      <div class="error-page-centered">
         <h2 class="headline text-warning"> :( </h2>
 
         <div class="error-content">
@@ -36,17 +36,7 @@
             {{$mensaje}}
           </p>
 
-          <form class="search-form">
-            <div class="input-group">
-              <input type="text" name="search" class="form-control" placeholder="Search">
-
-              <div class="input-group-append">
-                <button type="submit" name="submit" class="btn btn-warning"><i class="fas fa-search"></i>
-                </button>
-              </div>
-            </div>
-            <!-- /.input-group -->
-          </form>
+      
         </div>
         <!-- /.error-content -->
       </div>

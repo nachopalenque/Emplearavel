@@ -14,8 +14,14 @@ class CentroController extends Controller
      */
     public function index()
     {
-        $centros = Centro::all();
-        return view('Centro.index', ['centros' => $centros]);
+        try{    
+            $centros = Centro::all();
+            return view('Centro.index', ['centros' => $centros]);
+        }
+        catch(Exception $e){
+
+        }
+    
     }
 
     /**
@@ -37,12 +43,12 @@ class CentroController extends Controller
             $validacion = $request->validate([
                 'nombre' => 'required | unique:centros',
                 'razon_social' => 'required',
-                'CIF' => 'required',
+                'CIF' => 'required|max:9',
                 'direccion' => 'required',
                 'pais' => 'required',
                 'provincia' => 'required',
                 'localidad' => 'required',
-                'codigo_postal' => 'required',
+                'codigo_postal' => 'required|max:5',
             ]);
 
             $centro = new Centro();
@@ -58,7 +64,7 @@ class CentroController extends Controller
     
             $centro->save();
 
-            return back();
+            return back()->with('creado', 'ok');
     
             //return redirect()->route('centro.index');
            
@@ -75,30 +81,37 @@ class CentroController extends Controller
     //esta función se llamara únicamentela primera vez que se cree un Centro Productivo
     public function storePrincipal(Request $request)
     {
-        $centros = Centro::all();
+        try{
+
+            $centros = Centro::all();
         
-        if(count($centros) == 0){
-
-            $centro = new Centro();
-            $centro->nombre = $request->input('nombre');
-            $centro->razon_social = $request->input('razon_social');
-            $centro->CIF = $request->input('CIF');
-            $centro->direccion = $request->input('direccion');
-            $centro->pais = $request->input('pais');
-            $centro->provincia = $request->input('provincia');
-            $centro->localidad = $request->input('localidad');
-            $centro->codigo_postal = $request->input('codigo_postal');
-            $centro->estilo = $request->input('estilo');
-            $centro->save();
-            //tras guardar el centro productivo incial creamos los roles y permisos del sistema
-            PermisosController::plantillaRolesPermisos();
-            return redirect('register');  
-
+            if(count($centros) == 0){
     
-        }else{
+                $centro = new Centro();
+                $centro->nombre = $request->input('nombre');
+                $centro->razon_social = $request->input('razon_social');
+                $centro->CIF = $request->input('CIF');
+                $centro->direccion = $request->input('direccion');
+                $centro->pais = $request->input('pais');
+                $centro->provincia = $request->input('provincia');
+                $centro->localidad = $request->input('localidad');
+                $centro->codigo_postal = $request->input('codigo_postal');
+                $centro->estilo = $request->input('estilo');
+                $centro->save();
+                //tras guardar el centro productivo incial creamos los roles y permisos del sistema
+                PermisosController::plantillaRolesPermisos();
+                return redirect('register');  
+    
+        
+            }else{
+    
+                return view('Mensaje.advertencia', ['Operación no disponible' => $titulo, 'Este usuario no puede crear un Centro Productivo. Pongase en contacto con su administrador.' => $mensaje]);
+            }
 
-            return view('Mensaje.advertencia', ['Operación no disponible' => $titulo, 'Este usuario no puede crear un Centro Productivo. Pongase en contacto con su administrador.' => $mensaje]);
+        }catch(Exception $e){
+            
         }
+
 
 
     }
@@ -114,36 +127,59 @@ class CentroController extends Controller
 
     public function showAuth(){
 
-        //Si el usuario autentificado es Administrador podemos ver y administrar todos los centros
-        if(auth()->user()->getRoleNames()->first() == 'Administrador'){
+        /*Si el usuario autentificado es Administrador podemos ver y administrar todos los centros
+  
+        */
 
-            return $this->index();
-            
-        }else{
+        try{
 
-            //por el contrario si es un usuario normal solo podemos ver el centro al que pertenece
-            $centro = Centro::find(auth()->user()->id_centro);
-            return view('Centro.show', ['centro' => $centro]);
+            if(PermisosController::authAdmin()){
+
+                return $this->index();
+
+
+            }else{
+
+                $centro = Centro::find(auth()->user()->id_centro);
+                return view('Centro.show', ['centro' => $centro]);
+
+
+            }
 
         }
+        catch(Exception $e){
+            
+        }
+
+
 
     }
 
     public function showUserCentro(){
-        
-        $usuario = User::find(auth()->user()->id);
 
-        if($usuario->id_centro != null){
+        try{
 
-            return redirect('dashboard');  
+            $usuario = User::find(auth()->user()->id);
 
-        }else{
-
-            $centros = Centro::all();
-            return view('Centro.edit-user', ['centros' => $centros, 'usuario' => $usuario]);
+            if($usuario->id_centro != null){
+    
+                return redirect('dashboard');  
+    
+            }else{
+    
+                $centros = Centro::all();
+                return view('Centro.edit-user', ['centros' => $centros, 'usuario' => $usuario]);
+    
+    
+            }
 
 
         }
+        catch(Exception $e){
+            
+        }
+        
+     
     }
 
     /**
@@ -151,8 +187,24 @@ class CentroController extends Controller
      */
     public function edit($id)
     {
-        $centro = Centro::find($id);
-        return view('Centro.edit', ['centro' => $centro]);
+
+        try{
+
+            if(PermisosController::authAdmin()){
+
+                $centro = Centro::find($id);
+                return view('Centro.edit', ['centro' => $centro]);
+
+            }else{
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede editar un Centro Productivo. Pongase en contacto con su administrador.']);
+            }
+
+        }catch(Exception $e){
+
+
+        }
+
+
         //
     }
 
@@ -167,9 +219,25 @@ class CentroController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Centro $centro)
+    public function destroy($id)
     {
-        //
+
+        try{
+            if(PermisosController::authAdmin()){        
+                $centro = Centro::find($id);
+                $centro->delete();
+                
+                return back()->with('eliminado', 'ok');
+            }else{
+
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede eliminar un Centro Productivo. Pongase en contacto con su administrador.']);
+
+            }
+        }
+        catch(Exception $e){
+            
+        }
+
     }
     
     public function centroPrincipal(){

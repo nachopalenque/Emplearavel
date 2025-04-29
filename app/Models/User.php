@@ -78,4 +78,9 @@ class User extends Authenticatable
     {
         return 'user/profile';
     }
+
+    public function fichajes()
+    {
+        return $this->hasMany(Fichaje::class);
+    }
 }

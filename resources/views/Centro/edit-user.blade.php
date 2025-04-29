@@ -166,7 +166,7 @@
       <h3>Datos Centro Productivo</h3>
     </div>
     <div class="card-body">
-      <form action="{{url('/centros-Asociar-Usuario')}}" method="post">
+      <form action="{{route('centro-asociar-usuario')}}" method="post">
       @method("PUT")
       @csrf
    
