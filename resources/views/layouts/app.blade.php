@@ -39,6 +39,9 @@
         </div>
 
         @stack('modals')
+        
+        <!-- Aquí se cargan los scripts que se empujan desde las vistas -->
+        @stack('js')
 
         @livewireScripts
 

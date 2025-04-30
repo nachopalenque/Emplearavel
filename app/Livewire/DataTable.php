@@ -55,7 +55,8 @@ class DataTable extends Component
                 'tiempo_fichaje' => '00:00:00'
             ]);
     
-    
+            session()->flash('fichaje', 'inicio');
+
             return redirect()->route('fichaje.index');
         }
         catch(Exception $e){
@@ -74,6 +75,7 @@ class DataTable extends Component
             $fichaje->tiempo_fichaje = $diff->forHumans();
             $fichaje->estado = 'terminado';
             $fichaje->save();
+            session()->flash('fichaje', 'fin');
 
             return redirect()->route('fichaje.index');
 

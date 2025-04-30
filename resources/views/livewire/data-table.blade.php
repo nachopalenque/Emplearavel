@@ -125,24 +125,57 @@
 
                          @endforeach
 
+                         @if($modeloNombre !== 'Fichaje')
                          <th>Acciones</th>
-
+                         @endif
                      </tr>
 
                   </thead>
                   <tbody>
                 
                       @foreach($items as $item)
+
+            
                       <tr id="{{ $item['id'] }}">
                         @foreach($columnas as $columna)
 
                           @if($columna == 'id' || $columna == 'id_usuario')
                           <td hidden>{{ $item[$columna] }}</td>
                           @else
-                          <td>{{ $item[$columna] }}</td>
+
+
+                            <!-- Si es modelo fichaje y el estado es en curso se pondra el texto de color azul -->
+                            @if($modeloNombre == 'Fichaje')
+
+                           
+                                @if($item ?->estado == 'en curso')
+
+                                <td class="text-info">{{ $item[$columna] }}</td>
+
+
+                              <!-- Si es modelo fichaje y el estado no es en curso se pondra el texto de color verde -->
+
+                                @else
+
+                                <td class="text-success">{{ $item[$columna] }}</td>
+
+
+                                @endif
+
+                            
+                            @else
+
+                              <td>{{ $item[$columna] }}</td>
+
+
+                            @endif
+
+
                           @endif
 
                         @endforeach
+
+                        @if($modeloNombre !== 'Fichaje')
 
                         <td class="text-left py-1 px-3 align-middle">
                           <div class="btn-group btn-group-sm">
@@ -180,6 +213,7 @@
                           </div>
                       </td>
 
+                      @endif
 
                       </tr>
                       @endforeach
@@ -245,6 +279,10 @@
         
       </script>
 @endif
+
+
+
+
 
 
 </html>

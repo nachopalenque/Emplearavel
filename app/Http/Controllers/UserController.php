@@ -35,4 +35,22 @@ class UserController extends Controller
 
 
     }
+
+    public function index(){
+
+        try{
+            if(PermisosController::authAdmin()){
+
+                $usuarios = User::all();
+                return view('User.index', ['usuarios' => $usuarios]);
+                
+            }
+
+
+        }
+        catch(Exception $e){
+            
+        }
+
+    }
 }

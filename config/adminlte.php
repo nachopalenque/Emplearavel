@@ -278,7 +278,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -451,27 +451,40 @@ return [
 
 
         [
-            'text' => 'Usuario',
-            'icon' => 'far fa-fw fa-id-card',
+            'text' => 'Empleado',
+            'icon' => 'fas fa-user',
    
             'submenu' => [
+
                 [
-                    'text' => 'Mensajes',
+                    'text' => 'Datos del Empleado',
+                    
                     'url' => '#',
-                    'icon' => 'fas fa-envelope',
+
+                    'icon' => 'fas fa-address-card',
 
                 ],
 
                 [
-                    'text' => 'Perfil',
+                    'text' => 'Permisos y vacaciones',
                     'url' => '#',
-                    'icon' => 'fas fa-fw fa-user',
+                    'icon' => 'fas fa-calendar',
 
                 ],
+
+                [
+                    'text' => 'Ausencias y justificantes',
+                    'url' => '#',
+                    'icon' => 'fas fa-calendar-check',
+
+                ],
+
+                
           
             ],
         ],
 
+       
 
 
 
@@ -491,18 +504,13 @@ return [
                 ],
 
                 [
-                    'text' => 'Personalización',
+                    'text' => 'Usuarios',
                     'url' => '#',
-                    'icon' => 'fas fa-palette',
+                    'icon' => 'far fa-fw fa-id-card',
 
                 ],
 
-                [
-                    'text' => 'Perfil',
-                    'url' => '#',
-                    'icon' => 'fas fa-fw fa-user',
-
-                ],
+                
           
             ],
         ],

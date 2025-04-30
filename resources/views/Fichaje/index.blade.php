@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Centro Productivo')
+@section('title', 'Listado de Fichajes')
 
 @section('content_header')
     <h1>Listado de fichajes</h1>
@@ -20,6 +20,25 @@
     {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
 @stop
 
-@section('js')
+@push('js')
+    @if(session('fichaje') == 'inicio')
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                mensajeConfirmacionFichaje(); // asegúrate de que esta función esté definida
+            });
+        </script>
+    @elseif(session('fichaje') == 'fin')
+        <script>
+            window.addEventListener('DOMContentLoaded', () => {
+                mensajeConfirmacionFichajeTerminado(); // asegúrate de que esta función esté definida
+            });
+        </script>
+    @endif
+
     <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
+@endpush
+
+
+@section('js')
+<script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
 @stop

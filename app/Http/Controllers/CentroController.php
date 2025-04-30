@@ -64,7 +64,9 @@ class CentroController extends Controller
     
             $centro->save();
 
-            return back()->with('creado', 'ok');
+            session()->flash('creado', 'ok');
+
+            return back();
     
             //return redirect()->route('centro.index');
            
@@ -226,8 +228,9 @@ class CentroController extends Controller
             if(PermisosController::authAdmin()){        
                 $centro = Centro::find($id);
                 $centro->delete();
-                
-                return back()->with('eliminado', 'ok');
+                session()->flash('eliminado', 'ok');
+
+                return back();
             }else{
 
                 return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede eliminar un Centro Productivo. Pongase en contacto con su administrador.']);

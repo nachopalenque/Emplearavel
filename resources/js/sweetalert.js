@@ -33,3 +33,11 @@ const buttons = document.querySelectorAll('.btn-danger');
     window.mensajeConfirmacionNuevoElemento = function () {
         Swal.fire('¡Añadido!', 'El registro ha sido añadido.', 'success');
     }
+
+    window.mensajeConfirmacionFichaje = function () {
+        Swal.fire('¡Vamos a por ello!', 'Ha fichado correctamente.', 'success');
+    }
+
+    window.mensajeConfirmacionFichajeTerminado = function () {
+        Swal.fire('¡Hasta la próxima!', 'Su fichaje en curso ha finalizado.', 'success');
+    }
