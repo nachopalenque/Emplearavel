@@ -9,7 +9,7 @@
 @section('content')
     
 
-@livewire('DataTable',['items' => $fichajes, 'modelo' => 'App\Models\Fichaje','modeloNombre' => 'Fichaje' ,'columNombres' => ['Id','Fecha Inicio','Fecha Fin','Estado', 'Tiempo Fichaje']])
+@livewire('DataTable',['items' => $fichajes, 'modelo' => 'App\Models\Fichaje','modeloNombre' => 'Fichaje' ,'columNombres' => ['id','Fecha Inicio','Fecha Fin','Estado', 'Tiempo Fichaje']])
 
 
 

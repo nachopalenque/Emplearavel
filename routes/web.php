@@ -37,6 +37,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('/centro', CentroController::class);
+    Route::resource('/usuario', UserController::class);
     Route::resource('/fichaje', FichajeController::class);
     Route::get('/centro-auth', [CentroController::class,"showAuth"])->name('user.centro.showAuth');
 

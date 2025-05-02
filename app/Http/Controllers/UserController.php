@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
+
 
 class UserController extends Controller
 {
@@ -41,7 +43,16 @@ class UserController extends Controller
         try{
             if(PermisosController::authAdmin()){
 
-                $usuarios = User::all();
+                //$usuarios = User::all();
+
+                $usuarios = DB::table('users')
+                ->join('centros', 'users.id_centro', '=', 'centros.id')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->select('users.id', 'users.id_centro', 'users.name','users.email' ,  'users.password', 'centros.nombre as centro_nombre', 'roles.name as rol_nombre', 'users.created_at', 'users.updated_at')
+                ->get()
+                ->toArray();
+
                 return view('User.index', ['usuarios' => $usuarios]);
                 
             }

@@ -505,7 +505,7 @@ return [
 
                 [
                     'text' => 'Usuarios',
-                    'url' => '#',
+                    'route' => 'usuario.index',
                     'icon' => 'far fa-fw fa-id-card',
 
                 ],

@@ -9,7 +9,7 @@
 @section('content')
     
 
-@livewire('DataTable',['items' => $usuarios, 'modelo' => 'App\Models\User','modeloNombre' => 'Centro' ,'columNombres' => ['Id','Nombre','Razón Social','Dirección','País','Provincia','Localidad','Código Postal','CIF']])
+@livewire('DataTable',['items' => $usuarios, 'modelo' => 'App\Models\User','modeloNombre' => 'Usuario' ,'columNombres' => ['id','id_centro','Nombre','Email','password','Centro Productivo','Rol','Fecha de creación','Fecha última modificación']])
 
 
 

@@ -53,7 +53,13 @@
 
       <div class="card">
               <div class="card-header">
+                @if($modeloNombre == 'Usuario')
+                <h3 class="card-title">Total registros encontrados: {{ count($items) }}</h3><br>
+
+                @else
                 <h3 class="card-title">Total registros encontrados: {{ $items->count() }}</h3><br>
+
+                @endif
 
                 @if($modeloNombre == 'Fichaje')
 
@@ -86,7 +92,7 @@
 
 
 
-                @else
+                @elseif($modeloNombre !== 'Usuario')
                 <button type="button" class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalNuevo" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
 
                 @endif
@@ -117,7 +123,7 @@
                       <tr>
                         @foreach($columNames as $columna)
 
-                          @if($columna == 'Id' ||  $columna == 'id_usuario')
+                          @if($columna == 'id' ||  $columna == 'id_usuario' || $columna == 'password' || $columna == 'id_centro')
                             <th hidden>{{ $columna }}</th>
                           @else
                             <th>{{ $columna }}</th>
@@ -136,11 +142,11 @@
                       @foreach($items as $item)
 
             
-                      <tr id="{{ $item['id'] }}">
+                      <tr id="{{ $item->id }}">
                         @foreach($columnas as $columna)
 
-                          @if($columna == 'id' || $columna == 'id_usuario')
-                          <td hidden>{{ $item[$columna] }}</td>
+                          @if($columna == 'id' || $columna == 'id_usuario' || $columna == 'password' || $columna == 'id_centro')
+                          <td hidden>{{ $item->$columna }}</td>
                           @else
 
 
@@ -150,14 +156,14 @@
                            
                                 @if($item ?->estado == 'en curso')
 
-                                <td class="text-info">{{ $item[$columna] }}</td>
+                                <td class="text-info">{{ $item->$columna }}</td>
 
 
                               <!-- Si es modelo fichaje y el estado no es en curso se pondra el texto de color verde -->
 
                                 @else
 
-                                <td class="text-success">{{ $item[$columna] }}</td>
+                                <td class="text-success">{{ $item->$columna }}</td>
 
 
                                 @endif
@@ -165,7 +171,7 @@
                             
                             @else
 
-                              <td>{{ $item[$columna] }}</td>
+                              <td>{{ $item->$columna }}</td>
 
 
                             @endif
@@ -189,7 +195,7 @@
                           @endif
 
 
-                          @if($modeloNombre == 'Centro')
+                          @if($modeloNombre == 'Centro' || $modeloNombre == 'Usuario')
                           <form action="{{ route('centro.destroy', ['centro' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
                           @csrf
                           @method('DELETE')
@@ -280,7 +286,16 @@
       </script>
 @endif
 
+@if (session('actualizado') == 'ok')
 
+    <script>
+      
+       window.addEventListener('DOMContentLoaded', (event) => {
+        mensajeConfirmacionActualizacionElemento();
+        });
+        
+      </script>
+@endif
 
 
 

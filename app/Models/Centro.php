@@ -19,6 +19,7 @@ class Centro extends Model
         'localidad',
         'codigo_postal',
         'CIF',
+        
 
     ];
     public function users(): HasMany

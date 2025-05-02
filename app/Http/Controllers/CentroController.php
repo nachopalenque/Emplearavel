@@ -215,7 +215,47 @@ class CentroController extends Controller
      */
     public function update(Request $request,  $id)
     {
-        //
+        try{
+
+            if(PermisosController::authAdmin()){
+
+
+            $validacion = $request->validate([
+                'nombre' => 'required',
+                'razon_social' => 'required',
+                'CIF' => 'required|max:9',
+                'direccion' => 'required',
+                'pais' => 'required',
+                'provincia' => 'required',
+                'localidad' => 'required',
+                'codigo_postal' => 'required|max:5',
+            ]);
+
+                $centro = Centro::find($id);
+                $centro->nombre = $request->input('nombre');
+                $centro->razon_social = $request->input('razon_social');
+                $centro->CIF = $request->input('CIF');
+                $centro->direccion = $request->input('direccion');
+                $centro->pais = $request->input('pais');
+                $centro->provincia = $request->input('provincia');
+                $centro->localidad = $request->input('localidad');
+                $centro->codigo_postal = $request->input('codigo_postal');
+                $centro->estilo = $request->input('estilo');
+                $centro->save();
+                session()->flash('actualizado', 'ok');
+                return redirect()->route('centro.index');
+
+            }else{
+
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede editar un Centro Productivo. Pongase en contacto con su administrador.']);
+
+            }
+
+        }
+        catch(Exception $e){
+
+
+        }  
     }
 
     /**

@@ -31,7 +31,12 @@ const buttons = document.querySelectorAll('.btn-danger');
     }
 
     window.mensajeConfirmacionNuevoElemento = function () {
-        Swal.fire('¡Añadido!', 'El registro ha sido añadido.', 'success');
+        Swal.fire('¡Añadido!', 'El registro ha sido añadido correctamente.', 'success');
+    }
+
+
+    window.mensajeConfirmacionActualizacionElemento = function () {
+        Swal.fire('¡Actualizado!', 'El registro ha sido actualizado correctamente.', 'success');
     }
 
     window.mensajeConfirmacionFichaje = function () {
