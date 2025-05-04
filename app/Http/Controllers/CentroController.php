@@ -88,6 +88,19 @@ class CentroController extends Controller
             $centros = Centro::all();
         
             if(count($centros) == 0){
+
+
+
+            $validacion = $request->validate([
+                'nombre' => 'required | unique:centros',
+                'razon_social' => 'required',
+                'CIF' => 'required|max:9',
+                'direccion' => 'required',
+                'pais' => 'required',
+                'provincia' => 'required',
+                'localidad' => 'required',
+                'codigo_postal' => 'required|max:5',
+            ]);
     
                 $centro = new Centro();
                 $centro->nombre = $request->input('nombre');

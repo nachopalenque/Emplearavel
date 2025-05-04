@@ -2,28 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fichaje;
-use App\Models\User;
-
+use App\Models\Dia;
 use Illuminate\Http\Request;
 
-class FichajeController extends Controller
+class DiaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        try{
-            $fichajes = Fichaje::where('id_usuario', auth()->user()->id)
-            ->orderBy('id', 'desc')
-            ->get();            
-            return view('Fichaje.index', ['fichajes' => $fichajes]);
-        }
-        catch(Exception $e){
-
-        }
-    
+        //
     }
 
     /**
@@ -45,7 +34,7 @@ class FichajeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Fichaje $fichaje)
+    public function show(Dia $dia)
     {
         //
     }
@@ -53,7 +42,7 @@ class FichajeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Fichaje $fichaje)
+    public function edit(Dia $dia)
     {
         //
     }
@@ -61,7 +50,7 @@ class FichajeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Fichaje $fichaje)
+    public function update(Request $request, Dia $dia)
     {
         //
     }
@@ -69,7 +58,7 @@ class FichajeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Fichaje $fichaje)
+    public function destroy(Dia $dia)
     {
         //
     }

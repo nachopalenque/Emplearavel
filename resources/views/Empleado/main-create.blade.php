@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Datos Centro Productivo</title>
+  <title>Datos del empleado</title>
   <style>
     * {
       box-sizing: border-box;
@@ -150,11 +149,11 @@
     <div class="card--info">
 
         <div class="card-header--info">
-        <h3>Antes de nada...</h3>
+        <h3>Ya casi lo tenemos...</h3>
         </div>
 
         <div class="info-group">
-        <span>Debe crear al menos un centro productivo para empezar a trabajar. A continuación rellene los datos para ello.</span>
+        <span>{{ auth()->user()->name }} continuación rellene su ficha de empleado.</span>
         </div>
 
 
@@ -163,16 +162,19 @@
 
   <div class="card">
     <div class="card-header">
-      <h3>Datos Centro Productivo</h3>
+      <h3>Datos del empleado</h3>
     </div>
     <div class="card-body">
-      <form action="{{route('centro-principal')}}" method="post">
+      <form action="{{route('empleado-usuario')}}" method="post">
       @csrf
-        <div class="row">
+
+      <div class="row">
+      <input type="hidden" name="id_usuario" value="{{ auth()->user()->id }} "  class="form-control" id="usuario" hidden>
+
           <div class="col">
             <div class="form-group">
               <label>Nombre</label>
-              <input type="text" name="nombre" class="form-control" placeholder="Ingrese el nombre del Centro Productivo"  />
+              <input type="text" name="nombre" class="form-control" placeholder="Ingrese su nombre"  />
               @error('nombre')
                <small style="color: red;">{{ $message }}</small>
               @enderror
@@ -180,69 +182,100 @@
           </div>
           <div class="col">
             <div class="form-group">
-              <label>Razón Social</label>
-              <input type="text" name="razon_social" class="form-control" placeholder="Ingrese la Razón Social de su empresa u organización" />
-              @error('razon_social')
+              <label>Apellidos</label>
+              <input type="text" name="apellidos" class="form-control" placeholder="Ingrese sus apellidos" />
+              @error('apellidos')
                <small style="color: red;">{{ $message }}</small>
               @enderror
             </div>
           </div>
         </div>
 
+
         <div class="row">
-          <div class="col">
-            <div class="form-group">
-              <label>CIF</label>
-              <input type="text" name="CIF" class="form-control" placeholder="Ingrese el CIF de su empresa u organización " />
-              @error('CIF')
-               <small style="color: red;">{{ $message }}</small>
-              @enderror
+
+            <div class="col">
+                <div class="form-group">
+                <label>Número de identificación nacional (DNI)</label>
+                <input type="text" name="dni" class="form-control" placeholder="Ingrese su DNI"  />
+                @error('dni')
+                <small style="color: red;">{{ $message }}</small>
+                @enderror
+                </div>
             </div>
-          </div>
+
+
+
+            <div class="col">
+                <div class="form-group">
+                <label>Código Seguridad Social</label>
+                <input type="text" name="seguridad_social" class="form-control" placeholder="Ingrese su código de la seguridad social"  />
+                @error('seguridad_social')
+                  <small style="color: red;">{{ $message }}</small>
+                @enderror
+                </div>
+            </div>
+
+            
+
+
+
+            
+        </div>
+
+
+
+
+
+
+        <div class="row">
           <div class="col">
             <div class="form-group">
               <label>Provincia</label>
-              <input type="text" name="provincia" class="form-control" placeholder="Ingrese la Provincia del Centro Productivo" />
+              <input type="text" name="provincia" class="form-control" placeholder="Ingrese su provincia de residencia"  />
               @error('provincia')
-               <small style="color: red;">{{ $message }}</small>
+                 <small style="color: red;">{{ $message }}</small>
               @enderror
             </div>
           </div>
-        </div>
-
-        <div class="row">
           <div class="col">
             <div class="form-group">
               <label>Localidad</label>
-              <input type="text" name="localidad" class="form-control" placeholder="Ingrese la Localidad del Centro Productivo" />
+              <input type="text" name="localidad" class="form-control" placeholder="Ingrese su localidad de residencia" />
               @error('localidad')
                <small style="color: red;">{{ $message }}</small>
               @enderror
             </div>
           </div>
+        </div>
 
-          
+        <div class="row">
           <div class="col">
             <div class="form-group">
               <label>Código Postal</label>
-              <input type="text" name="codigo_postal" class="form-control"  placeholder="Ingrese el Código Postal del Centro Productivo" />
+              <input type="text" name="codigo_postal" class="form-control" placeholder="Ingrese su código postal de residencia " />
               @error('codigo_postal')
                <small style="color: red;">{{ $message }}</small>
               @enderror
             </div>
           </div>
-        </div>
-
-
-
-        <div class="row">
-       
-
-        <div class="col">
+          <div class="col">
             <div class="form-group">
               <label>País</label>
-              <input type="text" name="pais" class="form-control" placeholder="Ingrese el País del Centro Productivo"  />
+              <input type="text" name="pais" class="form-control" placeholder="Ingrese su país de residencia" />
               @error('pais')
+               <small style="color: red;">{{ $message }}</small>
+              @enderror
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label>Teléfono</label>
+              <input type="text" name="telefono" class="form-control" placeholder="Ingrese su teléfono" />
+              @error('telefono')
                <small style="color: red;">{{ $message }}</small>
               @enderror
             </div>
@@ -251,34 +284,18 @@
           
           <div class="col">
             <div class="form-group">
-              <label>Estilo Corporativo</label>
-
-              <select name="estilo"  class="form-control" id="estilo">
-                <option value="none">Por defecto</option>
-                <option value="light" style="background-color: white; color: black">Blanco</option>
-                <option value="bg-danger"style="background-color: red; color: white">Rojo</option>
-                <option value="bg-primary" style="background-color: #006db7; color: white">Azul</option>
-                <option value="bg-info" style="background-color: #0099e7; color: white">Azul claro</option>
-                <option value="bg-lightblue" style="background-color: rgba(0, 194, 251, 0.78); color: white">Azul claro celeste</option>
-                <option value="bg-navy" style="background-color: rgba(13, 29, 154, 0.78); color: white">Azul Oscuro</option>
-                <option value="bg-purple" style="background-color: rgba(73, 34, 148, 0.78); color: white">Morado</option>
-                <option value="bg-pink" style="background-color: rgba(252, 110, 212, 0.78); color: white">Rosa</option>
-                <option value="bg-fuchsia" style="background-color: rgba(232, 35, 189, 0.78); color: white">Fucsia</option>
-                <option value="bg-success" style="background-color: rgba(0, 205, 43, 0.78); color: white">Verde</option>
-                <option value="bg-teal" style="background-color: rgba(0, 216, 159, 0.78); color: white">Verde Turquesa</option>
-                <option value="bg-lime" style="background-color: rgba(0, 255, 69, 0.78); color: white">Verde Lima</option>
-                <option value="bg-olive" style="background-color: rgba(50, 174, 75, 0.78); color: white">Verde Olivo</option>
-                <option value="bg-maroon" style="background-color: maroon; color: white">Maroon</option>
-                <option value="bg-orange" style="background-color: orange; color: white">Naranja</option>
-                <option value="bg-warning" style="background-color: #e0b700; color: white">Amarillo</option>
-              </select>
-
+              <label>Puesto</label>
+              <input type="text" name="puesto" class="form-control"  placeholder="Ingrese su puesto en la empresa" />
+              @error('puesto')
+               <small style="color: red;">{{ $message }}</small>
+              @enderror
             </div>
           </div>
-
-
-          
         </div>
+
+
+
+
 
 
         <div class="row">
@@ -301,7 +318,7 @@
 
 
         <div class="form-actions">
-          <button type="submit" class="btn">Crear Centro Productivo</button>
+          <button type="submit" class="btn">Guardar datos empleado</button>
         </div>
 
 

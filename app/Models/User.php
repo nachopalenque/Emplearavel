@@ -89,6 +89,11 @@ class User extends Authenticatable
 
     public function fichajes()
     {
-        return $this->hasMany(Fichaje::class);
+        return $this->hasMany(Fichaje::class, 'id_usuario', 'id');
+    }
+
+    public function empleado()
+    {
+        return $this->hasOne(Empleado::class, 'id_usuario', 'id');
     }
 }
