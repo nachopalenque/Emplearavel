@@ -6,6 +6,8 @@ use App\Models\Centro;
 use App\Http\Controllers\PermisosController;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class CentroController extends Controller
 {
@@ -50,6 +52,11 @@ class CentroController extends Controller
                 'localidad' => 'required',
                 'codigo_postal' => 'required|max:5',
             ]);
+
+            //creando directorios raiz de carpetas para cada centro
+            Storage::disk('local')->makeDirectory('intranet/'.$request->input('nombre'));
+            Storage::disk('local')->makeDirectory('intranet/'.$request->input('nombre').'/empleados');
+            Storage::disk('local')->makeDirectory('intranet/'.$request->input('nombre').'/proyectos');
 
             $centro = new Centro();
             $centro->nombre = $request->input('nombre');
@@ -102,6 +109,12 @@ class CentroController extends Controller
                 'codigo_postal' => 'required|max:5',
             ]);
     
+
+                //creando directorios raiz de carpetas para cada centro
+                Storage::disk('local')->makeDirectory('intranet/'.$request->input('nombre'));
+                Storage::disk('local')->makeDirectory('intranet/'.$request->input('nombre').'/empleados');
+                Storage::disk('local')->makeDirectory('intranet/'.$request->input('nombre').'/proyectos');
+
                 $centro = new Centro();
                 $centro->nombre = $request->input('nombre');
                 $centro->razon_social = $request->input('razon_social');
@@ -280,6 +293,8 @@ class CentroController extends Controller
         try{
             if(PermisosController::authAdmin()){        
                 $centro = Centro::find($id);
+                //borrando directorio de carpetas
+                Storage::disk('local')->deleteDirectory('intranet/'.$centro->nombre);
                 $centro->delete();
                 session()->flash('eliminado', 'ok');
 
