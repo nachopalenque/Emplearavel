@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Centro;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 
 class UserController extends Controller
@@ -17,6 +19,7 @@ class UserController extends Controller
         try{
 
             $usuarios = User::all();
+            $centro = Centro::find($request->id_centro);
             $usuario = User::find($request->id_usuario);
     
             //si hay mas de un usuario el rol asignado por defecto es el de usuario
@@ -32,7 +35,9 @@ class UserController extends Controller
             }
     
             $usuario->id_centro = $request->id_centro;
-    
+            //creamos una carpeta en la intranet documental para el nuevo usuario con su nombre de empleado.
+            Storage::disk('local')->makeDirectory('intranet/'.$centro->nombre.'/empleados/'.$usuario->empleado->nombre);
+
             $usuario->save();
     
             return redirect('dashboard');

@@ -45,7 +45,11 @@ Route::middleware([
     Route::resource('/centro', CentroController::class);
     Route::resource('/usuario', UserController::class);
     Route::resource('/fichaje', FichajeController::class);
+    Route::resource('/empleado',EmpleadoController::class);
+
     Route::get('/centro-auth', [CentroController::class,"showAuth"])->name('user.centro.showAuth');
+    Route::get('/empleado-auth', [EmpleadoController::class,"showAuth"])->name('empleado.showAuth');
+
 
 
 });

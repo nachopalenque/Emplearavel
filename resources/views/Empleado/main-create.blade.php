@@ -305,7 +305,7 @@
           <div class="col">
             <div class="form-group">
               <label>Dirección</label>
-              <textarea class="form-control" name="direccion" rows="3" placeholder="Ingrese la Dirección del Centro Productivo" ></textarea>
+              <textarea class="form-control" name="direccion" rows="3" placeholder="Ingrese su dirección de residencia " ></textarea>
               @error('direccion')
                <small style="color: red;">{{ $message }}</small>
               @enderror

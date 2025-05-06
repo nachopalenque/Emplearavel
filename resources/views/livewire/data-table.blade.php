@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>centro</title>
-  @vite('resources/js/app.js')
 </head>
 <body>
 <div>
@@ -188,32 +187,62 @@
 
                     
                     
-                            <a href="{{ route('centro.edit', ['centro' => $item->id]) }}" id="btnEditar" class="btn btn-info mr-2"><i class="fas fa-eye"></i></a>
 
                           @if($modeloNombre == 'Centro')
-                          <a href="#" class="btn btn-secondary bg-pink mr-2"><i class="fas fa-user"></i></a>
-                          @endif
 
+                          <form action="{{ route('centro.edit', ['centro' => $item->id]) }}" method="GET" class="btn-group btn-group-sm">
+                            <button  type="submit" value="" class="btn btn-info mr-2">
+                            <i class="fas fa-eye"></i>
+                            </button>
+                          </form>
 
-                          @if($modeloNombre == 'Centro' || $modeloNombre == 'Usuario')
+                          <!-- Boton usuarios 
+                          <form action="{{ route('centro.edit', ['centro' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
+                            <button  type="submit" value="" class="btn btn-secondary bg-pink mr-2">
+                            <i class="fas fa-user"></i>
+                            </button>
+                          </form> 
+                          -->
+
+                        
                           <form action="{{ route('centro.destroy', ['centro' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
                           @csrf
                           @method('DELETE')
                           <button  type="submit" value="" class="btn  btn-danger mr-2 ">
                           <i class="fas fa-trash"></i>
                           </button>
+                          </form>
+
+
+
                           @endif
 
-                          @if($modeloNombre == 'Fichaje')
-                          <form action="{{ route('fichaje.destroy', ['fichaje' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
+
+
+                          @if($modeloNombre == 'Usuario')
+
+
+
+                          <form action="{{ route('usuario.edit', ['usuario' => $item->id]) }}" method="GET" class="btn-group btn-group-sm">
+                            <button  type="submit" value="" class="btn btn-info mr-2">
+                            <i class="fas fa-eye"></i>
+                            </button>
+                          </form>
+
+
+                          <form action="{{ route('usuario.destroy', ['usuario' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
                           @csrf
                           @method('DELETE')
                           <button  type="submit" value="" class="btn  btn-danger mr-2 ">
                           <i class="fas fa-trash"></i>
                           </button>
+                          </form>
+
+
                           @endif
-                          
-                        </form>
+
+
+                        
 
 
                           </div>
@@ -250,53 +279,6 @@
 
   
 </body>
-
-<!--   aquí lo que hago es que me muestre el modal de nuevo si hay errores de validación -->
-@if ($errors->any())
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const modalElement = document.getElementById('modalNuevo');
-            const modal = new bootstrap.Modal(modalElement);
-            modal.show();
-        });
-    </script>
-@endif
-
-@if (session('eliminado') == 'ok')
-
-    <script>
-
-       window.addEventListener('DOMContentLoaded', (event) => {
-            mensajeConfirmacionEliminado();
-        });
-        
-      </script>
-@endif
-
-
-@if (session('creado') == 'ok')
-
-    <script>
-      
-       window.addEventListener('DOMContentLoaded', (event) => {
-        mensajeConfirmacionNuevoElemento();
-        });
-        
-      </script>
-@endif
-
-@if (session('actualizado') == 'ok')
-
-    <script>
-      
-       window.addEventListener('DOMContentLoaded', (event) => {
-        mensajeConfirmacionActualizacionElemento();
-        });
-        
-      </script>
-@endif
-
 
 
 

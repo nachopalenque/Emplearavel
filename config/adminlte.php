@@ -459,25 +459,20 @@ return [
                 [
                     'text' => 'Datos del Empleado',
                     
-                    'url' => '#',
+                    'route' => 'empleado.showAuth',
 
                     'icon' => 'fas fa-address-card',
 
                 ],
 
                 [
-                    'text' => 'Permisos y vacaciones',
-                    'url' => '#',
-                    'icon' => 'fas fa-calendar',
-
-                ],
-
-                [
-                    'text' => 'Ausencias y justificantes',
+                    'text' => 'Permisos y Ausencias',
                     'url' => '#',
                     'icon' => 'fas fa-calendar-check',
 
                 ],
+
+           
 
                 
           
@@ -486,20 +481,29 @@ return [
 
        
 
-
+        
 
         [
             'text' => 'Ajustes',
             'icon' => 'fas fa-cog',
-   
+            'can' => 'Control Total',
             'submenu' => [
 
                 [
-                    'text' => 'Centro Productivo',
+                    'text' => 'Centros Productivos',
                     
                     'route' => 'user.centro.showAuth',
 
                     'icon' => 'fas fa-city',
+
+                ],
+
+                [
+                    'text' => 'Empleados',
+                    
+                    'route' => 'empleado.index',
+
+                    'icon' => 'fas fa-users',
 
                 ],
 

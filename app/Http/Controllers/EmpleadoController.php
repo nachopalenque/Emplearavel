@@ -14,7 +14,15 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        //
+      try{
+
+        $empleados = Empleado::all();
+        return view('Empleado.index', ['empleados' => $empleados]);
+
+      }
+      catch(\Exception $e){
+          
+      }
     }
 
     /**
@@ -36,25 +44,87 @@ class EmpleadoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Empleado $empleado)
+    public function show($id_empleado)
     {
-        //
+        try{
+            $empleado = Empleado::find($id_empleado);
+            return view('Empleado.show', ['empleado' => $empleado]);
+
+        }catch(\Exception $e){
+
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
+
+    public function showAuth()
+    {
+        try{
+
+            return $this->show(auth()->user()->empleado->id);
+
+        }catch(\Exception $e){
+
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Empleado $empleado)
+    public function edit($id_empleado)
     {
-        //
+        try{
+
+            $empleado = Empleado::find($id_empleado);
+            return view('Empleado.edit', ['empleado' => $empleado]);
+
+
+        }catch(\Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Empleado $empleado)
+    public function update(Request $request)
     {
-        //
+       try{
+
+        $validacion = $request->validate([
+            'nombre' => 'required',
+            'apellidos' => 'required',
+            'direccion' => 'required',
+            'pais' => 'required',
+            'provincia' => 'required',
+            'localidad' => 'required',
+            'codigo_postal' => 'required|max:5',
+            'telefono' => 'required|max:15',
+            'puesto' => 'required',
+            
+
+        ]);
+
+        $empleado = Empleado::find($request->id);
+
+        $empleado->nombre = $request->input('nombre');
+        $empleado->apellidos = $request->input('apellidos');
+        $empleado->provincia = $request->input('provincia');
+        $empleado->localidad = $request->input('localidad');
+        $empleado->codigo_postal = $request->input('codigo_postal');
+        $empleado->direccion = $request->input('direccion');
+        $empleado->pais = $request->input('pais');
+        $empleado->telefono = $request->input('telefono');
+        $empleado->puesto = $request->input('puesto');
+        $empleado->save();
+        
+        return redirect()->route('empleado.show', $empleado->id)->with('actualizado', 'ok');
+
+
+       }catch(\Exception $e){
+           return response()->json(['error' => $e->getMessage()], 500);
+       }
     }
 
     /**

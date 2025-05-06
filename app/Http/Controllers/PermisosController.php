@@ -23,7 +23,8 @@ class PermisosController extends Controller
 
             //Si no existe ningún permiso creo la plantilla inicial de permisos
             if(count($permisos) == 0){
-            
+
+                $permisoControlTotal = Permission::create(['name' => 'Control Total']);
                 $permisoCrear = Permission::create(['name' => 'Crear']);
                 $permisoEditar = Permission::create(['name' => 'Editar']);
                 $permisoVer = Permission::create(['name' => 'Ver']);
@@ -31,6 +32,7 @@ class PermisosController extends Controller
 
                 //Asigno los permisos a los roles
                 //El rol admin tiene todos los permisos
+                $rolAdmin->givePermissionTo($permisoControlTotal);
                 $rolAdmin->givePermissionTo($permisoCrear);
                 $rolAdmin->givePermissionTo($permisoEditar);
                 $rolAdmin->givePermissionTo($permisoVer);

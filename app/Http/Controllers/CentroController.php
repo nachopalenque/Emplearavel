@@ -110,10 +110,7 @@ class CentroController extends Controller
             ]);
     
 
-                //creando directorios raiz de carpetas para cada centro
-                Storage::disk('local')->makeDirectory('intranet/'.$request->input('nombre'));
-                Storage::disk('local')->makeDirectory('intranet/'.$request->input('nombre').'/empleados');
-                Storage::disk('local')->makeDirectory('intranet/'.$request->input('nombre').'/proyectos');
+
 
                 $centro = new Centro();
                 $centro->nombre = $request->input('nombre');
@@ -291,14 +288,29 @@ class CentroController extends Controller
     {
 
         try{
-            if(PermisosController::authAdmin()){        
-                $centro = Centro::find($id);
-                //borrando directorio de carpetas
-                Storage::disk('local')->deleteDirectory('intranet/'.$centro->nombre);
-                $centro->delete();
-                session()->flash('eliminado', 'ok');
 
-                return back();
+            $centros = Centro::all();
+
+
+            if(PermisosController::authAdmin()){        
+
+                if(count($centros) == 1){
+
+                    return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Solo existe un centro de trabajo y no puede ser eliminado.']);
+
+                }else{
+
+                    $centro = Centro::find($id);
+                    //borrando directorio de carpetas
+                    Storage::disk('local')->deleteDirectory('intranet/'.$centro->nombre);
+                    $centro->delete();
+                    session()->flash('eliminado', 'ok');
+    
+                    return back();
+                    
+                }
+
+    
             }else{
 
                 return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede eliminar un Centro Productivo. Pongase en contacto con su administrador.']);

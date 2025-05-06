@@ -96,4 +96,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Empleado::class, 'id_usuario', 'id');
     }
+
+    public function centro()
+    {
+        return $this->belongsTo(Centro::class,'id_centro');
+    }
 }

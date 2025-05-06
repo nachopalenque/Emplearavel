@@ -1,17 +1,17 @@
 @extends('adminlte::page')
 
-@section('title', 'Centro Productivo')
+@section('title', 'Listado de Empleados')
 
 @section('content_header')
-    <h1>Listado de centros productivos</h1>
+    <h1>Listado de empleados</h1>
 @stop
 
 @section('content')
     
 
-@livewire('DataTable',['items' => $centros, 'modelo' => 'App\Models\Centro','modeloNombre' => 'Centro' ,'columNombres' => ['id','Nombre','Razón Social','Dirección','País','Provincia','Localidad','Código Postal','CIF']])
+@livewire('DataTable',['items' => $empleados, 'modelo' => 'App\Models\Empleado','modeloNombre' => 'Empleado' ,'columNombres' => ['id','Seguridad Social','DNI','Nombre','Apellidos','Provincia','Localidad','Código Postal','Dirección','Pais','Puesto', 'Fecha de Creación', 'Fecha de Actualización']])
 
-
+  
 
 @stop
 

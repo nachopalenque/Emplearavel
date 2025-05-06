@@ -9,13 +9,32 @@ class Empleado extends Model
 {
     use HasFactory;
 
-    public function user()
-{
-    return $this->belongsTo(User::class);
-}
 
-public function dias()
-{
-    return $this->hasMany(Dia::class);
-}
+
+    protected $fillable = [
+        'id',
+        'seguridad_social',
+        'dni',
+        'nombre',
+        'apellidos',
+        'provincia',
+        'localidad',
+        'codigo_postal',
+        'direccion',
+        'pais',
+        'puesto',
+        'created_at',
+        'updated_at',
+    
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_usuario');
+    }
+
+    public function dias()
+    {
+        return $this->hasMany(Dia::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 @inject('layoutHelper', 'JeroenNoten\LaravelAdminLte\Helpers\LayoutHelper')
 @inject('preloaderHelper', 'JeroenNoten\LaravelAdminLte\Helpers\PreloaderHelper')
+@vite('resources/js/app.js')
 
 @section('adminlte_css')
     @stack('css')
