@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dia;
+use App\Models\Evento;
 use Illuminate\Http\Request;
 
-class DiaController extends Controller
+class EventoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+
+        try{
+
+            return view('Evento.index');
+        }catch(\Exception $e){
+            
+        }
     }
 
     /**
@@ -34,7 +40,7 @@ class DiaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Dia $dia)
+    public function show(Evento $evento)
     {
         //
     }
@@ -42,7 +48,7 @@ class DiaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Dia $dia)
+    public function edit(Evento $evento)
     {
         //
     }
@@ -50,7 +56,7 @@ class DiaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Dia $dia)
+    public function update(Request $request, Evento $evento)
     {
         //
     }
@@ -58,7 +64,7 @@ class DiaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Dia $dia)
+    public function destroy(Evento $evento)
     {
         //
     }

@@ -5,6 +5,7 @@ use App\Http\Controllers\CentroController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FichajeController;
 use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\EventoController;
 
 
 /*
@@ -46,6 +47,7 @@ Route::middleware([
     Route::resource('/usuario', UserController::class);
     Route::resource('/fichaje', FichajeController::class);
     Route::resource('/empleado',EmpleadoController::class);
+    Route::resource('/evento',EventoController::class);
 
     Route::get('/centro-auth', [CentroController::class,"showAuth"])->name('user.centro.showAuth');
     Route::get('/empleado-auth', [EmpleadoController::class,"showAuth"])->name('empleado.showAuth');

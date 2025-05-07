@@ -118,7 +118,8 @@
                     </div>
 
 
-                    
+                    <x-adminlte-button class="btn-flat" type="button" label="Volver a la ficha del empleado" theme="info" icon="fas fa-lg fa-arrow-left"  onclick="window.location.href = '{{ route('empleado.showAuth') }}'"/>
+
 
 
                   </div>

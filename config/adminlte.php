@@ -156,7 +156,7 @@ return [
 
     'layout_topnav' => null,
     'layout_boxed' => null,
-    'layout_fixed_sidebar' => null,
+    'layout_fixed_sidebar' => true,
     'layout_fixed_navbar' => null,
     'layout_fixed_footer' => null,
 
@@ -413,39 +413,14 @@ return [
    
             'submenu' => [
                 [
-                    'text' => 'level_one',
+                    'text' => 'Mis Proyectos',
                     'url' => '#',
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
+                    'icon' => 'fas fa-tools',
 
-
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
                 ],
+              
+
+             
             ],
         ],
 
@@ -466,8 +441,8 @@ return [
                 ],
 
                 [
-                    'text' => 'Permisos y Ausencias',
-                    'url' => '#',
+                    'text' => 'Calendario',
+                    'route' => 'evento.index',
                     'icon' => 'fas fa-calendar-check',
 
                 ],
@@ -513,6 +488,14 @@ return [
                     'icon' => 'far fa-fw fa-id-card',
 
                 ],
+
+                [
+                    'text' => 'Proyectos',
+                    'route' => 'usuario.index',
+                    'icon' => 'fas fa-tasks',
+
+                ],
+
 
                 
           

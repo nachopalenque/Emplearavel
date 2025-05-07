@@ -24,14 +24,14 @@ $centro = Centro::find($user->id_centro);
 switch ($centro->estilo){
     case 'light':
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary elevation-4');
         Config::set('adminlte.classes_topnav', 'navbar-light');
         
         break;
 
     case 'bg-danger':
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-danger elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-danger elevation-4');
         Config::set('adminlte.classes_topnav', 'navbar-dark bg-danger');
 
         break;
@@ -39,7 +39,7 @@ switch ($centro->estilo){
     case 'bg-primary':
 
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-primary elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-primary elevation-4');
         Config::set('adminlte.classes_topnav', 'navbar-dark bg-primary');
 
         break;  
@@ -47,7 +47,7 @@ switch ($centro->estilo){
 
     case 'bg-info':
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-info elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-info elevation-4 ');
         Config::set('adminlte.classes_topnav', 'navbar-dark bg-info');
             
         break;  
@@ -55,7 +55,7 @@ switch ($centro->estilo){
 
     case 'bg-lightblue':
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-lightblue elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-lightblue elevation-4 ');
         Config::set('adminlte.classes_topnav', 'navbar-dark bg-lightblue');
             
         break;  
@@ -63,7 +63,7 @@ switch ($centro->estilo){
     
     case 'bg-navy':
         
-        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-navy elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-navy elevation-4 ');
         Config::set('adminlte.classes_topnav', 'navbar-dark bg-navy');
             
         break;   
@@ -71,14 +71,14 @@ switch ($centro->estilo){
     case 'bg-purple':
 
                 
-        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-purple elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-purple elevation-4 ');
         Config::set('adminlte.classes_topnav', 'navbar-dark bg-purple');
     
         break;
 
     case 'bg-pink':
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary bg-pink elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary bg-pink elevation-4 ');
         Config::set('adminlte.classes_topnav', 'navbar-light bg-pink');
     
     
@@ -86,7 +86,7 @@ switch ($centro->estilo){
 
     case 'bg-fuchsia':
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary bg-fuchsia elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary bg-fuchsia elevation-4 ');
         Config::set('adminlte.classes_topnav', 'navbar-light bg-fuchsia');
     
         break;
@@ -94,7 +94,7 @@ switch ($centro->estilo){
     case 'bg-success':
 
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-success elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-success elevation-4');
         Config::set('adminlte.classes_topnav', 'navbar-dark bg-success');
 
     
@@ -103,7 +103,7 @@ switch ($centro->estilo){
     case 'bg-teal':
 
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary bg-teal elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary bg-teal elevation-4 ');
         Config::set('adminlte.classes_topnav', 'navbar-light bg-teal');
     
         break;
@@ -111,14 +111,14 @@ switch ($centro->estilo){
     case 'bg-lime':
 
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary bg-lime elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary bg-lime elevation-4 ');
         Config::set('adminlte.classes_topnav', 'navbar-light bg-lime');
     
         break;
 
     case 'bg-olive':
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-olive elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-olive elevation-4 ');
         Config::set('adminlte.classes_topnav', 'navbar-dark bg-olive');
     
     
@@ -126,7 +126,7 @@ switch ($centro->estilo){
 
     case 'bg-maroon':
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-maroon elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary bg-maroon elevation-4 ');
         Config::set('adminlte.classes_topnav', 'navbar-dark bg-maroon');
     
         break;
@@ -134,21 +134,21 @@ switch ($centro->estilo){
     case 'bg-orange':
 
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary bg-orange elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary bg-orange elevation-4 ');
         Config::set('adminlte.classes_topnav', 'navbar-light  bg-orange');
     
         break;
 
     case 'bg-warning':    
         
-        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary bg-warning elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-light-primary bg-warning elevation-4 ');
         Config::set('adminlte.classes_topnav', 'navbar-light  bg-warning');
 
         break;
 
     default:
 
-        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary elevation-4 sidebar-no-expand');
+        Config::set('adminlte.classes_sidebar', 'sidebar-dark-primary elevation-4 ');
         Config::set('adminlte.classes_topnav', 'navbar-dark');
 
         break;

@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dias', function (Blueprint $table) {
+        Schema::create('eventos', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_empleado');
             $table->foreign('id_empleado')->references('id')->on('empleados')->onDelete('cascade');
-            $table->string('fecha');
-            $table->string('tipo_dia');
+            $table->string('titulo');
+            $table->datetime('fecha_inicio');
+            $table->datetime('fecha_fin');
+            $table->string('tipo_evento');
             $table->string('observaciones')->default('');
             $table->string('adjunto')->default('');
-            $table->string('estado_solicitud')->default('');
+            $table->string('estado_evento')->default('');
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dias');
+        Schema::dropIfExists('eventos');
     }
 };
