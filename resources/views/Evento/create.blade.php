@@ -12,7 +12,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="POST" action="{{ route('empleado.store') }}">
+              <form method="POST" action="{{ route('evento.store') }}">
               @csrf
               <div class="card-body">
 
@@ -155,7 +155,7 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                <x-adminlte-button class="btn-flat" type="submit" label="Guardar Centro Productivo" theme="success" icon="fas fa-lg fa-save"/>
+                <x-adminlte-button class="btn-flat" type="submit" label="Guardar Evento" theme="success" icon="fas fa-lg fa-save"/>
 
                 </div>
               </form>

@@ -46,6 +46,8 @@ Route::middleware([
     Route::resource('/centro', CentroController::class);
     Route::resource('/usuario', UserController::class);
     Route::resource('/fichaje', FichajeController::class);
+    Route::post('/fichaje-print', [FichajeController::class,"storePrint"])->name('fichaje.storePrint');
+
     Route::resource('/empleado',EmpleadoController::class);
     Route::resource('/evento',EventoController::class);
 

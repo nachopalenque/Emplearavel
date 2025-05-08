@@ -43,6 +43,81 @@
                 </div>
       </div>
 
+      <!-- Modal Imprimir -->
+
+      <div class="modal fade" id="modalImprimir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered  modal-sm modal-md modal-lg modal-xl" role="document">
+                  <div class="modal-content">
+                    
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Imprimir {{$modeloNombre}}</h5>
+                      
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    
+                    <div class="modal-body">
+
+                    <!-- Código de llamada a la creación de un nuevo centro -->
+
+                    @if($modeloNombre == 'Fichaje')
+
+                    @include('Fichaje.print')
+
+                    @endif
+
+                 
+
+                    </div>
+                    
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
+                    </div>
+                  
+                  </div>
+                </div>
+      </div>
+
+
+
+       <!-- Modal Cambiar Centro Produtivo Usuario -->
+
+       <div class="modal fade" id="modalUsuarioCentro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered  modal-sm modal-md modal-lg modal-xl" role="document">
+                  <div class="modal-content">
+                    
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Cambiar usuario de centro productivo</h5>
+                      
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    
+                    <div class="modal-body">
+
+                    <!-- Código de llamada a la creación de un nuevo centro -->
+
+
+                    @include('User.edit-centro',['centros'=>$centros])
+
+
+                 
+
+                    </div>
+                    
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
+                    </div>
+                  
+                  </div>
+                </div>
+      </div>
+
+
+
+
 
 
     
@@ -76,6 +151,9 @@
 
                 @if($modeloNombre == 'Fichaje')
 
+                <button type="button" class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modalImprimir"><i class="fa fa-print mr-1"></i>Imprimir fichajes</button>
+
+
                   @if($items->first()?->estado == 'en curso')
 
                   <button type="button" class="btn btn-block btn-outline-success mb-3" wire:click="terminarFichaje({{$items->first()?->id}})" ><i class="fa fa-plus mr-1"></i>Terminar {{$modeloNombre}}</button>
@@ -91,7 +169,7 @@
 
 
 
-                @elseif($modeloNombre !== 'Usuario')
+                @elseif($modeloNombre == 'Centro')
                 <button type="button" class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalNuevo" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
 
                 @endif
@@ -223,11 +301,11 @@
 
 
 
-                          <form action="{{ route('usuario.edit', ['usuario' => $item->id]) }}" method="GET" class="btn-group btn-group-sm">
-                            <button  type="submit" value="" class="btn btn-info mr-2">
-                            <i class="fas fa-eye"></i>
+                          <figure class=" btn-group btn-group-sm">
+                            <button  type="submit" value="" class="btn btn-info mr-2" data-toggle="modal" data-target="#modalUsuarioCentro">
+                            <i class="fas fa-city"></i>
                             </button>
-                          </form>
+                          </figure>
 
 
                           <form action="{{ route('usuario.destroy', ['usuario' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">

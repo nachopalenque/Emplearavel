@@ -225,7 +225,7 @@
 
                     <div class="card-footer">
                     <x-adminlte-button class="btn-flat" type="submit" label="Guardar cambios" theme="success" icon="fas fa-lg fa-save"/>
-                    <x-adminlte-button class="btn-flat" type="button" label="Volver a la lista" theme="info" icon="fas fa-lg fa-arrow-left"  onclick="window.location.href = '{{ route('centro.index') }}'"/>
+                    <x-adminlte-button class="btn-flat" type="button" label="Volver a la lista" theme="info" icon="fas fa-lg fa-arrow-left"  onclick="window.location.href = '{{ route('empleado.showAuth') }}'"/>
 
                     </div>
 

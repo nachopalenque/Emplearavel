@@ -15,7 +15,21 @@ class EventoController extends Controller
 
         try{
 
-            return view('Evento.index');
+        //eventos de la base de datos
+        $eventos = Evento::all();
+        //variable que almacena los eventos para el calendario con sus campos especificos
+        $eventos_calendar = [];
+
+        foreach ($eventos as $evento) {
+            $eventos_calendar[] = [
+                'title' => $evento->titulo,
+                'start' => $evento->fecha_inicio,
+                'end' => $evento->fecha_fin
+            ];
+        }
+        
+        return view('Evento.index', compact('eventos_calendar'));
+
         }catch(\Exception $e){
             
         }
@@ -34,7 +48,37 @@ class EventoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+
+
+
+            $validacion = $request->validate([
+                'titulo' => 'required',
+                'fecha_inicio' => 'required|date|after_or_equal:today',
+                'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+                'tipo_evento' => 'required',
+        
+            ]);
+    
+
+
+            $evento = new Evento();
+            $evento->titulo = $request->input('titulo');
+            $evento->fecha_inicio = $request->input('fecha_inicio');
+            $evento->fecha_fin = $request->input('fecha_fin');
+            $evento->tipo_evento = $request->input('tipo_evento');
+            $evento->observaciones = $request->input('observaciones');
+            $evento->estado_evento = 'pendiente';
+            $evento->adjunto = '';
+            $evento->id_empleado = auth()->user()->empleado->id;
+
+            $evento->save();
+            return redirect()->route('evento.index')->with('estado', 'creado');
+
+
+        }catch(\Exception $e){
+            
+        }
     }
 
     /**

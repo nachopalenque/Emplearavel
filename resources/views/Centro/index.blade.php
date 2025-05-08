@@ -33,39 +33,33 @@
     </script>
 @endif
 
-@if (session('eliminado') == 'ok')
-
     <script>
 
+
        window.addEventListener('DOMContentLoaded', (event) => {
-            mensajeConfirmacionEliminado();
+
+            let estado = @json(session('estado'));
+
+            switch(estado){
+
+            case 'creado':
+            mensajeConfirmacionNuevoElemento();
+            break;
+
+            case 'actualizado':
+            mensajeConfirmacionActualizacionElemento();
+            break;
+            
+            case 'eliminado':
+            mensajeConfirmacionEliminacionElemento();
+            break;
+            }
+
         });
         
       </script>
-@endif
 
 
-@if (session('creado') == 'ok')
-
-    <script>
-      
-       window.addEventListener('DOMContentLoaded', (event) => {
-        mensajeConfirmacionNuevoElemento();
-        });
-        
-      </script>
-@endif
-
-@if (session('actualizado') == 'ok')
-
-    <script>
-      
-       window.addEventListener('DOMContentLoaded', (event) => {
-        mensajeConfirmacionActualizacionElemento();
-        });
-        
-      </script>
-@endif
 
 
 @endpush

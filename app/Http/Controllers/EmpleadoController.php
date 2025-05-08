@@ -119,7 +119,7 @@ class EmpleadoController extends Controller
         $empleado->puesto = $request->input('puesto');
         $empleado->save();
         
-        return redirect()->route('empleado.show', $empleado->id)->with('actualizado', 'ok');
+        return redirect()->route('empleado.show', $empleado->id)->with('estado', 'actualizado');
 
 
        }catch(\Exception $e){

@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Fichaje;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class DataTable extends Component
 {
@@ -12,6 +13,7 @@ class DataTable extends Component
     public $modeloClase;
     public $columNombres;
     public $modeloNombre;
+    public $centros;
 
 
     
@@ -22,6 +24,8 @@ class DataTable extends Component
         $this->items = $items;
         $this->columNames = $columNombres;
         $this->modeloNombre = $modeloNombre;
+        $this->centros = DB::table('centros')->get();
+        
     }
     public function render()
     {

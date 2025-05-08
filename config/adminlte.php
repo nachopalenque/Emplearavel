@@ -366,39 +366,12 @@ return [
    
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
+                    'text' => 'Panel de fichajes',
+                    'route' => 'fichaje.index',
+                    'icon' => 'fas fa-clock',
 
-
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
                 ],
+            
             ],
         ],
 

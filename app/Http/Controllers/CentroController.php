@@ -71,7 +71,7 @@ class CentroController extends Controller
     
             $centro->save();
 
-            session()->flash('creado', 'ok');
+            session()->flash('estado', 'creado');
 
             return back();
     
@@ -265,7 +265,7 @@ class CentroController extends Controller
                 $centro->codigo_postal = $request->input('codigo_postal');
                 $centro->estilo = $request->input('estilo');
                 $centro->save();
-                session()->flash('actualizado', 'ok');
+                session()->flash('estado', 'actualizado');
                 return redirect()->route('centro.index');
 
             }else{
@@ -304,7 +304,7 @@ class CentroController extends Controller
                     //borrando directorio de carpetas
                     Storage::disk('local')->deleteDirectory('intranet/'.$centro->nombre);
                     $centro->delete();
-                    session()->flash('eliminado', 'ok');
+                    session()->flash('estado', 'eliminado');
     
                     return back();
                     

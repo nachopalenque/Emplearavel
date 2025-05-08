@@ -94,6 +94,8 @@
 
 @stop
 
+
+
 @push('js')
 <!--   aquí lo que hago es que me muestre el modal de nuevo si hay errores de validación -->
 <script src="{{ asset('js/cdnfullcalendar.js') }}"></script>
@@ -103,9 +105,14 @@
 
 
     document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
+      //en la variable creado mediante la directiva de blade json almaceno el valor de la variable de sesion estado en formato json
+      let estado = @json(session('estado'));
+      
+
+      var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridMonth',
+          events: @json($eventos_calendar),
           locale:"es", 
           headerToolbar: {
             left: 'prev,next today',
@@ -116,6 +123,20 @@
         });
         calendar.render();
 
+        switch(estado){
+
+          case 'creado':
+            mensajeConfirmacionNuevoElemento();
+            break;
+          
+          case 'actualizado':
+            mensajeConfirmacionActualizacionElemento();
+            break;
+            
+          case 'eliminado':
+            mensajeConfirmacionEliminado();
+            break;
+        }
       });
 
 

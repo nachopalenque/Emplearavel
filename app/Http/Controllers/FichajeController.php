@@ -26,6 +26,7 @@ class FichajeController extends Controller
     
     }
 
+  
     /**
      * Show the form for creating a new resource.
      */
@@ -41,7 +42,13 @@ class FichajeController extends Controller
     {
         //
     }
+    public function storePrint(Request $request){
+        try{
 
+        }catch(Exception $e){
+            
+        }
+    }
     /**
      * Display the specified resource.
      */
