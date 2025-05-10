@@ -13,8 +13,9 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="POST" action="{{ route('fichaje.storePrint') }}">
+              <form method="POST" action="{{ route('user.centro.update') }}">
               @csrf
+              <input type="text" name="id_usuario" value="{{$id_usuario}}" hidden="true">
               <div class="card-body">
 
                 <div class="row">

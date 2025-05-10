@@ -13,7 +13,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="POST" action="{{ route('fichaje.storePrint') }}">
+              <form method="POST" action="{{ route('fichaje.storePrint') }}" target="_blank">
               @csrf
               <div class="card-body">
 
@@ -60,7 +60,7 @@
 
                 <div class="card-footer">
                
-                <x-adminlte-button class="btn-flat" type="submit" label="Imprimir fichajes" theme="success" icon="fas fa-lg fa-print"/>
+                <x-adminlte-button class="btn-flat" type="submit" label="Imprimir fichajes"  theme="success" icon="fas fa-lg fa-print"/>
 
                 </div>
               </form>

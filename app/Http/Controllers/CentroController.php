@@ -31,7 +31,13 @@ class CentroController extends Controller
      */
     public function create()
     {
-        //
+        try{
+
+            return view('Centro.create');
+
+        }catch(Exception $e){
+            
+        }
     }
 
     /**
@@ -212,7 +218,7 @@ class CentroController extends Controller
      */
     public function edit($id)
     {
-
+        
         try{
 
             if(PermisosController::authAdmin()){

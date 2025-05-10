@@ -58,15 +58,7 @@ class UserController extends Controller
             if(PermisosController::authAdmin()){
 
                 //$usuarios = User::all();
-
-                $usuarios = DB::table('users')
-                ->join('centros', 'users.id_centro', '=', 'centros.id')
-                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->select('users.id', 'users.id_centro', 'users.name','users.email' ,  'users.password', 'centros.nombre as centro_nombre', 'roles.name as rol_nombre', 'users.created_at', 'users.updated_at')
-                ->get()
-                ->toArray();
-
+                $usuarios = $this->usersRolCenter();
                 return view('User.index', ['usuarios' => $usuarios]);
                 
             }
@@ -78,4 +70,61 @@ class UserController extends Controller
         }
 
     }
+
+    public function usersRolCenter(){
+        try{
+
+                $usuarios = DB::table('users')
+                ->join('centros', 'users.id_centro', '=', 'centros.id')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->select('users.id', 'users.id_centro', 'users.name','users.email' ,  'users.password', 'centros.nombre as centro_nombre', 'roles.name as rol_nombre', 'users.created_at', 'users.updated_at')
+                ->get()
+                ->toArray();
+
+                return $usuarios;
+
+
+        }catch(Exception $e){
+            
+        }
+    }
+    public function editUserCenter($id_usuario){
+        try{
+
+            $centros = Centro::all();
+            return view('User.edit-centro', ['centros' => $centros, 'id_usuario' => $id_usuario]);
+
+        }catch(Exception $e){
+            
+        }
+    }
+
+    public function updateUserCenter(Request $request){
+        
+        try{
+
+            //cargo los datos del usuario
+            $user = User::find($request->id_usuario);
+            //cargo el nombre del centro productivo al que vamos a cambiar al usuario
+            $centro = Centro::find($request->centro)->nombre;
+
+            //movemos la carpeta del empleado en la intranet al centro productivo de cambio
+            $origen = 'intranet/'.$user->centro->nombre.'/empleados/'.$user->empleado->nombre;
+            $destino =  'intranet/'.$centro.'/empleados/'.$user->empleado->nombre;;
+            Storage::disk('local')->move($origen, $destino);
+
+
+            //cambiamos el id_centro de usuario al nuevo
+            $user->id_centro = $request->centro;
+            $user->save();
+            //volvemos a cargar los usuarios, centros y roles
+            $usuarios = $this->usersRolCenter();
+            return view('User.index', ['usuarios' => $usuarios]);
+        }
+
+        catch(Exception $e){
+            
+        }
+    }   
 }

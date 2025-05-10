@@ -45,7 +45,11 @@ Route::middleware([
 
     Route::resource('/centro', CentroController::class);
     Route::resource('/usuario', UserController::class);
+    Route::get('/usuario/cambiarCentro/{id}', [UserController::class,"editUserCenter"])->name('user.centro.edit');
+    Route::post('/usuario/cambiarCentro', [UserController::class,"updateUserCenter"])->name('user.centro.update');
+
     Route::resource('/fichaje', FichajeController::class);
+    Route::get('/fichaje-print', [FichajeController::class,"indexPrint"])->name('fichaje.indexPrint');
     Route::post('/fichaje-print', [FichajeController::class,"storePrint"])->name('fichaje.storePrint');
 
     Route::resource('/empleado',EmpleadoController::class);

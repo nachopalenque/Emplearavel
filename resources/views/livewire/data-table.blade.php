@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>centro</title>
 </head>
+
+
 <body>
 <div>
 
@@ -12,95 +14,30 @@
       <div class="container-fluid">
 
 
-     <!-- Modal Nuevo -->
 
-      <div class="modal fade" id="modalNuevo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered  modal-sm modal-md modal-lg modal-xl" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Nuevo {{$modeloNombre}}</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
 
-                    <!-- Código de llamada a la creación de un nuevo centro -->
 
-                    @if($modeloNombre == 'Centro')
+    
 
-                    @include('Centro.create')
+       <!-- Modal Génerico-->
 
-                    @endif
-
-                 
-
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
-                    </div>
-                  </div>
-                </div>
-      </div>
-
-      <!-- Modal Imprimir -->
-
-      <div class="modal fade" id="modalImprimir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered  modal-sm modal-md modal-lg modal-xl" role="document">
                   <div class="modal-content">
                     
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Imprimir {{$modeloNombre}}</h5>
+                      <h5 class="modal-title" id="tituloModal"></h5>
                       
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
                     
-                    <div class="modal-body">
-
-                    <!-- Código de llamada a la creación de un nuevo centro -->
-
-                    @if($modeloNombre == 'Fichaje')
-
-                    @include('Fichaje.print')
-
-                    @endif
-
-                 
-
-                    </div>
-                    
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
-                    </div>
-                  
-                  </div>
-                </div>
-      </div>
-
-
-
-       <!-- Modal Cambiar Centro Produtivo Usuario -->
-
-       <div class="modal fade" id="modalUsuarioCentro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered  modal-sm modal-md modal-lg modal-xl" role="document">
-                  <div class="modal-content">
-                    
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Cambiar usuario de centro productivo</h5>
-                      
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    
-                    <div class="modal-body">
+                    <div id="modalBody" class="modal-body">
 
                     <!-- Código de llamada a la creación de un nuevo centro -->
 
 
-                    @include('User.edit-centro',['centros'=>$centros])
 
 
                  
@@ -151,7 +88,7 @@
 
                 @if($modeloNombre == 'Fichaje')
 
-                <button type="button" class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modalImprimir"><i class="fa fa-print mr-1"></i>Imprimir fichajes</button>
+                <button type="button" id="btnprintFichaje" class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal"><i class="fa fa-print mr-1"></i>Imprimir fichajes</button>
 
 
                   @if($items->first()?->estado == 'en curso')
@@ -170,7 +107,7 @@
 
 
                 @elseif($modeloNombre == 'Centro')
-                <button type="button" class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalNuevo" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
+                <button type="button" id='btnNuevo' class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modal" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
 
                 @endif
 
@@ -256,6 +193,13 @@
 
                           @endif
 
+
+
+
+
+
+                          
+
                         @endforeach
 
                         @if($modeloNombre !== 'Fichaje')
@@ -268,11 +212,13 @@
 
                           @if($modeloNombre == 'Centro')
 
-                          <form action="{{ route('centro.edit', ['centro' => $item->id]) }}" method="GET" class="btn-group btn-group-sm">
-                            <button  type="submit" value="" class="btn btn-info mr-2">
+                  
+                          <figure class=" btn-group btn-group-sm">
+                            <button data-id="{{ $item->id }}"  class="btn btn-info mr-2 btn-editar-centro" data-toggle="modal" data-target="#modal">
                             <i class="fas fa-eye"></i>
                             </button>
-                          </form>
+                          </figure>
+
 
                           <!-- Boton usuarios 
                           <form action="{{ route('centro.edit', ['centro' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
@@ -302,7 +248,7 @@
 
 
                           <figure class=" btn-group btn-group-sm">
-                            <button  type="submit" value="" class="btn btn-info mr-2" data-toggle="modal" data-target="#modalUsuarioCentro">
+                            <button data-id="{{ $item->id }}"  class="btn btn-info mr-2 btn-cambiar-centro" data-toggle="modal" data-target="#modal">
                             <i class="fas fa-city"></i>
                             </button>
                           </figure>
@@ -355,8 +301,109 @@
 
 </div>
 
+
+@section('js')
+
+  
+  <script defer>
+
+  /*
+  Livewire puede eliminar internamente elementos del dom para volver a renderizarlos sin que el usuario lo aprecie. por este motivo
+  no puedo capturar concretamente los eventos click de los elementos puesto que a veces ese elemento es null en el dom hasta que livewire
+  lo vuelve a renderizar. Por eso escucho cualquier evento click y luego con closest y un selector ya sea de clase(.) o por id # puede darle la funcionalidad a ese botón, además closest me asegura que se ejecute la lógica aunque el click se haga sobre un hijo del padre, es decir que si tengo closest('button') y dentro tengo un icono y hago click en el icono, también se ejecuta la lógica
+  */
+
+  document.addEventListener('click', function (e) {
+
+
+  /*
+    En este caso capturamos el evento click del boton btnNuevo y luego utilizando la directiva json de blade guardamos el valor
+    de la variable de php modeloNombre en formato json con el que podemos trabajar dentro de nuestro script. De esta manera podemos
+    programar las distintas peticiones fetch segun el valor de esta variable (dicho valor dependera de en que vista este montado el componente de livewire) entonces mediante un switch contemplaremos los distintos casos
+    */
+      if (e.target.closest('#btnNuevo')) {
+        const nombreModelo = @json($modeloNombre);
+        switch (nombreModelo) {
+
+          case 'Centro':
+
+                  document.getElementById('tituloModal').innerHTML = 'Nuevo Centro Productivo';
+                  fetch(`/centro/create`)
+                  .then(res => res.text())
+                  .then(html => {
+                      document.getElementById('modalBody').innerHTML = html;
+                  });
+
+
+            break;
+
+        }
+      }
+
+
+
+
+
+      /*
+      Usamos el mismo modal pero escuchando el evento click del boton de impresión de fichajes.
+      Donde hacemos un fetch para pedir la vista de impresión de fichajes por fechas
+
+      */    
+        if (e.target.closest('#btnprintFichaje')) {
+          document.getElementById('tituloModal').innerHTML = 'Imprimir fichajes';
+          fetch(`/fichaje-print`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              });
+      }
+
+      // Botón: Editar centro
+      if (e.target.closest('.btn-editar-centro')) {
+          const btn = e.target.closest('.btn-editar-centro');
+          const id = btn.dataset.id;
+          document.getElementById('tituloModal').innerHTML = 'Editar Centro Productivo';
+          fetch(`/centro/${id}/edit`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              });
+      }
+
+      /* recorremos todos los botones con el selector de clases btn-cambiar-centro
+          y escuchamos el evento click para luego guardar el id del atributo data-id donde se almacena el id del usuario
+          por ultimo hacemos una petición fetch a la ruta /usuario/cambiarCentro/{id} pasandole el id del usuario
+          en el controlador de usuarios al hacer get a esta ruta nos devuelve la vista para editar el centro del usuario
+          por lo tanto tenemos que indicar que la respuesta nos devuelve un texto plano que en este caso es una vista html
+          y despues esa vista html la insertamos dentro del body del modal
+
+          
+      */
+      if (e.target.closest('.btn-cambiar-centro')) {
+          const btn = e.target.closest('.btn-cambiar-centro');
+          const id = btn.dataset.id;
+          document.getElementById('tituloModal').innerHTML = 'Cambiar usuario de centro productivo';
+          fetch(`/usuario/cambiarCentro/${id}`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              });
+      }
+
+  });
+
+</script>
+
+
+
+@endsection
+
+
+
+
   
 </body>
+
 
 
 

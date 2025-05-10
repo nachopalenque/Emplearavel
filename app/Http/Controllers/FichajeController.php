@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Fichaje;
 use App\Models\User;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class FichajeController extends Controller
@@ -42,13 +42,50 @@ class FichajeController extends Controller
     {
         //
     }
-    public function storePrint(Request $request){
+
+    public function indexPrint(Request $request){
         try{
+
+            return view('Fichaje.print');
 
         }catch(Exception $e){
             
         }
     }
+    public function storePrint(Request $request){
+        try{
+
+            $fecha_inicio = $request->input('fecha_inicio');
+            $fecha_fin = $request->input('fecha_fin');
+            $empleado = auth()->user()->empleado->nombre . ' ' . auth()->user()->empleado->apellidos;
+            $dni = auth()->user()->empleado->dni;
+            $seguridad_social = auth()->user()->empleado->seguridad_social;
+            $razon_social = auth()->user()->centro->razon_social;
+            $cif = auth()->user()->centro->CIF;
+
+            $fichajes = Fichaje::where('id_usuario', auth()->user()->id)
+                    ->where('fecha_inicio', '>=', $fecha_inicio)
+                    ->where('fecha_fin', '<=', $fecha_fin)
+                    ->get();
+
+            return $this->generarPDF('Fichaje.print-create', ['fichajes' => $fichajes , 'fecha_inicio' => $fecha_inicio, 'fecha_fin' => $fecha_fin, 'empleado' => $empleado, 'dni' => $dni, 'seguridad_social' => $seguridad_social, 'razon_social' => $razon_social, 'cif' => $cif]);      
+
+            //return view('Fichaje.print-create', ['fichajes' => $fichajes , 'fecha_inicio' => $fecha_inicio, 'fecha_fin' => $fecha_fin, 'empleado' => $empleado, 'dni' => $dni, 'seguridad_social' => $seguridad_social, 'razon_social' => $razon_social, 'cif' => $cif]);        
+
+        }catch(Exception $e){
+            
+        }
+    }
+
+        public function generarPDF($vista,$datos)
+    {
+       
+        $pdf = Pdf::loadView($vista , $datos);
+
+        return $pdf->stream('listado-de-fichajes.pdf');
+    }
+
+
     /**
      * Display the specified resource.
      */
