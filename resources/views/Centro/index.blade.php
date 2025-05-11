@@ -38,9 +38,8 @@
 
        window.addEventListener('DOMContentLoaded', (event) => {
 
-            let estado = @json(session('estado'));
-
-            switch(estado){
+    
+            switch(@json(session('estado'))){
 
             case 'creado':
             mensajeConfirmacionNuevoElemento();

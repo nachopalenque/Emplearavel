@@ -8,6 +8,46 @@
 
 @section('content')
     <div class="card ">
+
+
+                <!-- Modal Génerico-->
+
+       <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered  modal-sm modal-md modal-lg modal-xl" role="document">
+                  <div class="modal-content">
+                    
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="tituloModal"></h5>
+                      
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    
+                    <div id="modalBody" class="modal-body">
+
+                    <!-- Código de llamada a la creación de un nuevo centro -->
+
+
+
+
+                 
+
+                    </div>
+                    
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
+                    </div>
+                  
+                  </div>
+                </div>
+      </div>
+
+
+
+
+
+
               <div class="card-header">
                 <h3 class="card-title">Datos del empleado</h3>
               </div>
@@ -259,20 +299,24 @@
 
                         <label class="text-maroon">¿Que desea hacer?</label><br>
                         <x-adminlte-button class="btn-flat bg-gradient-info p-2 mt-4" 
+                        id="btnVerCentro"
                         type="button" 
                         label="Ver centro productivo" 
                         theme="info" 
                         icon="fas fa-lg fa-city" 
-                        onclick="window.location.href = '{{ route('centro.show', $empleado->user->id_centro) }}'"/>
+                        data-id="{{ $empleado->user->id_centro }}"
+                        data-toggle="modal" 
+                        data-target="#modal"/>
 
-                        <x-adminlte-button class="btn-flat bg-gradient-primary p-2 mt-4" 
+                        <x-adminlte-button class="btn-flat bg-gradient-primary p-2 mt-4"
+                        id="btnEditarEmpleado" 
                         type="button" 
                         label="Editar ficha del empleado" 
                         theme="primary" 
                         icon="fas fa-lg fa-user-edit" 
-                        onclick="window.location.href = '{{ route('empleado.edit', $empleado->id) }}'"/>
-
-                        
+                        data-id="{{ $empleado->id }}"
+                        data-toggle="modal" 
+                        data-target="#modal"/>
                       
                         </div>
 
@@ -354,6 +398,48 @@
             .catch(error => {
                 console.error("Error al geocodificar:", error);
             });
+
+            switch(@json(session('estado'))){
+                
+                case 'actualizado':
+                    mensajeConfirmacionActualizacionElemento();
+                    break;
+            }
+    });
+
+
+    document.addEventListener('click', function (e) {
+
+
+
+              // Botón: Editar Empleado
+      if (e.target.closest('#btnEditarEmpleado')) {
+          const btn = e.target.closest('#btnEditarEmpleado');
+          const id = btn.dataset.id;
+          console.log(id);
+          document.getElementById('tituloModal').innerHTML = 'Editar Empleado';
+          fetch(`/empleado/${id}/edit`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              });
+      }
+
+                    // Botón: Ver centro productivo
+      if (e.target.closest('#btnVerCentro')) {
+          const btn = e.target.closest('#btnVerCentro');
+          const id = btn.dataset.id;
+          document.getElementById('tituloModal').innerHTML = 'Datos centro productivo';
+          fetch(`/centro/${id}`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              });
+      }
+
+
+
+
     });
   </script>        
 

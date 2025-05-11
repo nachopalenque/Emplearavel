@@ -33,7 +33,7 @@
     </script>
 @endif
 
-@if (session('eliminado') == 'ok')
+@if (session('estado') == 'eliminado')
 
     <script>
 
@@ -45,7 +45,7 @@
 @endif
 
 
-@if (session('creado') == 'ok')
+@if (session('etado') == 'creado')
 
     <script>
       
@@ -56,7 +56,7 @@
       </script>
 @endif
 
-@if (session('actualizado') == 'ok')
+@if (session('estado') == 'actualizado')
 
     <script>
       

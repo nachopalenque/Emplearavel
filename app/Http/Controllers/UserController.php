@@ -120,7 +120,7 @@ class UserController extends Controller
             $user->save();
             //volvemos a cargar los usuarios, centros y roles
             $usuarios = $this->usersRolCenter();
-            return view('User.index', ['usuarios' => $usuarios]);
+            return redirect()->route('usuario.index', ['usuarios' => $usuarios])->with('estado', 'actualizado');
         }
 
         catch(Exception $e){

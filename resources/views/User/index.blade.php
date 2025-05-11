@@ -20,6 +20,34 @@
     {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
 @stop
 
-@section('js')
-    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
-@stop
+
+@push('js')
+
+    <script>
+
+
+
+       window.addEventListener('DOMContentLoaded', (event) => {
+
+            switch(@json(session('estado'))){
+
+            case 'creado':
+            mensajeConfirmacionNuevoElemento();
+            break;
+
+            case 'actualizado':
+            mensajeConfirmacionActualizacionElemento();
+            break;
+            
+            case 'eliminado':
+            mensajeConfirmacionEliminacionElemento();
+            break;
+            
+            }
+
+        });
+        
+      </script>
+
+
+@endpush
