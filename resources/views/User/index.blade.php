@@ -8,8 +8,18 @@
 
 @section('content')
     
+<!--
+--livewire('DataTable',['items' => $usuarios, 'modelo' => 'App\Models\User','modeloNombre' => 'Usuario' ,
+'columNombres' => ['id','id_centro','Nombre','Email','password','Centro Productivo','Rol','Fecha de creación','Fecha última modificación']])
 
-@livewire('DataTable',['items' => $usuarios, 'modelo' => 'App\Models\User','modeloNombre' => 'Usuario' ,'columNombres' => ['id','id_centro','Nombre','Email','password','Centro Productivo','Rol','Fecha de creación','Fecha última modificación']])
+-->
+
+<x-datatable 
+    :items="$usuarios"
+    :modelo="\App\Models\User::class"
+    :modeloNombre="'Usuario'"
+    :columNombres="['id','id_centro','Nombre','Email','password','Centro Productivo','Rol','Fecha de creación','Fecha última modificación']"
+/>
 
 
 
@@ -29,6 +39,7 @@
 
        window.addEventListener('DOMContentLoaded', (event) => {
 
+
             switch(@json(session('estado'))){
 
             case 'creado':
@@ -40,7 +51,7 @@
             break;
             
             case 'eliminado':
-            mensajeConfirmacionEliminacionElemento();
+            mensajeConfirmacionEliminado();
             break;
             
             }

@@ -17,7 +17,7 @@ class CentroController extends Controller
     public function index()
     {
         try{    
-            $centros = Centro::all();
+            $centros = Centro::paginate(10);
             return view('Centro.index', ['centros' => $centros]);
         }
         catch(Exception $e){

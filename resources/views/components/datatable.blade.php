@@ -15,6 +15,40 @@
 
 
 
+        <!-- Modal Validaciones-->
+
+       <div class="modal fade" id="modalValidaciones" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered  modal-sm modal-md modal-lg modal-xl" role="document">
+                  <div class="modal-content">
+                    
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="tituloModalValidaciones"></h5>
+                      
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    
+                    <div id="modalBodyValidaciones" class="modal-body">
+
+                      @if($modeloNombre == 'Centro')
+
+                      @include('Centro.create')
+                      
+
+                      @endif
+
+                    </div>
+                    
+                    <div class="modal-footer">
+                      <button type="button" id="btnCerrarModal" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
+                    </div>
+                  
+                  </div>
+                </div>
+      </div>
+
+
 
 
     
@@ -37,15 +71,10 @@
 
                     <!-- Código de llamada a la creación de un nuevo centro -->
 
-
-
-
-                 
-
                     </div>
                     
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
+                      <button  type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
                     </div>
                   
                   </div>
@@ -74,12 +103,12 @@
 
                 @if($modeloNombre == 'Fichaje')
 
-                  @if($items->first()?->estado == 'en curso')
+                    @if($items->isNotEmpty() && $items->first()?->estado == 'en curso')
 
                   <h4 class="display-6 text-info">Atención: Hay un fichaje en curso!!</h4>
 
 
-                  @endif
+                    @endif
 
                 @endif
 
@@ -93,12 +122,12 @@
 
                   @if($items->first()?->estado == 'en curso')
 
-                  <button type="button" class="btn btn-block btn-outline-success mb-3" wire:click="terminarFichaje({{$items->first()?->id}})" ><i class="fa fa-plus mr-1"></i>Terminar {{$modeloNombre}}</button>
+                  <button type="button"  class="btn btn-block btn-outline-success mb-3" onclick="window.location.href='/terminar-fichar'" ><i class="fa fa-plus mr-1"></i>Terminar {{$modeloNombre}}</button>
 
 
                   @else
 
-                  <button type="button" class="btn btn-block btn-outline-success mb-3" wire:click="fichar" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
+                  <button type="button"  class="btn btn-block btn-outline-success mb-3 " onclick="window.location.href='/fichar'" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
 
 
                   @endif
@@ -107,7 +136,7 @@
 
 
                 @elseif($modeloNombre == 'Centro')
-                <button type="button" id='btnNuevo' class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modal" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
+                <button type="button" id='btnNuevo' class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalValidaciones" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
 
                 @endif
 
@@ -232,7 +261,7 @@
                           <form action="{{ route('centro.destroy', ['centro' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
                           @csrf
                           @method('DELETE')
-                          <button  type="submit" value="" class="btn  btn-danger mr-2 ">
+                          <button  type="submit" value="" class="btn btn-danger btn-eliminar mr-2 ">
                           <i class="fas fa-trash"></i>
                           </button>
                           </form>
@@ -257,7 +286,7 @@
                           <form action="{{ route('usuario.destroy', ['usuario' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
                           @csrf
                           @method('DELETE')
-                          <button  type="submit" value="" class="btn  btn-danger mr-2 ">
+                          <button  type="submit" value="" class="btn  btn-danger btn-eliminar mr-2 ">
                           <i class="fas fa-trash"></i>
                           </button>
                           </form>
@@ -283,11 +312,7 @@
               <!-- /.card-body -->
               <div class="card-footer clearfix">
                 <ul class="pagination pagination-sm m-0 float-right">
-                  <li class="page-item"><a class="page-link" href="#">«</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">»</a></li>
+                {{ $items->links() }}
                 </ul>
               </div>
             </div>
@@ -314,31 +339,6 @@
   */
 
   document.addEventListener('click', function (e) {
-
-
-  /*
-    En este caso capturamos el evento click del boton btnNuevo y luego utilizando la directiva json de blade guardamos el valor
-    de la variable de php modeloNombre en formato json con el que podemos trabajar dentro de nuestro script. De esta manera podemos
-    programar las distintas peticiones fetch segun el valor de esta variable (dicho valor dependera de en que vista este montado el componente de livewire) entonces mediante un switch contemplaremos los distintos casos
-    */
-      if (e.target.closest('#btnNuevo')) {
-        const nombreModelo = @json($modeloNombre);
-        switch (nombreModelo) {
-
-          case 'Centro':
-
-                  document.getElementById('tituloModal').innerHTML = 'Nuevo Centro Productivo';
-                  fetch(`/centro/create`)
-                  .then(res => res.text())
-                  .then(html => {
-                      document.getElementById('modalBody').innerHTML = html;
-                  });
-
-
-            break;
-
-        }
-      }
 
 
 
@@ -390,7 +390,17 @@
               });
       }
 
+
+
+
+
   });
+
+    
+
+
+
+
 
 </script>
 

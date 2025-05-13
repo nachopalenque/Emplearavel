@@ -79,8 +79,7 @@ class UserController extends Controller
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->select('users.id', 'users.id_centro', 'users.name','users.email' ,  'users.password', 'centros.nombre as centro_nombre', 'roles.name as rol_nombre', 'users.created_at', 'users.updated_at')
-                ->get()
-                ->toArray();
+                ->paginate(10);
 
                 return $usuarios;
 
@@ -127,4 +126,20 @@ class UserController extends Controller
             
         }
     }   
+
+    public function destroy($id){
+        try{
+
+            $user = User::find($id);
+            $intranetUsuario = 'intranet/'.$user->centro->nombre.'/empleados/'.$user->empleado->nombre;
+            if (Storage::exists($intranetUsuario)) {
+                Storage::deleteDirectory($intranetUsuario);
+             }
+            $user->delete();
+            return redirect()->route('usuario.index')->with('estado', 'eliminado');
+        }
+        catch(Exception $e){
+            
+        }
+    }
 }

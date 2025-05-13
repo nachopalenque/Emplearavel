@@ -7,11 +7,22 @@
 @stop
 
 @section('content')
-    
+ 
+<!--
+--livewire('DataTable',
+['items' => $empleados, 'modelo' => 'App\Models\Empleado','modeloNombre' => 'Empleado' ,'columNombres' => ['id','Seguridad Social','DNI','Nombre','Apellidos','Provincia','Localidad','Código Postal','Dirección','Pais','Puesto', 'Fecha de Creación', 'Fecha de Actualización']])
 
-@livewire('DataTable',['items' => $empleados, 'modelo' => 'App\Models\Empleado','modeloNombre' => 'Empleado' ,'columNombres' => ['id','Seguridad Social','DNI','Nombre','Apellidos','Provincia','Localidad','Código Postal','Dirección','Pais','Puesto', 'Fecha de Creación', 'Fecha de Actualización']])
 
-  
+-->
+
+
+ <x-datatable 
+    :items="$empleados"
+    :modelo="\App\Models\Empleado::class"
+    :modeloNombre="'Empleado'"
+    :columNombres="['id','Seguridad Social','DNI','Nombre','Apellidos','Provincia','Localidad','Código Postal','Dirección','Pais','Puesto', 'Fecha de Creación', 'Fecha de Actualización']"
+/>
+ 
 
 @stop
 

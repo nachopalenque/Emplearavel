@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 // Exponer SweetAlert2 globalmente
 window.Swal = Swal;    
 
-const buttons = document.querySelectorAll('.btn-danger');
+const buttons = document.querySelectorAll('.btn-eliminar');
 
         buttons.forEach(button => {
         button.addEventListener('click', function(event) {

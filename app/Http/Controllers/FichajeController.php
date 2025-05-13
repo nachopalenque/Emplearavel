@@ -17,7 +17,7 @@ class FichajeController extends Controller
         try{
             $fichajes = Fichaje::where('id_usuario', auth()->user()->id)
             ->orderBy('id', 'desc')
-            ->get();            
+            ->paginate(10);  
             return view('Fichaje.index', ['fichajes' => $fichajes]);
         }
         catch(Exception $e){
@@ -117,4 +117,49 @@ class FichajeController extends Controller
     {
         //
     }
+
+     public function fichar(){
+
+
+        try{
+            Fichaje::create([
+                'fecha_inicio' => now(),
+                'fecha_fin' => now(),
+                'id_usuario' => auth()->user()->id, // o cualquier ID válido
+                'estado' => 'en curso',
+                'tiempo_fichaje' => '00:00:00'
+            ]);
+    
+            session()->flash('fichaje', 'inicio');
+
+            return redirect()->route('fichaje.index');
+        }
+        catch(Exception $e){
+            
+        }
+
+    }
+
+    public function terminarFichar(){
+ 
+        try{
+            $fichaje = Fichaje::where('id_usuario', auth()->id())
+                ->where('estado', 'en curso')
+                ->orderBy('id', 'desc')
+                ->first();
+            $diff = now()->diffAsCarbonInterval($fichaje->fecha_inicio);
+            $fichaje->fecha_fin = now();
+            $fichaje->tiempo_fichaje = $diff->forHumans();
+            $fichaje->estado = 'terminado';
+            $fichaje->save();
+            session()->flash('fichaje', 'fin');
+
+            return redirect()->route('fichaje.index');
+
+        }catch(Exception $e){
+            
+        }
+
+    }
+
 }

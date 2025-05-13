@@ -31,4 +31,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'api_clima' => [
+        'key' => env('API_CLIMA_KEY'),
+    ],
+
 ];

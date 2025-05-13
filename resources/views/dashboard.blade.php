@@ -7,7 +7,12 @@
 @stop
 
 @section('content')
-    <h4 class="text-info">Bienvenido  {{ auth()->user()->name }}  !! Nos encanta volver a verte.</h4>
+    <div class="card bg-gradient-secondary">
+        <div class="card-body text-left">
+                <h4 class="text-white display-4">Bienvenido  {{ auth()->user()->name }}  !! Nos encanta volver a verte.</h4>
+             <div id="contentCLima"></div>
+        </div>
+    </div>
     <hr>
     <p><strong>Tipo de usuario: </strong> <span class="text-maroon">{{ auth()->user()->getRoleNames()->first() }}</span> </p>
     <p><strong>Centro productivo: </strong> <span class="text-maroon">{{ auth()->user()->centro->nombre }}</span></p>
@@ -26,5 +31,52 @@
 @stop
 
 @section('js')
-    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
+    <script> 
+    
+    /*
+        Escuchamos el evento de carga del dom y declaramos dos constantes, una para la ciudad (usando la directiva de blade json guardamos en la constante el valor de la ciudad del empleado autentificado) y otra para la api key (la api key la tenemos guardada en una variable de entorno .env que esta implementada den config/services y se denomina api_clima y de ahi tenemos la clave key)
+        una vez declaradas las constantes usamos fetch a la api openweathermap para obtener el clima de la ciudad del empleado autentificado y mostrarlo en el div con id contentCLima.
+        Implementamos un switch para segun el valor del campo main del json que nos devuelve la api poder mostrar el icono correspondiente al clima
+        Consideraciones: hay que restar 273.15 a la temperatura para que quede en grados celcius ya que la api devuelve grados kelvin
+        además uso math.trunc para darle un formato entero a la temperatura sin redondeos
+
+    */
+    
+    window.addEventListener('DOMContentLoaded', (event) => {
+        
+            const ciudad = @json(auth()->user()->empleado->localidad);
+            const apiKey = @json(config('services.api_clima.key'));
+
+             fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&APPID=${apiKey}`)
+                  .then(res => res.json())
+                  .then(data => {
+                      console.log(data);
+
+                      switch(data.weather[0].main){
+                          case 'Clouds':
+                              document.getElementById('contentCLima').innerHTML = `<h3>Hoy el clima en ${data.name} es de ${Math.trunc(data.main.temp_max-273.15)} grados y mayormente nublado <img src="https://cdn-icons-png.flaticon.com/512/1163/1163763.png" with="50px" height="50px" alt=""> </h3> `;
+                              break;      
+                          case 'Rain':
+                              document.getElementById('contentCLima').innerHTML = `<h3>Hoy el clima en ${data.name} es de ${Math.trunc(data.main.temp_max-273.15)} grados con lluvia  <img src="https://img.freepik.com/vetores-premium/nuvem-com-icone-de-chuva-em-estilo-simples-isolado-no-fundo-branco-simbolo-meteorologico_96318-19562.jpg" with="50px" height="50px" alt=""></h3>`;
+                              break;
+                          case 'Snow':
+                              document.getElementById('contentCLima').innerHTML = `<h3>Hoy el clima en ${data.name} es de ${Math.trunc(data.main.temp_max-273.15)} grados con nieve <img src="https://cdn-icons-png.flaticon.com/512/3730/3730830.png" with="50px" height="50px" alt=""></h3>`;
+                              break;      
+                          case 'Clear':
+                              document.getElementById('contentCLima').innerHTML = `<h3>Hoy el clima en ${data.name} es de ${Math.trunc(data.main.temp_max-273.15)} grados con sol <img src="https://cdn-icons-png.flaticon.com/512/16115/16115959.png" with="50px" height="50px" alt=""></h3>`;
+                              break;
+                          default:
+                              document.getElementById('contentCLima').innerHTML = `<h3>Hoy el clima en ${data.name} es de ${Math.trunc(data.main.temp_max-273.15)} grados</h3>`;
+                              break;
+                      }
+            
+                  });
+
+
+
+
+    })
+    
+    
+    </script>
 @stop

@@ -12,7 +12,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="POST" action="{{ route('centro.store') }}">
+              <form class="form" method="POST" action="{{ route('centro.store') }}">
               @csrf
               <div class="card-body">
 

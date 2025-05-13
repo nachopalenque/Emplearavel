@@ -16,7 +16,7 @@ class EmpleadoController extends Controller
     {
       try{
 
-        $empleados = Empleado::all();
+        $empleados = Empleado::paginate(10);
         return view('Empleado.index', ['empleados' => $empleados]);
 
       }

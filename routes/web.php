@@ -49,6 +49,9 @@ Route::middleware([
     Route::post('/usuario/cambiarCentro', [UserController::class,"updateUserCenter"])->name('user.centro.update');
 
     Route::resource('/fichaje', FichajeController::class);
+    Route::get('/fichar', [FichajeController::class,"fichar"])->name('fichaje.fichar');
+    Route::get('/terminar-fichar', [FichajeController::class,"terminarFichar"])->name('fichaje.terminarFichar');
+
     Route::get('/fichaje-print', [FichajeController::class,"indexPrint"])->name('fichaje.indexPrint');
     Route::post('/fichaje-print', [FichajeController::class,"storePrint"])->name('fichaje.storePrint');
 

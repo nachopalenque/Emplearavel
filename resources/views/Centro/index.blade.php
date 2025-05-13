@@ -9,7 +9,20 @@
 @section('content')
     
 
-@livewire('DataTable',['items' => $centros, 'modelo' => 'App\Models\Centro','modeloNombre' => 'Centro' ,'columNombres' => ['id','Nombre','Razón Social','Dirección','País','Provincia','Localidad','Código Postal','CIF']])
+<!--
+--livewire('DataTable',['items' => $centros, 'modelo' => 'App\Models\Centro','modeloNombre' => 'Centro' ,
+'columNombres' => ['id','Nombre','Razón Social','Dirección','País','Provincia','Localidad','Código Postal','CIF']])
+
+-->
+
+
+<x-datatable 
+    :items="$centros"
+    :modelo="\App\Models\Centro::class"
+    :modeloNombre="'Centro'"
+    :columNombres="['id','Nombre','Razón Social','Dirección','País','Provincia','Localidad','Código Postal','CIF']"
+/>
+
 
 
 
@@ -26,9 +39,18 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const modalElement = document.getElementById('modalNuevo');
+            const modalElement = document.getElementById('modalValidaciones');
             const modal = new bootstrap.Modal(modalElement);
             modal.show();
+
+            document.addEventListener('click', function (e) {
+                 if (e.target.closest('#btnCerrarModal')) {
+                    location.reload(true);
+                }
+            })
+
+        
+
         });
     </script>
 @endif
@@ -55,6 +77,13 @@
             }
 
         });
+
+
+  
+
+
+
+
         
       </script>
 
