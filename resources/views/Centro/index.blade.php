@@ -4,6 +4,7 @@
 
 @section('content_header')
     <h1>Listado de centros productivos</h1>
+    <hr>
 @stop
 
 @section('content')

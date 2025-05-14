@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asociar Centro a Usuario</title>
+    <title>Cambiar rol de usuario</title>
 </head>
 <body>
+
 <div class="card">
     
               <div class="card-header">
-                <h3 class="card-title">Elija el centro productivo al cual desea asociar el usuario</h3>
+                <h3 class="card-title">Elija el rol el cual desea asociar el usuario</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="POST" action="{{ route('user.centro.update') }}">
+              <form method="POST" action="{{ route('rol.edit-user.update') }}">
               @csrf
               <input type="text" name="id_usuario" value="{{$id_usuario}}" hidden="true">
               <div class="card-body">
@@ -22,13 +23,13 @@
 
                     <div class="col">
                     <div class="form-group ">
-                            <label class="text-lightblue">Centros Productivos</label>
+                            <label class="text-lightblue">Roles para usuarios</label>
                          <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-city text-lightblue"></i></span>
-                            <select name="centro" class="form-control text-dark" id="estilo">
+                            <select name="rol" class="form-control text-dark" id="estilo">
                             
-                            @foreach ($centros as $centro)
-                                <option value="{{ $centro->id }}">{{ $centro->nombre }}</option>
+                            @foreach ($roles as $rol)
+                                <option value="{{ $rol->id }}">{{ $rol->name }}</option>
                             @endforeach
                           
                             </select>
@@ -50,10 +51,11 @@
 
                 <div class="card-footer">
                
-                <x-adminlte-button class="btn-flat" type="submit" label="Cambiar usuario de centro productivo" theme="success" icon="fas fa-lg fa-print"/>
+                <x-adminlte-button class="btn-flat" type="submit" label="Cambiar usuario de rol" theme="success" icon="fas fa-lg fa-print"/>
 
                 </div>
               </form>
 </div>
+    
 </body>
 </html>

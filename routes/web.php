@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FichajeController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\EventoController;
+use App\Http\Controllers\PermisosController;
 
 
 /*
@@ -56,10 +57,16 @@ Route::middleware([
     Route::post('/fichaje-print', [FichajeController::class,"storePrint"])->name('fichaje.storePrint');
 
     Route::resource('/empleado',EmpleadoController::class);
+    Route::get('/empleado/intranet/docs', [EmpleadoController::class,"showDocs"])->name('empleado.intranet.show');
+
     Route::resource('/evento',EventoController::class);
 
     Route::get('/centro-auth', [CentroController::class,"showAuth"])->name('user.centro.showAuth');
     Route::get('/empleado-auth', [EmpleadoController::class,"showAuth"])->name('empleado.showAuth');
+
+    Route::get('/edit/rol/user/{id}', [PermisosController::class,"rolEditUser"])->name('rol.edit-user.edit');
+    Route::post('/edit/rol/user', [PermisosController::class,"rolUpdateUser"])->name('rol.edit-user.update');
+
 
 
 

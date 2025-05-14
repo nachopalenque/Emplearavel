@@ -12,7 +12,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="POST" action="{{ route('evento.store') }}">
+              <form method="POST" action="{{ route('evento.store') }}" enctype="multipart/form-data">
               @csrf
               <div class="card-body">
 

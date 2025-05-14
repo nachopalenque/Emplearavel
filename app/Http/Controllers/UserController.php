@@ -71,7 +71,7 @@ class UserController extends Controller
 
     }
 
-    public function usersRolCenter(){
+    public static function usersRolCenter(){
         try{
 
                 $usuarios = DB::table('users')

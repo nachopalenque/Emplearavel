@@ -4,10 +4,11 @@
 
 @section('content_header')
     <h1>Inicio</h1>
+    <hr>
 @stop
 
 @section('content')
-    <div class="card bg-gradient-secondary">
+    <div id="welcome" class="card">
         <div class="card-body text-left">
                 <h4 class="text-white display-4">Bienvenido  {{ auth()->user()->name }}  !! Nos encanta volver a verte.</h4>
              <div id="contentCLima"></div>
@@ -55,15 +56,23 @@
                       switch(data.weather[0].main){
                           case 'Clouds':
                               document.getElementById('contentCLima').innerHTML = `<h3>Hoy el clima en ${data.name} es de ${Math.trunc(data.main.temp_max-273.15)} grados y mayormente nublado <img src="https://cdn-icons-png.flaticon.com/512/1163/1163763.png" with="50px" height="50px" alt=""> </h3> `;
+                              limpiarClases();
+                              document.getElementById('welcome').classList.add('bg-gradient-secondary');
                               break;      
                           case 'Rain':
-                              document.getElementById('contentCLima').innerHTML = `<h3>Hoy el clima en ${data.name} es de ${Math.trunc(data.main.temp_max-273.15)} grados con lluvia  <img src="https://img.freepik.com/vetores-premium/nuvem-com-icone-de-chuva-em-estilo-simples-isolado-no-fundo-branco-simbolo-meteorologico_96318-19562.jpg" with="50px" height="50px" alt=""></h3>`;
+                              document.getElementById('contentCLima').innerHTML = `<h3>Hoy el clima en ${data.name} es de ${Math.trunc(data.main.temp_max-273.15)} grados con lluvia  <img src="https://cdn-icons-png.flaticon.com/512/4834/4834585.png" with="50px" height="50px" alt=""></h3>`;
+                              limpiarClases();
+                              document.getElementById('welcome').classList.add('bg-gradient-navy');
                               break;
                           case 'Snow':
                               document.getElementById('contentCLima').innerHTML = `<h3>Hoy el clima en ${data.name} es de ${Math.trunc(data.main.temp_max-273.15)} grados con nieve <img src="https://cdn-icons-png.flaticon.com/512/3730/3730830.png" with="50px" height="50px" alt=""></h3>`;
+                              limpiarClases();
+                              document.getElementById('welcome').classList.add('bg-gradient-info');
                               break;      
                           case 'Clear':
                               document.getElementById('contentCLima').innerHTML = `<h3>Hoy el clima en ${data.name} es de ${Math.trunc(data.main.temp_max-273.15)} grados con sol <img src="https://cdn-icons-png.flaticon.com/512/16115/16115959.png" with="50px" height="50px" alt=""></h3>`;
+                              limpiarClases();
+                              document.getElementById('welcome').classList.add('bg-gradient-warning');
                               break;
                           default:
                               document.getElementById('contentCLima').innerHTML = `<h3>Hoy el clima en ${data.name} es de ${Math.trunc(data.main.temp_max-273.15)} grados</h3>`;
@@ -77,6 +86,11 @@
 
     })
     
-    
+    function limpiarClases(){
+        document.getElementById('welcome').classList.remove(
+    'bg-gradient-navy', 'bg-gradient-secondary', 'bg-gradient-warning', 'bg-gradient-info',
+
+    );
+    }
     </script>
 @stop

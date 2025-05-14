@@ -242,7 +242,7 @@
                           @if($modeloNombre == 'Centro')
 
                   
-                          <figure class=" btn-group btn-group-sm">
+                          <figure class=" btn-group btn-group-sm" title="Ver o editar centro productivo">
                             <button data-id="{{ $item->id }}"  class="btn btn-info mr-2 btn-editar-centro" data-toggle="modal" data-target="#modal">
                             <i class="fas fa-eye"></i>
                             </button>
@@ -261,7 +261,7 @@
                           <form action="{{ route('centro.destroy', ['centro' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
                           @csrf
                           @method('DELETE')
-                          <button  type="submit" value="" class="btn btn-danger btn-eliminar mr-2 ">
+                          <button title="Eliminar centro productivo"  type="submit" value="" class="btn btn-danger btn-eliminar mr-2 ">
                           <i class="fas fa-trash"></i>
                           </button>
                           </form>
@@ -277,16 +277,23 @@
 
 
                           <figure class=" btn-group btn-group-sm">
-                            <button data-id="{{ $item->id }}"  class="btn btn-info mr-2 btn-cambiar-centro" data-toggle="modal" data-target="#modal">
+                            <button data-id="{{ $item->id }}" title="Cambiar centro productivo del usuario"  class="btn btn-info mr-2 btn-cambiar-centro" data-toggle="modal" data-target="#modal">
                             <i class="fas fa-city"></i>
                             </button>
                           </figure>
+
+                          <figure class=" btn-group btn-group-sm">
+                            <button data-id="{{ $item->id }}" title="Cambiar rol del usuario"  class="btn btn-warning mr-2 btn-cambiar-rol" data-toggle="modal" data-target="#modal">
+                            <i class="fas fa-user-shield"></i>
+                            </button>
+                          </figure>
+
 
 
                           <form action="{{ route('usuario.destroy', ['usuario' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
                           @csrf
                           @method('DELETE')
-                          <button  type="submit" value="" class="btn  btn-danger btn-eliminar mr-2 ">
+                          <button  type="submit" title="Eliminar usuario" class="btn  btn-danger btn-eliminar mr-2 ">
                           <i class="fas fa-trash"></i>
                           </button>
                           </form>
@@ -357,6 +364,21 @@
                   document.getElementById('modalBody').innerHTML = html;
               });
       }
+
+         // Botón: Cambiar roles usuario
+      if (e.target.closest('.btn-cambiar-rol')) {
+          const btn = e.target.closest('.btn-cambiar-rol');
+          const id = btn.dataset.id;
+          console.log(id)
+          document.getElementById('tituloModal').innerHTML = 'Cambiar rol del usuario';
+          fetch(`/edit/rol/user/${id}`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              });
+      }
+
+
 
       // Botón: Editar centro
       if (e.target.closest('.btn-editar-centro')) {

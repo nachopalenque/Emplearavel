@@ -4,6 +4,7 @@
 
 @section('content_header')
     <h1>Ficha Empleado</h1>
+    <hr>
 @stop
 
 @section('content')
@@ -317,6 +318,16 @@
                         data-id="{{ $empleado->id }}"
                         data-toggle="modal" 
                         data-target="#modal"/>
+
+                        <x-adminlte-button class="btn-flat bg-gradient-warning p-2 mt-4"
+                        id="btnDocumentosEmpleado" 
+                        type="button" 
+                        label="Documentos del empleado" 
+                        theme="warning" 
+                        icon="fas fa-lg fa-file-alt" 
+                        data-id="{{ $empleado->id }}"
+                        data-toggle="modal" 
+                        data-target="#modal"/>
                       
                         </div>
 
@@ -438,7 +449,16 @@
       }
 
 
-
+         if (e.target.closest('#btnDocumentosEmpleado')) {
+          const btn = e.target.closest('#btnDocumentosEmpleado');
+          const id = btn.dataset.id;
+          document.getElementById('tituloModal').innerHTML = 'Datos centro productivo';
+          fetch(`/empleado/intranet/docs`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              });
+      }
 
     });
   </script>        

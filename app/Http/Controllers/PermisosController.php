@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Http\Controllers\UserController;
+use App\Models\User;
 
 class PermisosController extends Controller
 {
@@ -76,6 +78,33 @@ class PermisosController extends Controller
 
         return false;
         
+        }
+    }
+
+    public function rolEditUser($id_usuario){
+        try{
+          
+        $roles = Role::all();
+
+        return view('Rol.edit-user-rol', ['roles' => $roles, 'id_usuario' => $id_usuario]);
+
+        }catch(Exception $e){
+            
+        }
+ 
+    }
+    public function rolUpdateUser(Request $request){
+
+        try{
+            $usuario = User::find($request->id_usuario);
+            $nuevoRol = Role::find($request->rol);
+            $usuario->syncRoles($nuevoRol);
+            $usuarios = UserController::usersRolCenter();
+
+            return redirect()->route('usuario.index', ['usuarios' => $usuarios])->with('estado', 'actualizado');
+
+        }catch(Exception $e){
+            
         }
     }
 }

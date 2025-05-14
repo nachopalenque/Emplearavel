@@ -56,6 +56,22 @@ class EmpleadoController extends Controller
         }
     }
 
+        public function showDocs()
+    {
+        try{
+            $documentos = Evento::where('id_usuario', auth()->user()->id)
+            ->where('adjunto', '!=', '')
+            ->select('adjunto')
+            ->paginate(10);
+            return view('Empleado.show-intranet', ['documentos' => $documentos]);
+
+        }catch(\Exception $e){
+
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
     public function showAuth()
     {
         try{
