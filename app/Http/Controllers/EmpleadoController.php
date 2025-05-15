@@ -21,7 +21,10 @@ class EmpleadoController extends Controller
 
       }
       catch(\Exception $e){
-          
+
+        Log::error($e->getMessage());
+        return response()->json(['error' => $e->getMessage()], 500);   
+
       }
     }
 
@@ -52,8 +55,8 @@ class EmpleadoController extends Controller
 
         }catch(\Exception $e){
 
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);           }
     }
 
         public function showDocs()
@@ -67,8 +70,8 @@ class EmpleadoController extends Controller
 
         }catch(\Exception $e){
 
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);        }
     }
 
 
@@ -139,7 +142,9 @@ class EmpleadoController extends Controller
 
 
        }catch(\Exception $e){
-           return response()->json(['error' => $e->getMessage()], 500);
+
+          Log::error($e->getMessage());
+          return response()->json(['error' => $e->getMessage()], 500);   
        }
     }
 
@@ -192,6 +197,8 @@ class EmpleadoController extends Controller
 
         }catch(Exception $e){
             
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);   
         }
     }
 
@@ -212,6 +219,8 @@ class EmpleadoController extends Controller
 
         }catch(Exception $e){
             
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);   
         }
     }
 }

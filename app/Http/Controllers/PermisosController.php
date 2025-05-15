@@ -12,6 +12,10 @@ class PermisosController extends Controller
 {
     public static function plantillaRolesPermisos(){
 
+
+        try{
+
+
         //Me obtengo tanto los roles como los permisos
         $roles = Role::all();
         $permisos = Permission::all();
@@ -57,6 +61,13 @@ class PermisosController extends Controller
         }
 
 
+        }catch(Exception $e){
+            
+          Log::error($e->getMessage());
+          return response()->json(['error' => $e->getMessage()], 500);   
+        }
+
+
      
 
     }
@@ -76,8 +87,9 @@ class PermisosController extends Controller
 
         }catch(Exception $e){
 
-        return false;
         
+          Log::error($e->getMessage());
+          return response()->json(['error' => $e->getMessage()], 500);           
         }
     }
 
@@ -89,7 +101,9 @@ class PermisosController extends Controller
         return view('Rol.edit-user-rol', ['roles' => $roles, 'id_usuario' => $id_usuario]);
 
         }catch(Exception $e){
-            
+                    
+          Log::error($e->getMessage());
+          return response()->json(['error' => $e->getMessage()], 500);   
         }
  
     }
@@ -104,7 +118,9 @@ class PermisosController extends Controller
             return redirect()->route('usuario.index', ['usuarios' => $usuarios])->with('estado', 'actualizado');
 
         }catch(Exception $e){
-            
+                    
+          Log::error($e->getMessage());
+          return response()->json(['error' => $e->getMessage()], 500);   
         }
     }
 }

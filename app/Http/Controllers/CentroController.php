@@ -22,6 +22,9 @@ class CentroController extends Controller
         }
         catch(Exception $e){
 
+             Log::error($e->getMessage());
+             return response()->json(['error' => $e->getMessage()], 500);
+
         }
     
     }
@@ -37,6 +40,9 @@ class CentroController extends Controller
 
         }catch(Exception $e){
             
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+
         }
     }
 
@@ -86,7 +92,7 @@ class CentroController extends Controller
         } catch (Exception $e) {
 
             Log::error($e->getMessage());
-            return redirect()->route('centro.index');
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     
 
@@ -140,7 +146,10 @@ class CentroController extends Controller
             }
 
         }catch(Exception $e){
-            
+
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+
         }
 
 
@@ -152,8 +161,18 @@ class CentroController extends Controller
      */
     public function show(int $id_centro)
     {
-        $centro = Centro::find($id_centro);
-        return view('Centro.show', ['centro' => $centro]);    
+        try{
+
+            $centro = Centro::find($id_centro);
+            return view('Centro.show', ['centro' => $centro]);    
+
+        }catch(Exception $e){
+            
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+
+        }
+
     }
 
     public function showAuth(){
@@ -179,6 +198,9 @@ class CentroController extends Controller
 
         }
         catch(Exception $e){
+
+             Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
             
         }
 
@@ -208,6 +230,8 @@ class CentroController extends Controller
         }
         catch(Exception $e){
             
+             Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
         }
         
      
@@ -232,6 +256,8 @@ class CentroController extends Controller
 
         }catch(Exception $e){
 
+             Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
 
         }
 
@@ -283,6 +309,8 @@ class CentroController extends Controller
         }
         catch(Exception $e){
 
+             Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
 
         }  
     }
@@ -325,12 +353,17 @@ class CentroController extends Controller
         }
         catch(Exception $e){
             
+             Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
         }
 
     }
     
     public function centroPrincipal(){
-        
+
+        try{
+
+               
         $centro = Centro::all();
 
         if(count($centro) == 0){
@@ -341,6 +374,15 @@ class CentroController extends Controller
 
             return redirect('register');  
         }
+
+
+        }catch(Exception $e){
+            
+             Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+
+        }
+     
 
 
     }

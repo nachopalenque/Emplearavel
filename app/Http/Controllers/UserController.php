@@ -44,6 +44,9 @@ class UserController extends Controller
 
         }catch(Exception $e){
 
+                    
+          Log::error($e->getMessage());
+          return response()->json(['error' => $e->getMessage()], 500);   
 
         }
 
@@ -66,7 +69,9 @@ class UserController extends Controller
 
         }
         catch(Exception $e){
-            
+                    
+          Log::error($e->getMessage());
+          return response()->json(['error' => $e->getMessage()], 500);   
         }
 
     }
@@ -95,7 +100,9 @@ class UserController extends Controller
             return view('User.edit-centro', ['centros' => $centros, 'id_usuario' => $id_usuario]);
 
         }catch(Exception $e){
-            
+                    
+          Log::error($e->getMessage());
+          return response()->json(['error' => $e->getMessage()], 500);   
         }
     }
 
@@ -123,7 +130,9 @@ class UserController extends Controller
         }
 
         catch(Exception $e){
-            
+                    
+          Log::error($e->getMessage());
+          return response()->json(['error' => $e->getMessage()], 500);   
         }
     }   
 
@@ -139,7 +148,9 @@ class UserController extends Controller
             return redirect()->route('usuario.index')->with('estado', 'eliminado');
         }
         catch(Exception $e){
-            
+                    
+          Log::error($e->getMessage());
+          return response()->json(['error' => $e->getMessage()], 500);   
         }
     }
 }

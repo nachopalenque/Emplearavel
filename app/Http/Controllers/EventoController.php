@@ -29,10 +29,13 @@ class EventoController extends Controller
             ];
         }
         
-        return view('Evento.index', compact('eventos_calendar'));
+            return view('Evento.index', compact('eventos_calendar'));
 
         }catch(\Exception $e){
-            
+
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+
         }
     }
 
@@ -99,6 +102,10 @@ class EventoController extends Controller
 
 
         }catch(\Exception $e){
+
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+
             
         }
     }
