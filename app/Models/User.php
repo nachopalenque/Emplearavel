@@ -101,4 +101,6 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Centro::class,'id_centro');
     }
+
+   
 }

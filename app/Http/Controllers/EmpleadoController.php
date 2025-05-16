@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Empleado;
+use App\Models\Evento;
 use App\Models\User;
 
 use Illuminate\Http\Request;
@@ -22,7 +23,6 @@ class EmpleadoController extends Controller
       }
       catch(\Exception $e){
 
-        Log::error($e->getMessage());
         return response()->json(['error' => $e->getMessage()], 500);   
 
       }
@@ -55,22 +55,20 @@ class EmpleadoController extends Controller
 
         }catch(\Exception $e){
 
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);           }
     }
 
         public function showDocs()
     {
         try{
-            $documentos = Evento::where('id_usuario', auth()->user()->id)
+            $documentos = Evento::where('id_empleado', auth()->user()->empleado->id)
             ->where('adjunto', '!=', '')
-            ->select('adjunto')
+            ->select('id','adjunto')
             ->paginate(10);
             return view('Empleado.show-intranet', ['documentos' => $documentos]);
 
         }catch(\Exception $e){
 
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);        }
     }
 
@@ -143,7 +141,6 @@ class EmpleadoController extends Controller
 
        }catch(\Exception $e){
 
-          Log::error($e->getMessage());
           return response()->json(['error' => $e->getMessage()], 500);   
        }
     }
@@ -197,7 +194,6 @@ class EmpleadoController extends Controller
 
         }catch(Exception $e){
             
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);   
         }
     }
@@ -219,7 +215,6 @@ class EmpleadoController extends Controller
 
         }catch(Exception $e){
             
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);   
         }
     }

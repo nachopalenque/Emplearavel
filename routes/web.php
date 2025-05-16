@@ -60,6 +60,7 @@ Route::middleware([
     Route::get('/empleado/intranet/docs', [EmpleadoController::class,"showDocs"])->name('empleado.intranet.show');
 
     Route::resource('/evento',EventoController::class);
+    Route::get('/evento/empleado/create/{id}', [EventoController::class,"create"])->name('evento.empleado.create');
 
     Route::get('/centro-auth', [CentroController::class,"showAuth"])->name('user.centro.showAuth');
     Route::get('/empleado-auth', [EmpleadoController::class,"showAuth"])->name('empleado.showAuth');

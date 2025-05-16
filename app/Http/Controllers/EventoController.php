@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evento;
+use App\Models\Empleado;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,7 +19,7 @@ class EventoController extends Controller
         try{
 
         //eventos de la base de datos
-        $eventos = Evento::all();
+        $eventos = Evento::where('id_empleado', auth()->user()->empleado->id)->get();
         //variable que almacena los eventos para el calendario con sus campos especificos
         $eventos_calendar = [];
 
@@ -33,7 +35,6 @@ class EventoController extends Controller
 
         }catch(\Exception $e){
 
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
 
         }
@@ -42,9 +43,9 @@ class EventoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($id_empleado)
     {
-        //
+        return view('Evento.create-id-empleado', ['id_empleado' => $id_empleado]);
     }
 
     /**
@@ -76,23 +77,49 @@ class EventoController extends Controller
             $evento->observaciones = $request->input('observaciones');
             $evento->estado_evento = 'pendiente';
             $evento->adjunto = '';
-            $evento->id_empleado = auth()->user()->empleado->id;
+
+            if($request->input('id_empleado') != null){
+
+                $empleado = Empleado::find($request->input('id_empleado'));
+                $evento->id_empleado = $request->input('id_empleado');
+
+                     if ($request->hasFile('adjunto')) {
+                        $nombreOriginal = $request->file('adjunto')->getClientOriginalName(); 
+
+                        // Guardar en una carpeta personalizada dentro de `storage/app`
+                        $ruta = $request->file('adjunto')->storeAs('intranet/'.$empleado->user->centro->nombre.'/empleados/'.$empleado->nombre, $nombreOriginal);
+
+                        // Obtener URL accesible (si usas `storage:link`)
+                        //$url = Storage::url($ruta);
+
+                        // Puedes guardar $url en la base de datos, por ejemplo:
+                        // Documento::create(['archivo_url' => $url]);
+                        
+                        $evento->adjunto ='intranet/'.$empleado->user->centro->nombre.'/empleados/'.$empleado->nombre.'/'.$nombreOriginal;
+                    }
+
+            }else{
+                $evento->id_empleado = auth()->user()->empleado->id;
+                    
+                    if ($request->hasFile('adjunto')) {
+                        $nombreOriginal = $request->file('adjunto')->getClientOriginalName(); 
+
+                        // Guardar en una carpeta personalizada dentro de `storage/app`
+                        $ruta = $request->file('adjunto')->storeAs('intranet/'.auth()->user()->centro->nombre.'/empleados/'.auth()->user()->empleado->nombre, $nombreOriginal);
+
+                        // Obtener URL accesible (si usas `storage:link`)
+                        //$url = Storage::url($ruta);
+
+                        // Puedes guardar $url en la base de datos, por ejemplo:
+                        // Documento::create(['archivo_url' => $url]);
+                        
+                        $evento->adjunto ='intranet/'.auth()->user()->centro->nombre.'/empleados/'.auth()->user()->empleado->nombre.'/'.$nombreOriginal;
+                    }
+
+            }
 
 
-         if ($request->hasFile('adjunto')) {
-            $nombreOriginal = $archivo->getClientOriginalName(); 
-
-            // Guardar en una carpeta personalizada dentro de `storage/app`
-            $ruta = $request->file('adjunto')->storeAs('intranet/'.auth()->user()->centro->nombre.'/empleados/'.auth()->user()->empleado->nombre, $nombreOriginal);
-
-            // Obtener URL accesible (si usas `storage:link`)
-            $url = Storage::url($ruta);
-
-            // Puedes guardar $url en la base de datos, por ejemplo:
-            // Documento::create(['archivo_url' => $url]);
-            
-            $evento->adjunto = $url;
-        }
+    
 
 
 
@@ -103,7 +130,6 @@ class EventoController extends Controller
 
         }catch(\Exception $e){
 
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
 
             
@@ -137,8 +163,21 @@ class EventoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Evento $evento)
+    public function destroy($id)
     {
-        //
-    }
+        try{
+
+            $evento = Evento::find($id);
+   
+            if (Storage::exists($evento->adjunto)) {
+                Storage::delete($evento->adjunto);
+             }
+            $evento->delete();
+            return back()->with('estado', 'eliminado');
+        }
+        catch(Exception $e){
+                    
+          return response()->json(['error' => $e->getMessage()], 500);   
+        }
+    }    
 }

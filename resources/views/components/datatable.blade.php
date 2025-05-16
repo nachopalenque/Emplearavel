@@ -270,6 +270,17 @@
 
                           @endif
 
+                          @if($modeloNombre == 'Empleado')
+
+
+                          <figure class=" btn-group btn-group-sm">
+                            <button data-id="{{ $item->id }}" title="Crear evento"  class="btn btn-info mr-2 btn-crear-evento" data-toggle="modal" data-target="#modal">
+                            <i class="fas fa-clock"></i>
+                            </button>
+                          </figure>
+
+                          @endif
+
 
 
                           @if($modeloNombre == 'Usuario')
@@ -377,6 +388,20 @@
                   document.getElementById('modalBody').innerHTML = html;
               });
       }
+
+               // Botón: Crear evento empleado
+      if (e.target.closest('.btn-crear-evento')) {
+          const btn = e.target.closest('.btn-crear-evento');
+          const id = btn.dataset.id;
+          console.log(id)
+          document.getElementById('tituloModal').innerHTML = 'Crear evento empleado';
+          fetch(`/evento/empleado/create/${id}`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              });
+      }
+
 
 
 

@@ -22,7 +22,6 @@ class CentroController extends Controller
         }
         catch(Exception $e){
 
-             Log::error($e->getMessage());
              return response()->json(['error' => $e->getMessage()], 500);
 
         }
@@ -40,7 +39,6 @@ class CentroController extends Controller
 
         }catch(Exception $e){
             
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
 
         }
@@ -91,7 +89,6 @@ class CentroController extends Controller
            
         } catch (Exception $e) {
 
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
     
@@ -147,7 +144,6 @@ class CentroController extends Controller
 
         }catch(Exception $e){
 
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
 
         }
@@ -168,7 +164,6 @@ class CentroController extends Controller
 
         }catch(Exception $e){
             
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
 
         }
@@ -199,7 +194,6 @@ class CentroController extends Controller
         }
         catch(Exception $e){
 
-             Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
             
         }
@@ -230,7 +224,6 @@ class CentroController extends Controller
         }
         catch(Exception $e){
             
-             Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
         
@@ -256,7 +249,6 @@ class CentroController extends Controller
 
         }catch(Exception $e){
 
-             Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
 
         }
@@ -309,7 +301,6 @@ class CentroController extends Controller
         }
         catch(Exception $e){
 
-             Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
 
         }  
@@ -353,7 +344,6 @@ class CentroController extends Controller
         }
         catch(Exception $e){
             
-             Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
@@ -378,7 +368,6 @@ class CentroController extends Controller
 
         }catch(Exception $e){
             
-             Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
 
         }

@@ -22,7 +22,6 @@ class FichajeController extends Controller
         }
         catch(Exception $e){
 
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);   
         }
     
@@ -52,7 +51,6 @@ class FichajeController extends Controller
 
         }catch(Exception $e){
             
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);   
         }
     }
@@ -78,7 +76,6 @@ class FichajeController extends Controller
 
         }catch(Exception $e){
             
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);   
         }
     }
@@ -92,7 +89,6 @@ class FichajeController extends Controller
 
        }catch(Exception $e){
            
-          Log::error($e->getMessage());
           return response()->json(['error' => $e->getMessage()], 500);   
        }
 
@@ -149,7 +145,6 @@ class FichajeController extends Controller
         }
         catch(Exception $e){
             
-          Log::error($e->getMessage());
           return response()->json(['error' => $e->getMessage()], 500);   
         }
 
@@ -173,7 +168,6 @@ class FichajeController extends Controller
 
         }catch(Exception $e){
           
-          Log::error($e->getMessage());
           return response()->json(['error' => $e->getMessage()], 500);   
           
         }

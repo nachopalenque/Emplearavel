@@ -45,7 +45,6 @@ class UserController extends Controller
         }catch(Exception $e){
 
                     
-          Log::error($e->getMessage());
           return response()->json(['error' => $e->getMessage()], 500);   
 
         }
@@ -70,7 +69,6 @@ class UserController extends Controller
         }
         catch(Exception $e){
                     
-          Log::error($e->getMessage());
           return response()->json(['error' => $e->getMessage()], 500);   
         }
 
@@ -79,18 +77,40 @@ class UserController extends Controller
     public static function usersRolCenter(){
         try{
 
-                $usuarios = DB::table('users')
+           $usuarios = DB::table('users')
                 ->join('centros', 'users.id_centro', '=', 'centros.id')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->select('users.id', 'users.id_centro', 'users.name','users.email' ,  'users.password', 'centros.nombre as centro_nombre', 'roles.name as rol_nombre', 'users.created_at', 'users.updated_at')
+                ->select(
+                    'users.id',
+                    'users.id_centro',
+                    'users.name',
+                    'users.email',
+                    'users.password',
+                    'centros.nombre as centro_nombre',
+                    'roles.name as rol_nombre',
+                    'users.created_at',
+                    'users.updated_at'
+                )
+                ->groupBy(
+                    'users.id',
+                    'users.id_centro',
+                    'users.name',
+                    'users.email',
+                    'users.password',
+                    'centros.nombre',
+                    'roles.name',
+                    'users.created_at',
+                    'users.updated_at'
+                )
                 ->paginate(10);
-
                 return $usuarios;
 
 
         }catch(Exception $e){
-            
+                
+                return response()->json(['error' => $e->getMessage()], 500);   
+
         }
     }
     public function editUserCenter($id_usuario){
@@ -101,7 +121,6 @@ class UserController extends Controller
 
         }catch(Exception $e){
                     
-          Log::error($e->getMessage());
           return response()->json(['error' => $e->getMessage()], 500);   
         }
     }
@@ -131,7 +150,6 @@ class UserController extends Controller
 
         catch(Exception $e){
                     
-          Log::error($e->getMessage());
           return response()->json(['error' => $e->getMessage()], 500);   
         }
     }   
@@ -149,7 +167,6 @@ class UserController extends Controller
         }
         catch(Exception $e){
                     
-          Log::error($e->getMessage());
           return response()->json(['error' => $e->getMessage()], 500);   
         }
     }

@@ -452,7 +452,7 @@
          if (e.target.closest('#btnDocumentosEmpleado')) {
           const btn = e.target.closest('#btnDocumentosEmpleado');
           const id = btn.dataset.id;
-          document.getElementById('tituloModal').innerHTML = 'Datos centro productivo';
+          document.getElementById('tituloModal').innerHTML = 'Documentos del empleado';
           fetch(`/empleado/intranet/docs`)
               .then(res => res.text())
               .then(html => {
