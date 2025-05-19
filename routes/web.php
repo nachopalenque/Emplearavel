@@ -7,6 +7,7 @@ use App\Http\Controllers\FichajeController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\PermisosController;
+use App\Http\Controllers\ProyectoController;
 
 
 /*
@@ -46,6 +47,8 @@ Route::middleware([
 
     Route::resource('/centro', CentroController::class);
     Route::resource('/usuario', UserController::class);
+    Route::resource('/proyecto', ProyectoController::class);
+
     Route::get('/usuario/cambiarCentro/{id}', [UserController::class,"editUserCenter"])->name('user.centro.edit');
     Route::post('/usuario/cambiarCentro', [UserController::class,"updateUserCenter"])->name('user.centro.update');
 

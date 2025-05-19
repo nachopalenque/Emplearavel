@@ -210,7 +210,8 @@
         <section class="titulo">
 
         <video   autoplay loop muted playsinline style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1;">
-            <source src="storage/video/landing-video.mp4" type="video/mp4">
+        <source src="{{ asset('video/landing-video.mp4') }}" type="video/mp4">
+    
     
             No se ha podido cargar el contenido del video.
 
@@ -222,7 +223,8 @@
             <h1>
                 <span class="titulo__text--0">Emple</span><span class="titulo__text--1">@Ravel</span>
             </h1> 
-            <img src="storage/img/logo/logo.png" class="logo">
+            <img src="{{ asset('img/logo.png') }}" alt="Logo" class="logo">
+
 
             </article>
      

@@ -20,6 +20,8 @@
 
               <div class="card-body">
 
+              @if(count($documentos)>0)
+
               <table class="table table-bordered">
                   <thead>
 
@@ -67,6 +69,10 @@
              
 
                 </table>
+
+                @else
+                <p class="text-center text-info">No hay archivos en su intranet</p>
+                @endif
 
 
               </div>

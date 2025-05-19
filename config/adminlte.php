@@ -387,7 +387,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Mis Proyectos',
-                    'url' => '#',
+                    'route' => 'proyecto.index',
                     'icon' => 'fas fa-tools',
 
                 ],
@@ -621,7 +621,7 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
@@ -670,6 +670,10 @@ return [
                 ],
             ],
         ],
+
+
+
+
     ],
 
     /*

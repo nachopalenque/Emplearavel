@@ -91,6 +91,19 @@ class PermisosController extends Controller
         }
     }
 
+        public static function authRol(){
+        try{
+
+           return auth()->user()->getRoleNames()->first();
+           
+        }catch(Exception $e){
+
+        
+          return response()->json(['error' => $e->getMessage()], 500);           
+        }
+    }
+
+
     public function rolEditUser($id_usuario){
         try{
           

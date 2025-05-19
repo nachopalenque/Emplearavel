@@ -37,4 +37,10 @@ class Empleado extends Model
     {
         return $this->hasMany(Dia::class);
     }
+
+        public function proyectos()
+    {
+        return $this->belongsToMany(Proyecto::class, 'proyecto_empleado');
+    }
+
 }

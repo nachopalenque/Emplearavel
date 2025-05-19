@@ -8,6 +8,13 @@
 
 
 <body>
+
+@php
+
+$rolAuth = auth()->user()->getRoleNames()->first();
+
+
+@endphp
 <div>
 
 <section class="content">
@@ -35,7 +42,12 @@
 
                       @include('Centro.create')
                       
+                      @endif
 
+                      @if($modeloNombre == 'Proyecto')
+
+                      @include('Proyecto.create')
+                      
                       @endif
 
                     </div>
@@ -93,27 +105,50 @@
 
       <div class="card">
               <div class="card-header">
-                @if($modeloNombre == 'Usuario')
-                <h3 class="card-title">Total registros encontrados: {{ count($items) }}</h3><br>
+
+                @if(count($items)>0)
+
+
+                         @if($modeloNombre == 'Usuario')
+                            <h3 class="card-title">Total registros encontrados: {{ count($items) }}</h3><br>
+
+                         @else
+                             <h3 class="card-title">Total registros encontrados: {{ $items->count() }}</h3><br>
+
+                         @endif
+
+                         @if($modeloNombre == 'Fichaje')
+
+                            @if($items->isNotEmpty() && $items->first()?->estado == 'en curso')
+
+                             <h4 class="display-6 text-info">Atención: Hay un fichaje en curso!!</h4>
+
+
+                            @endif
+
+                          @endif
 
                 @else
-                <h3 class="card-title">Total registros encontrados: {{ $items->count() }}</h3><br>
+
+                      <h3 class="card-title">Aún no se han encontrado registros</h3><br>
+
 
                 @endif
-
-                @if($modeloNombre == 'Fichaje')
-
-                    @if($items->isNotEmpty() && $items->first()?->estado == 'en curso')
-
-                  <h4 class="display-6 text-info">Atención: Hay un fichaje en curso!!</h4>
-
-
-                    @endif
-
-                @endif
+                
+       
 
 
                 <div class="card-tools">
+
+                @if($modeloNombre == 'Proyecto')
+
+                  @if($rolAuth == 'Administrador' || $rolAuth == 'ProductManager')
+                    <button type="button" id="btnNuevoProyecto" class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalValidaciones"><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
+
+                  @endif
+
+                @endif
+
 
                 @if($modeloNombre == 'Fichaje')
 
@@ -160,6 +195,8 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+
+                @if(count($items)>0)
                 <table class="table table-bordered">
                   <thead>
 
@@ -313,6 +350,50 @@
                           @endif
 
 
+
+                          @if($modeloNombre == 'Proyecto')
+
+                                
+
+                            
+
+                                    <figure class=" btn-group btn-group-sm">
+                                      <button data-id="{{ $item->id }}" title="Documentos del proyecto"  class="btn btn-warning mr-2 btn-cambiar-rol" data-toggle="modal" data-target="#modal">
+                                      <i class="fas fa-file-alt"></i>
+                                      </button>
+                                    </figure>
+
+
+                                  @if($rolAuth == 'Administrador' || $rolAuth == 'ProductManager') 
+
+                                    <figure class=" btn-group btn-group-sm">
+                                      <button data-id="{{ $item->id }}" title="Modificar proyecto"  class="btn btn-info mr-2 btn-cambiar-centro" data-toggle="modal" data-target="#modal">
+                                      <i class="fas fa-pen"></i>
+                                      </button>
+                                    </figure>
+
+                                    <figure class=" btn-group btn-group-sm">
+                                      <button data-id="{{ $item->id }}" title="Crear tareas"  class="btn btn-success mr-2 btn-cambiar-centro" data-toggle="modal" data-target="#modal">
+                                      <i class="fas fa-tasks"></i>
+                                      </button>
+                                    </figure>
+
+                                    <form action="{{ route('proyecto.destroy', ['proyecto' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button  type="submit" title="Eliminar proyecto" class="btn  btn-danger btn-eliminar mr-2 ">
+                                    <i class="fas fa-trash"></i>
+                                    </button>
+                                    </form>
+
+
+                                  @endif
+                            
+
+
+                          @endif
+
+
                         
 
 
@@ -325,6 +406,9 @@
                       @endforeach
                   </tbody>
                 </table>
+
+                @endif
+     
               </div>
 
               <!-- /.card-body -->
