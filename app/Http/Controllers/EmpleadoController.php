@@ -63,6 +63,7 @@ class EmpleadoController extends Controller
         try{
             $documentos = Evento::where('id_empleado', auth()->user()->empleado->id)
             ->where('adjunto', '!=', '')
+            ->whereNull('id_proyecto') 
             ->select('id','adjunto')
             ->paginate(10);
             return view('Empleado.show-intranet', ['documentos' => $documentos]);

@@ -462,12 +462,7 @@ return [
 
                 ],
 
-                [
-                    'text' => 'Proyectos',
-                    'route' => 'usuario.index',
-                    'icon' => 'fas fa-tasks',
-
-                ],
+              
 
 
                 

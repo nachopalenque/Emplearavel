@@ -8,6 +8,7 @@ use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\PermisosController;
 use App\Http\Controllers\ProyectoController;
+use App\Http\Controllers\ArchivoController;
 
 
 /*
@@ -40,37 +41,61 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+
+//grupo de rutas solo accesibles tras la autentificación    
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::resource('/centro', CentroController::class);
-    Route::resource('/usuario', UserController::class);
-    Route::resource('/proyecto', ProyectoController::class);
-
-    Route::get('/usuario/cambiarCentro/{id}', [UserController::class,"editUserCenter"])->name('user.centro.edit');
-    Route::post('/usuario/cambiarCentro', [UserController::class,"updateUserCenter"])->name('user.centro.update');
-
-    Route::resource('/fichaje', FichajeController::class);
-    Route::get('/fichar', [FichajeController::class,"fichar"])->name('fichaje.fichar');
-    Route::get('/terminar-fichar', [FichajeController::class,"terminarFichar"])->name('fichaje.terminarFichar');
-
-    Route::get('/fichaje-print', [FichajeController::class,"indexPrint"])->name('fichaje.indexPrint');
-    Route::post('/fichaje-print', [FichajeController::class,"storePrint"])->name('fichaje.storePrint');
-
-    Route::resource('/empleado',EmpleadoController::class);
-    Route::get('/empleado/intranet/docs', [EmpleadoController::class,"showDocs"])->name('empleado.intranet.show');
-
-    Route::resource('/evento',EventoController::class);
-    Route::get('/evento/empleado/create/{id}', [EventoController::class,"create"])->name('evento.empleado.create');
-
-    Route::get('/centro-auth', [CentroController::class,"showAuth"])->name('user.centro.showAuth');
-    Route::get('/empleado-auth', [EmpleadoController::class,"showAuth"])->name('empleado.showAuth');
-
+    //rutas para la gestion de los roles
     Route::get('/edit/rol/user/{id}', [PermisosController::class,"rolEditUser"])->name('rol.edit-user.edit');
     Route::post('/edit/rol/user', [PermisosController::class,"rolUpdateUser"])->name('rol.edit-user.update');
 
+    //rutas para la gestion de los centros productivos
+    Route::resource('/centro', CentroController::class);
+    Route::get('/centro-auth', [CentroController::class,"showAuth"])->name('user.centro.showAuth');
+
+    //rutas para la gestion de los usuarios
+    Route::resource('/usuario', UserController::class);
+    Route::get('/usuario/cambiarCentro/{id}', [UserController::class,"editUserCenter"])->name('user.centro.edit');
+    Route::post('/usuario/cambiarCentro', [UserController::class,"updateUserCenter"])->name('user.centro.update');
+
+    //rutas para la gestion de los proyectos
+    Route::resource('/proyecto', ProyectoController::class);
+    Route::get('/proyecto/intranet/docs/{id}', [ProyectoController::class,"showDocs"])->name('proyecto.intranet.show');
+    Route::get('/proyecto/incluir/empleados/{id}', [ProyectoController::class,"editProyectoEmpleado"])->name('proyecto.empleados.edit');
+    Route::get('/proyecto/empleados/{id}', [ProyectoController::class,"showProyectoEmpleado"])->name('proyecto.empleados.show');
+    Route::delete('/proyecto/empleados/{id}', [ProyectoController::class,"destroyProyectoEmpleado"])->name('proyecto.empleados.destroy');
+    //rutas para la gestion de los fichajes
+    Route::resource('/fichaje', FichajeController::class);
+    Route::get('/fichar', [FichajeController::class,"fichar"])->name('fichaje.fichar');
+    Route::get('/terminar-fichar', [FichajeController::class,"terminarFichar"])->name('fichaje.terminarFichar');
+    Route::get('/fichaje-print', [FichajeController::class,"indexPrint"])->name('fichaje.indexPrint');
+    Route::post('/fichaje-print', [FichajeController::class,"storePrint"])->name('fichaje.storePrint');
+
+    //rutas para la gestion de los empleados
+    Route::resource('/empleado',EmpleadoController::class);
+    Route::get('/empleado-auth', [EmpleadoController::class,"showAuth"])->name('empleado.showAuth');
+    Route::get('/empleado/intranet/docs', [EmpleadoController::class,"showDocs"])->name('empleado.intranet.show');
+
+    //rutas para la gestion de los eventos
+    Route::resource('/evento',EventoController::class);
+    Route::get('/evento/empleado/create/{id}', [EventoController::class,"create"])->name('evento.empleado.create');
+
+
+   //rutas para gestionar archivos con seguridad
+    Route::get('/descargar/archivo/{id}', [ArchivoController::class,"descargaArchivoEmpleado"])
+    ->name('descarga.archivo.empleado');
+
+    Route::get('/ver/archivo/{id}', [ArchivoController::class,"verArchivoEmpleado"])
+    ->name('ver.archivo.empleado');
+
+    Route::get('/descargar/archivo/proyecto/{id}', [ArchivoController::class,"descargaArchivoProyecto"])
+    ->name('descarga.archivo.proyecto');
+
+    Route::get('/ver/archivo/proyecto/{id}', [ArchivoController::class,"verArchivoProyecto"])
+    ->name('ver.archivo.proyecto');
 
 
 

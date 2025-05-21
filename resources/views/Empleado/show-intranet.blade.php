@@ -35,15 +35,9 @@
                   <tbody>
                         @foreach ($documentos as $doc)
 
-                            @php
-
-                                $path = collect(explode('/', '/storage/'.$doc->adjunto))
-                                    ->map(fn($segment) => rawurlencode($segment))
-                                    ->implode('/');
-                                $url = asset($path);
+                         @php 
                                 $nombreArchivo = collect(explode('/', $doc->adjunto))->last();
-
-                            @endphp
+                        @endphp
                             <tr>
                                 <td class="text-left py-1 px-3 align-middle text-info">{{ $nombreArchivo }}</td>
                                 <td>
@@ -53,10 +47,12 @@
                                     <form action="{{ route('evento.destroy', ['evento' => $doc->id]) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                     <a href="{{ $url }}" class="text-info m-1" target="_blank" title="Ver documento"><i class="fas fa-eye"></i></a>
+                                    <a href="{{ route('ver.archivo.empleado', ['id' => $doc->id]) }}" class="text-info m-1" target="_blank" title="Ver documento"><i class="fas fa-eye"></i></a>
                              
-                                    <a href="{{ $url }}" class="text-warning m-1" title="Descargar documento" download><i class="fas fa-download"></i></a>
-                                    <button  type="submit" title="Eliminar archivo"   class="text-danger m-1 ">
+                               
+                                    <a href="{{ route('descarga.archivo.empleado', ['id' => $doc->id]) }}" class="text-warning m-1" title="Descargar documento" download><i class="fas fa-download"></i></a>
+                                    
+                                    <button  type="submit" title="Eliminar archivo"   class="text-danger m-1 bg-transparent ">
                                     <i class="fas fa-trash"></i>
                                     </button>
                                     </form>

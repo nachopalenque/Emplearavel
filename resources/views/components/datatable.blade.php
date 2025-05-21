@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>centro</title>
+  <link rel="stylesheet" href="{{ asset('vendor/select2/select2.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('vendor/select2/select2-bootstrap4.min.css') }}">
+  <title>Emple@Ravel</title>
 </head>
 
 
@@ -84,6 +86,11 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                     <!-- Código de llamada a la creación de un nuevo centro -->
 
                     </div>
+
+                    <div id="modalBody2" class="card">
+
+
+                    </div>
                     
                     <div class="modal-footer">
                       <button  type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
@@ -121,7 +128,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                             @if($items->isNotEmpty() && $items->first()?->estado == 'en curso')
 
-                             <h4 class="display-6 text-info">Atención: Hay un fichaje en curso!!</h4>
+                             <h4 class="display-6 text-info">Atención: Hay un fichaje en curso <i class="fas fa-hourglass-half text-lightblue"></i></h4> 
 
 
                             @endif
@@ -209,7 +216,13 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                             <th>{{ $columna }}</th>
                           @endif
 
-                         @endforeach
+                          @endforeach
+
+                          @if($modeloNombre == 'Proyecto')
+                            <th>Progreso</th>
+                            <th>Porcentaje</th>
+
+                          @endif
 
                          @if($modeloNombre !== 'Fichaje')
                          <th>Acciones</th>
@@ -267,6 +280,28 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                           
 
                         @endforeach
+
+                        @if($modeloNombre == 'Proyecto')
+
+                        <td>
+                           
+                            <div class="progress progress-xl flex-grow-1 w-100">
+                                <div class="progress-bar progress-bar-danger" style="width: 20%"></div>
+                              </div>
+
+                        </td>
+
+                        <td>
+
+     
+                               <span class="badge bg-danger ml-2">55%</span>
+
+                 
+
+                        </td>
+
+
+                        @endif
 
                         @if($modeloNombre !== 'Fichaje')
 
@@ -358,7 +393,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                             
 
                                     <figure class=" btn-group btn-group-sm">
-                                      <button data-id="{{ $item->id }}" title="Documentos del proyecto"  class="btn btn-warning mr-2 btn-cambiar-rol" data-toggle="modal" data-target="#modal">
+                                      <button data-id="{{ $item->id }}" id="btnProyectosDocs" title="Documentos del proyecto"  class="btn btn-warning mr-2 " data-toggle="modal" data-target="#modal">
                                       <i class="fas fa-file-alt"></i>
                                       </button>
                                     </figure>
@@ -367,13 +402,19 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                                   @if($rolAuth == 'Administrador' || $rolAuth == 'ProductManager') 
 
                                     <figure class=" btn-group btn-group-sm">
-                                      <button data-id="{{ $item->id }}" title="Modificar proyecto"  class="btn btn-info mr-2 btn-cambiar-centro" data-toggle="modal" data-target="#modal">
+                                      <button data-id="{{ $item->id }}" id="btnProyectosMod" title="Modificar datos del proyecto"  class="btn btn-info mr-2" data-toggle="modal" data-target="#modal">
                                       <i class="fas fa-pen"></i>
                                       </button>
                                     </figure>
 
                                     <figure class=" btn-group btn-group-sm">
-                                      <button data-id="{{ $item->id }}" title="Crear tareas"  class="btn btn-success mr-2 btn-cambiar-centro" data-toggle="modal" data-target="#modal">
+                                      <button data-id="{{ $item->id }}" id="btnProyectosEmp" title="Gestionar empleados del proyecto"  class="btn btn-success mr-2" data-toggle="modal" data-target="#modal">
+                                      <i class="fas fa-users"></i>
+                                      </button>
+                                    </figure>
+
+                                    <figure class=" btn-group btn-group-sm">
+                                      <button data-id="{{ $item->id }}" title="Crear tareas"  class="btn btn-primary mr-2 btn-cambiar-centro" data-toggle="modal" data-target="#modal">
                                       <i class="fas fa-tasks"></i>
                                       </button>
                                     </figure>
@@ -430,6 +471,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
 
 @section('js')
+  <script src="{{ asset('vendor/select2/select2.min.js') }}"></script>
 
   
   <script defer>
@@ -452,6 +494,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
       */    
         if (e.target.closest('#btnprintFichaje')) {
+          document.getElementById('modalBody').innerHTML = '';
           document.getElementById('tituloModal').innerHTML = 'Imprimir fichajes';
           fetch(`/fichaje-print`)
               .then(res => res.text())
@@ -464,7 +507,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
       if (e.target.closest('.btn-cambiar-rol')) {
           const btn = e.target.closest('.btn-cambiar-rol');
           const id = btn.dataset.id;
-          console.log(id)
+          document.getElementById('modalBody').innerHTML = '';
           document.getElementById('tituloModal').innerHTML = 'Cambiar rol del usuario';
           fetch(`/edit/rol/user/${id}`)
               .then(res => res.text())
@@ -513,12 +556,71 @@ $rolAuth = auth()->user()->getRoleNames()->first();
       if (e.target.closest('.btn-cambiar-centro')) {
           const btn = e.target.closest('.btn-cambiar-centro');
           const id = btn.dataset.id;
+          document.getElementById('modalBody').innerHTML = '';
           document.getElementById('tituloModal').innerHTML = 'Cambiar usuario de centro productivo';
           fetch(`/usuario/cambiarCentro/${id}`)
               .then(res => res.text())
               .then(html => {
                   document.getElementById('modalBody').innerHTML = html;
               });
+     
+     
+      }
+
+            // Botón: Añadir documentos intranet
+      if (e.target.closest('#btnProyectosDocs')) {
+          const btn = e.target.closest('#btnProyectosDocs');
+          const id = btn.dataset.id;
+          document.getElementById('tituloModal').innerHTML = 'Documentos del proyecto';
+          fetch(`/proyecto/intranet/docs/${id}`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              });
+      }
+
+
+      //Botón : Editar datos del proyecto
+      if (e.target.closest('#btnProyectosMod')) {
+          const btn = e.target.closest('#btnProyectosMod');
+          const id = btn.dataset.id;
+          document.getElementById('tituloModal').innerHTML = 'Editar Proyecto';
+          fetch(`/proyecto/${id}/edit`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              });
+      }
+
+            //Botón : Editar datos del proyecto
+      if (e.target.closest('#btnProyectosEmp')) {
+          const btn = e.target.closest('#btnProyectosEmp');
+          const id = btn.dataset.id;
+          document.getElementById('modalBody').innerHTML = '';
+          document.getElementById('tituloModal').innerHTML = 'Incluir o quitar empleados al proyecto';
+          
+
+        fetch(`/proyecto/empleados/${id}`)
+
+            .then(res => res.text())
+            .then(html => {
+                document.getElementById('modalBody').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error al cargar empleados:', error);
+            });
+          
+          
+          
+          fetch(`/proyecto/incluir/empleados/${id}`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = document.getElementById('modalBody').innerHTML + html;
+              })
+              .catch(error => {
+                console.error('Error al cargar empleados:', error);
+            });
+          ;
       }
 
 
