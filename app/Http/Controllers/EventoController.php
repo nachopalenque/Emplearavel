@@ -193,10 +193,13 @@ class EventoController extends Controller
         try{
 
             $evento = Evento::find($id);
-   
             if (Storage::exists($evento->adjunto)) {
-                Storage::delete($evento->adjunto);
+
+               $eliminado = Storage::delete($evento->adjunto);
+                
+
              }
+             
             $evento->delete();
             return back()->with('estado', 'eliminado');
         }

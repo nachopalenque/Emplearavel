@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('proyectos', function (Blueprint $table) {
-            $table->string('intranet')->default('');
+            $table->integer('progreso_proyecto')->default(0);
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('proyectos', function (Blueprint $table) {
-            $table->dropColumn('intranet');
+        $table->dropColumn('progreso_proyecto');
         });
     }
 };

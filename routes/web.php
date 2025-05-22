@@ -9,6 +9,7 @@ use App\Http\Controllers\EventoController;
 use App\Http\Controllers\PermisosController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\ArchivoController;
+use App\Http\Controllers\TareasController;
 
 
 /*
@@ -66,6 +67,9 @@ Route::middleware([
     Route::get('/proyecto/intranet/docs/{id}', [ProyectoController::class,"showDocs"])->name('proyecto.intranet.show');
     Route::get('/proyecto/incluir/empleados/{id}', [ProyectoController::class,"editProyectoEmpleado"])->name('proyecto.empleados.edit');
     Route::get('/proyecto/empleados/{id}', [ProyectoController::class,"showProyectoEmpleado"])->name('proyecto.empleados.show');
+    Route::get('/proyecto/evento/empleados/{id}', [ProyectoController::class,"createEvent"])->name('proyecto.evento.empleados.create');
+    Route::post('/proyecto/evento/empleados', [ProyectoController::class,"storeEvent"])->name('proyecto.evento.empleados.store');
+
     Route::delete('/proyecto/empleados/{id}', [ProyectoController::class,"destroyProyectoEmpleado"])->name('proyecto.empleados.destroy');
     //rutas para la gestion de los fichajes
     Route::resource('/fichaje', FichajeController::class);
@@ -97,6 +101,8 @@ Route::middleware([
     Route::get('/ver/archivo/proyecto/{id}', [ArchivoController::class,"verArchivoProyecto"])
     ->name('ver.archivo.proyecto');
 
+    //rutas para gestionar las tareas
+    Route::resource('/tareas', TareasController::class);
 
 
 });

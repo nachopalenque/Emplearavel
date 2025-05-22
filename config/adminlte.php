@@ -392,6 +392,12 @@ return [
 
                 ],
               
+                [
+                    'text' => 'Mis Tareas',
+                    'route' => 'tareas.index',
+                    'icon' => 'fas fa-tasks',
+
+                ],
 
              
             ],

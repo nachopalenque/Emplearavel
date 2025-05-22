@@ -17,6 +17,8 @@ class Proyecto extends Model
         'fecha_fin',
         'created_at',
         'updated_at',
+        'progreso_proyecto',
+
  
         
 

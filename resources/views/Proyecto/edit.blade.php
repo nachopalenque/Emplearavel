@@ -110,6 +110,26 @@
 
                     </div>
 
+                    <div class="col">
+
+                        <div class="form-group">
+                             <x-adminlte-input name="progreso_proyecto" label="Progreso porcentual del proyecto" label-class="text-lightblue" placeholder="Porcentaje proyecto" type="number"
+                                igroup-size="m" min=0 max=100 value="{{ old('progreso_proyecto', $proyecto->progreso_proyecto) }}">
+                                <x-slot name="appendSlot">
+                                    <div class="input-group-text bg-lightblue">
+                                        <i class="fas fa-percent"></i>
+                                    </div>
+                                </x-slot>
+                            </x-adminlte-input>
+
+
+
+
+
+                        </div>
+
+                    </div>
+
              
 
 

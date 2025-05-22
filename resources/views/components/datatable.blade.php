@@ -14,8 +14,6 @@
 @php
 
 $rolAuth = auth()->user()->getRoleNames()->first();
-
-
 @endphp
 <div>
 
@@ -218,11 +216,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                           @endforeach
 
-                          @if($modeloNombre == 'Proyecto')
-                            <th>Progreso</th>
-                            <th>Porcentaje</th>
-
-                          @endif
+                    
 
                          @if($modeloNombre !== 'Fichaje')
                          <th>Acciones</th>
@@ -243,65 +237,83 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                           @else
 
 
-                            <!-- Si es modelo fichaje y el estado es en curso se pondra el texto de color azul -->
-                            @if($modeloNombre == 'Fichaje')
+                                  <!-- Si es modelo fichaje y el estado es en curso se pondra el texto de color azul -->
+                                  @if($modeloNombre == 'Fichaje')
 
-                           
-                                @if($item ?->estado == 'en curso')
+                                
+                                      @if($item ?->estado == 'en curso')
 
-                                <td class="text-info">{{ $item->$columna }}</td>
-
-
-                              <!-- Si es modelo fichaje y el estado no es en curso se pondra el texto de color verde -->
-
-                                @else
-
-                                <td class="text-success">{{ $item->$columna }}</td>
+                                      <td class="text-info">{{ $item->$columna }}</td>
 
 
-                                @endif
+                                    <!-- Si es modelo fichaje y el estado no es en curso se pondra el texto de color verde -->
 
-                            
-                            @else
+                                      @else
 
-                              <td>{{ $item->$columna }}</td>
+                                      <td class="text-success">{{ $item->$columna }}</td>
 
 
-                            @endif
+                                      @endif
+
+
+                                  @elseIf($modeloNombre == 'Proyecto')
+
+
+                                        @if($columna == 'progreso_proyecto')
+
+                                          @php
+                                                $porcentaje = $item->$columna;
+                                                if ($porcentaje < 25) {
+                                                    $estiloBarraProgreso = 'progress-bar bg-danger';
+                                                } elseif ($porcentaje >= 25 && $porcentaje < 50) {
+                                                    $estiloBarraProgreso = 'progress-bar bg-warning';
+                                                } elseif ($porcentaje >= 50 && $porcentaje < 75) {
+                                                    $estiloBarraProgreso = 'progress-bar bg-info';
+                                                } else {
+                                                    $estiloBarraProgreso = 'progress-bar bg-success';
+                                                }
+
+                                            @endphp
+
+                                              <td>{{ $item->$columna }} %
+                                                
+                                              <div class="progress progress-xs">
+                                                <div class="{{$estiloBarraProgreso}}" style="width: {{ $item->$columna }}%"></div>
+                                              </div></td>
+
+
+                                    
+                                        
+                                          @else
+                                            
+                                          
+                                            <td>{{ $item->$columna }}</td>
+
+
+
+                                          @endif
+
+                                 @else
+
+                                 <td>{{ $item->$columna }}</td>
+
+
+                                 @endif
 
 
                           @endif
 
 
 
+                                  
+               
 
-
-
-                          
 
                         @endforeach
-
-                        @if($modeloNombre == 'Proyecto')
-
-                        <td>
-                           
-                            <div class="progress progress-xl flex-grow-1 w-100">
-                                <div class="progress-bar progress-bar-danger" style="width: 20%"></div>
-                              </div>
-
-                        </td>
-
-                        <td>
-
-     
-                               <span class="badge bg-danger ml-2">55%</span>
-
-                 
-
-                        </td>
+                      
 
 
-                        @endif
+       
 
                         @if($modeloNombre !== 'Fichaje')
 
@@ -414,7 +426,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                                     </figure>
 
                                     <figure class=" btn-group btn-group-sm">
-                                      <button data-id="{{ $item->id }}" title="Crear tareas"  class="btn btn-primary mr-2 btn-cambiar-centro" data-toggle="modal" data-target="#modal">
+                                      <button data-id="{{ $item->id }}" id="btnProyectosEmpEvent" title="Crear tareas"  class="btn btn-primary mr-2" data-toggle="modal" data-target="#modal">
                                       <i class="fas fa-tasks"></i>
                                       </button>
                                     </figure>
@@ -622,6 +634,25 @@ $rolAuth = auth()->user()->getRoleNames()->first();
             });
           ;
       }
+
+
+            //Botón : Editar crear tareas empleados proyecto
+      if (e.target.closest('#btnProyectosEmpEvent')) {
+          const btn = e.target.closest('#btnProyectosEmpEvent');
+          const id = btn.dataset.id;
+          document.getElementById('modalBody').innerHTML = '';
+          document.getElementById('tituloModal').innerHTML = 'Crear nueva tarea del proyecto';
+          fetch(`/proyecto/evento/empleados/${id}`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              })
+              .catch(error => {
+                console.error('Error al cargar empleados:', error);
+            });
+      }
+
+      
 
 
 

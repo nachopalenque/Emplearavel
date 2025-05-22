@@ -26,8 +26,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('empleados', function (Blueprint $table) {
-            $table->string('dni')->default('');
-            $table->string('nombre')->default('');
-            $table->string('apellidos')->default('');        });
+            $table->dropColumn('dni');
+            $table->dropColumn('nombre');
+            $table->dropColumn('apellidos');
+        });
     }
 };

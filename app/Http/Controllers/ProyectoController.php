@@ -43,7 +43,7 @@ class ProyectoController extends Controller
 
     }
 
-            public function showDocs($id)
+    public function showDocs($id)
     {
         try{
             $documentos = Evento::where('id_proyecto', $id)
@@ -64,6 +64,65 @@ class ProyectoController extends Controller
     public function create()
     {
         //
+    }
+
+    public function createEvent($id)
+    {
+        try{
+
+            $proyecto = Proyecto::find($id);
+            $empleadosDelProyecto = $proyecto->empleados()->get();            
+            return view('Proyecto.create-event', ['id'=> $id ,'empleados' => $empleadosDelProyecto]);
+
+        }catch(Exception $e){
+
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function storeEvent(Request $request)
+    {
+        try{
+
+            $validacion = $request->validate([
+                    'titulo' => 'required',
+                    'fecha_inicio' => 'required|date|after_or_equal:today',
+                    'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+                    'adjunto' => 'file|mimes:jpg,png,pdf,docx|max:2048',
+            
+                ]);
+        
+
+            $proyecto = Proyecto::find($request->input('id_proyecto'));
+            $evento = new Evento();
+            $evento->id_empleado = $request->input('empleado');
+            $evento->id_proyecto = $proyecto->id;
+            $evento->titulo = $request->input('titulo');
+            $evento->fecha_inicio = $request->input('fecha_inicio');
+            $evento->fecha_fin = $request->input('fecha_fin');
+            $evento->tipo_evento = 'Tarea proyecto';
+            $evento->observaciones = $request->input('observaciones');
+            $evento->estado_evento = 'pendiente';
+            $evento->adjunto = '';
+
+
+            //Guardando el adjunto en la carpeta del proyecto en la intranet documental.
+            if ($request->hasFile('adjunto')) {
+
+                    $nombreOriginal = $request->file('adjunto')->getClientOriginalName(); 
+                    $ruta = $request->file('adjunto')->storeAs($proyecto->intranet.'/'.$nombreOriginal);
+                    $evento->adjunto = $proyecto->intranet.'/'.$nombreOriginal;
+
+            }
+
+            $evento->save();
+
+            return redirect()->route('proyecto.index')->with('estado', 'creado');
+
+
+        }catch(Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -117,9 +176,8 @@ class ProyectoController extends Controller
     {
         try{
 
-            $proyecto = Proyecto::find($id);
-            $empleadosOcupadosIds = $proyecto->empleados()->pluck('id_empleado')->toArray();
-            $empleadosDisponibles = Empleado::whereNotIn('id', $empleadosOcupadosIds)->get();
+            $empleadosOcupadosIds = $this->empleadosProyecto($id);
+            $empleadosDisponibles = $this->empleadosDisponibles($empleadosOcupadosIds);
 
 
             return view('Proyecto.edit-emp',['id'=>$id,'empleados'=>$empleadosDisponibles]);
@@ -128,6 +186,38 @@ class ProyectoController extends Controller
         
             return response()->json(['error' => $e->getMessage()], 500);
 
+        }
+    }
+
+
+    //Esta función devuelve un array con los id de los empleados que estan ocupados en el proyecto pasado por parámetro
+    public function empleadosProyecto($id){
+
+        try{
+
+            $proyecto = Proyecto::find($id);
+            $empleadosDelProyecto = $proyecto->empleados()->pluck('id_empleado')->toArray();
+            return $empleadosDelProyecto;
+
+        }catch(Exepcion $e){
+        
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+    }
+
+    /*Esta función devuelve un array con los empleados que no estan ocupados en el proyecto pasado por parámetro.
+    El parámetro sera un array con los id de los empleados que estan ocupados en el proyecto
+    */
+    public function empleadosDisponibles($empleadosDelProyectoIds){
+        try{
+
+            $empleadosDisponibles = Empleado::whereNotIn('id', $empleadosDelProyectoIds)->get();
+            return $empleadosDisponibles;
+
+        }catch(Exepcion $e){
+        
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -195,7 +285,7 @@ class ProyectoController extends Controller
                 $proyecto->descripcion = $request->input('descripcion');
                 $proyecto->estado = $request->input('estado');
                 $proyecto->fecha_fin = $request->input('fecha_fin');
-    
+                $proyecto->progreso_proyecto = $request->input('progreso_proyecto');
                 $proyecto->save();
                 session()->flash('estado', 'actualizado');
                 return redirect()->route('proyecto.index');

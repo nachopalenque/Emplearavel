@@ -23,7 +23,7 @@
     :items="$proyectos"
     :modelo="\App\Models\Proyecto::class"
     :modeloNombre="'Proyecto'"
-    :columNombres="['id','Nombre','Descripción','Estado','Fecha de finalización','Fecha de creación','Fecha de modificación']"
+    :columNombres="['id','Nombre','Descripción','Estado','Fecha de finalización','Fecha de creación','Fecha de modificación','Porcentaje de avance']"
 />
 
 

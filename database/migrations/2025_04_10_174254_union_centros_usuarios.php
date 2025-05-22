@@ -21,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+            $table->dropForeign(['id_centro']);
+            $table->dropColumn('id_centro');   
+        
     }
 };
