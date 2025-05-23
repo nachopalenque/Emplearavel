@@ -6,15 +6,16 @@
     <title>Empleados del proyecto</title>
 </head>
 <body>
-     
-              @if(count($empleados)>0)
+                <h4>Empleados del proyecto: </h4>
 
-              <table class="table table-bordered">
+              @if(count($empleados)>0)
+             <div class="card-body table-responsive p-0" style="height: 300px;">
+
+              <table class="table table-bordered table-head-fixed text-nowrap">
                   <thead>
 
                       <tr>
-                          <th>Nombre</th>
-                          <th>Apellidos</th>
+                          <th>Empleado</th>
                           <th>Puesto de trabajo que desempeña</th>
                           <th>Acción</th>
 
@@ -28,16 +29,19 @@
                       
                    
                             <tr>
-                                <td class="text-left py-1 px-3 align-middle text-info">{{ $empleado->nombre }}</td>
-                                <td class="text-left py-1 px-3 align-middle text-info">{{ $empleado->apellidos }}</td>
-                                <td class="text-left py-1 px-3 align-middle text-info">{{ $empleado->puesto }}</td>
+                                <td class="text-left align-middle text-success">{{ $empleado->nombre . ' ' . $empleado->apellidos }}</td>
+                                <td class="text-left  align-middle text-success">{{ $empleado->puesto }}</td>
 
                                 <td>
-                                    <form action="{{ route('proyecto.empleados.destroy', ['id' => $empleado->id]) }}" method="POST">
+                             
+
+
+
+                                    <form action="{{ route('proyecto.empleados.destroy', ['id_proyecto' => $id, 'id_empleado' => $empleado->id]) }}" method="POST" class="btn-group btn-group-sm">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" title="Quitar empleado del proyecto" class="text-danger m-1 border-0 bg-transparent">
-                                    <i class="fas fa-trash"></i>
+                                    <button  type="submit" title="Quitar empleado del proyecto" class="btn  btn-danger btn-eliminar mr-2 ">
+                                    <i class="fas fa-minus"></i>
                                     </button>
                                     </form>
 
@@ -52,8 +56,11 @@
 
                 </table>
 
+                </div>
+
                 @else
                 <p class="text-center text-info">Aún no hay ningún empleado trabajando en el proyecto</p>
                 @endif
+                <hr>
 </body>
 </html>

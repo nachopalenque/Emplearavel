@@ -102,7 +102,7 @@ class ProyectoController extends Controller
             $evento->fecha_fin = $request->input('fecha_fin');
             $evento->tipo_evento = 'Tarea proyecto';
             $evento->observaciones = $request->input('observaciones');
-            $evento->estado_evento = 'pendiente';
+            $evento->estado_evento = 'Pendiente';
             $evento->adjunto = '';
 
 
@@ -162,6 +162,22 @@ class ProyectoController extends Controller
 
         }
     }
+
+        public function storeProyectoEmpleado($id_proyecto, $id_empleado)
+    {
+      try{
+
+            $proyecto = Proyecto::find($id_proyecto);
+            $proyecto->empleados()->attach($id_empleado);
+            return redirect()->route('proyecto.index')->with('estado', 'creado');
+        }
+        catch(Exception $e){
+                    
+          return response()->json(['error' => $e->getMessage()], 500);   
+        }   
+
+     }
+
 
     /**
      * Display the specified resource.
@@ -226,7 +242,7 @@ class ProyectoController extends Controller
         try{
 
             $proyecto = Proyecto::find($id);
-            return view('Proyecto.pr-emp',['empleados'=>$proyecto->empleados]);
+            return view('Proyecto.pr-emp',['id'=>$id,'empleados'=>$proyecto->empleados]);
 
         }catch(Exepcion $e){
         
@@ -328,15 +344,12 @@ class ProyectoController extends Controller
 
      }
 
-    public function destroyProyectoEmpleado($id)
+    public function destroyProyectoEmpleado($id_proyecto, $id_empleado)
     {
       try{
 
-            $proyecto = Proyecto::find($id);
-            if (Storage::exists($proyecto->intranet)) {
-                Storage::deleteDirectory($proyecto->intranet);
-             }
-            $proyecto->delete();
+            $proyecto = Proyecto::find($id_proyecto);
+            $proyecto->empleados()->detach($id_empleado);
             return redirect()->route('proyecto.index')->with('estado', 'eliminado');
         }
         catch(Exception $e){

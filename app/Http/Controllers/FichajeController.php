@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fichaje;
+use App\Models\Empleado;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -98,10 +99,20 @@ class FichajeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Fichaje $fichaje)
+    public function show($id)
     {
-        //
-    }
+        try{
+            $empleado = Empleado::find($id);
+            $fichajes = Fichaje::where('id_usuario', $empleado->id_usuario)
+            ->orderBy('id', 'desc')
+            ->paginate(10);  
+            return view('Fichaje.show', ['fichajes' => $fichajes]);
+        }
+        catch(Exception $e){
+
+            return response()->json(['error' => $e->getMessage()], 500);   
+        }
+        }
 
     /**
      * Show the form for editing the specified resource.

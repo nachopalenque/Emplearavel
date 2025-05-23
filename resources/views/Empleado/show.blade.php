@@ -3,7 +3,7 @@
 @section('title', 'Ficha Empleado')
 
 @section('content_header')
-    <h1>Ficha Empleado</h1>
+    <h1>Mi ficha de empleado</h1>
     <hr>
 @stop
 

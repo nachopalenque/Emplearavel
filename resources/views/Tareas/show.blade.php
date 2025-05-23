@@ -1,49 +1,7 @@
-@extends('adminlte::page')
 
-@section('title', 'Listado de Tareas')
-
-@section('content_header')
-    <h1>Mis tareas</h1>
-    <hr>
-@stop
-
-@section('content')
  
    <div class="container-fluid">
 
-
-              <!-- Modal Génerico-->
-
-                <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered  modal-sm modal-md modal-lg modal-xl" role="document">
-                            <div class="modal-content">
-                                
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="tituloModal"></h5>
-                                
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                </div>
-                                
-                                <div id="modalBody" class="modal-body">
-
-                                <!-- Código de llamada a la creación de un nuevo centro -->
-
-                                </div>
-
-                                <div id="modalBody2" class="card">
-
-
-                                </div>
-                                
-                                <div class="modal-footer">
-                                <button  type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
-                                </div>
-                            
-                            </div>
-                            </div>
-                </div>
 
 
 
@@ -71,7 +29,6 @@
                           <th>Fecha de Inicio</th>
                           <th>Fecha de Fin</th>
                           <th>Estado</th>   
-                          <th>Acciones</th>
 
       
                      
@@ -126,15 +83,7 @@
                                 <td class="text-left py-1 px-3 align-middle {{ $color }}" style="{{ $style }}">{{ $tarea->fecha_inicio }}</td>
                                 <td class="text-left py-1 px-3 align-middle {{ $color }}" style="{{ $style }}">{{ $tarea->fecha_fin }}</td>
                                 <td class="text-left py-1 px-3 align-middle {{ $color }}" style="{{ $style }}">{{ $tarea->estado_evento }}</td>
-                                <td class="text-left py-1 px-3 align-middle">
-                                
-                                <figure class=" btn-group btn-group-sm">
-                                    <button data-id="{{ $tarea->id }}" id="btnCambiarEstado" title="Cambiar estado de la tareas"  class="btn btn-secondary m-2" data-toggle="modal" data-target="#modal">
-                                     <i class="fas fa-stopwatch"></i>
-                                     </button>
-                                </figure>
 
-                                </td>
 
 
                             </tr>
@@ -171,80 +120,3 @@
 
 
 
-
-@stop
-
-@section('css')
-    {{-- Add here extra stylesheets --}}
-    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
-@stop
-
-@push('js')
-<!--   aquí lo que hago es que me muestre el modal de nuevo si hay errores de validación -->
-@if ($errors->any())
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const modalElement = document.getElementById('modalNuevo');
-            const modal = new bootstrap.Modal(modalElement);
-            modal.show();
-        });
-    </script>
-    
-@endif
-
-<script>
-
-
-       window.addEventListener('DOMContentLoaded', (event) => {
-
-    
-            switch(@json(session('estado'))){
-
-            case 'creado':
-            mensajeConfirmacionNuevoElemento();
-            break;
-
-            case 'actualizado':
-            mensajeConfirmacionActualizacionElemento();
-            break;
-            
-            case 'eliminado':
-            mensajeConfirmacionEliminacionElemento();
-            break;
-            }
-
-             document.addEventListener('click', function (e) {
-
-
-                      //Botón : Para abrir el modal que cambia el estado de la tarea
-                if (e.target.closest('#btnCambiarEstado')) {
-                    const btn = e.target.closest('#btnCambiarEstado');
-                    const id = btn.dataset.id;
-                    document.getElementById('tituloModal').innerHTML = 'Cambiar estado de la tarea';
-                    fetch(`/tareas/${id}/edit`)
-                        .then(res => res.text())
-                        .then(html => {
-                            document.getElementById('modalBody').innerHTML = html;
-                        });
-                }
-
-
-             });
-
-
-        
-
-        });
-
-
-  
-
-
-
-
-        
-      </script>
-
-
-@endpush

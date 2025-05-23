@@ -363,6 +363,21 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                             </button>
                           </figure>
 
+
+                          <figure class=" btn-group btn-group-sm">
+                             <button data-id="{{ $item->id }}" id="btnEmpEventShow" title="Ver tareas empleado"  class="btn btn-primary mr-2" data-toggle="modal" data-target="#modal">
+                               <i class="fas fa-tasks"></i>
+                              </button>
+                          </figure>
+
+
+                          
+                          <figure class=" btn-group btn-group-sm">
+                             <button data-id="{{ $item->id }}" id="btnEmpFichShow" title="Ver fichajes empleado"  class="btn btn-success mr-2" data-toggle="modal" data-target="#modal">
+                               <i class="fas fa-file"></i>
+                              </button>
+                          </figure>
+
                           @endif
 
 
@@ -652,9 +667,38 @@ $rolAuth = auth()->user()->getRoleNames()->first();
             });
       }
 
-      
+                  //Botón : Editar ver tareas empleados 
+      if (e.target.closest('#btnEmpEventShow')) {
+          const btn = e.target.closest('#btnEmpEventShow');
+          const id = btn.dataset.id;
+          document.getElementById('modalBody').innerHTML = '';
+          document.getElementById('tituloModal').innerHTML = 'Listado de tareas del empleado:';
+          fetch(`/tareas/${id}`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              })
+              .catch(error => {
+                console.error('Error al cargar empleados:', error);
+            });
+      }
 
 
+                       //Botón : Editar ver tareas empleados 
+      if (e.target.closest('#btnEmpFichShow')) {
+          const btn = e.target.closest('#btnEmpFichShow');
+          const id = btn.dataset.id;
+          document.getElementById('modalBody').innerHTML = '';
+          document.getElementById('tituloModal').innerHTML = 'Listado de tareas del empleado:';
+          fetch(`/fichaje/${id}`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              })
+              .catch(error => {
+                console.error('Error al cargar empleados:', error);
+            });
+      }
 
 
 

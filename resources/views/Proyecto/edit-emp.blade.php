@@ -9,37 +9,62 @@
 </head>
 <body>
 
-              <form class="form" method="POST" action="{{ route('proyecto.update', $id) }}">
-              @csrf
-              @method('PUT')
-                <!-- /.card-body -->
 
-                    <div class="col">
-                        <x-adminlte-select2  name="empleados[]" label="Empleados disponibles"
-                        label-class="text-lightblue" 
-                        igroup-size="sm"
-                        :config="['multiple' => true, 
-                        'theme' => 'bootstrap4',
-                        'tags' => 'true',
-                        'allowClear' => true,
-                        ]" id="empleados">
-                        
-                        {{-- Placeholder visible sólo si no hay elementos seleccionados --}}
-                        <option disabled >Escriba para buscar un empleado...</option>
+    <hr>
+    <h4>Empleados disponibles para añadir al proyecto: </h4>
 
+  @if(count($empleados)>0)
+
+    <div class="card-body table-responsive p-0" style="height: 300px;">
+
+              <table class="table table-bordered table-head-fixed text-nowrap">
+                  <thead>
+
+                      <tr>
+                          <th>Empleado</th>
+                          <th>Puesto de trabajo que desempeña</th>
+                          <th>Acción</th>
+
+                     </tr>
+
+                  </thead>
+                  <tbody>
+                    
                         @foreach ($empleados as $empleado)
-                            <option  value="{{ $empleado->id }}">{{ $empleado->nombre }}</option>
-                        @endforeach
+
+                      
+                   
+                            <tr>
+                                <td class="text-left align-middle text-info">{{ $empleado->nombre . ' ' . $empleado->apellidos }}</td>
+                                <td class="text-left align-middle text-info">{{ $empleado->puesto }}</td>
+
+                                <td>
+                                    <form action="{{ route('proyecto.empleados.store', ['id_proyecto'=> $id ,'id_empleado' => $empleado->id]) }}" method="POST" class="btn-group btn-group-sm">
+                                    @csrf
+                                    <button  type="submit" title="Añadir empleado al proyecto" class="btn  btn-success btn-eliminar mr-2 ">
+                                    <i class="fas fa-plus"></i>
+                                    </button>
+                                    </form>
+
+                                </td>
+                            </tr>
 
                   
-                    </x-adminlte-select2>
+                        @endforeach
+                  </tbody>
 
-                    <x-adminlte-button class="btn-flat" type="submit" label="Añadir empleados al proyecto" theme="success" icon="fas fa-lg fa-save"/>
+             
+
+                </table>
+
+    </div>
+
+                @else
+                <p class="text-center text-info">No hay más empleados disponibles</p>
+                @endif
 
 
-                    </div>
-              </form>
-
+       
 
 
 

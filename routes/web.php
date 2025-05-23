@@ -69,8 +69,8 @@ Route::middleware([
     Route::get('/proyecto/empleados/{id}', [ProyectoController::class,"showProyectoEmpleado"])->name('proyecto.empleados.show');
     Route::get('/proyecto/evento/empleados/{id}', [ProyectoController::class,"createEvent"])->name('proyecto.evento.empleados.create');
     Route::post('/proyecto/evento/empleados', [ProyectoController::class,"storeEvent"])->name('proyecto.evento.empleados.store');
-
-    Route::delete('/proyecto/empleados/{id}', [ProyectoController::class,"destroyProyectoEmpleado"])->name('proyecto.empleados.destroy');
+    Route::post('/proyecto/empleados/{id_proyecto}/{id_empleado}', [ProyectoController::class,"storeProyectoEmpleado"])->name('proyecto.empleados.store');
+    Route::delete('/proyecto/empleados/{id_proyecto}/{id_empleado}', [ProyectoController::class,"destroyProyectoEmpleado"])->name('proyecto.empleados.destroy');
     //rutas para la gestion de los fichajes
     Route::resource('/fichaje', FichajeController::class);
     Route::get('/fichar', [FichajeController::class,"fichar"])->name('fichaje.fichar');

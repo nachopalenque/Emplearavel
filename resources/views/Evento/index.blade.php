@@ -3,7 +3,7 @@
 @section('title', 'Calendario del Empleado')
 
 @section('content_header')
-    <h1>Calendario del empleado</h1>
+    <h1>Mi calendario</h1>
     <hr>
 @stop
 
