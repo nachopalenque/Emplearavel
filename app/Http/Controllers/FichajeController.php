@@ -17,6 +17,7 @@ class FichajeController extends Controller
     public function index()
     {
         try{
+            session()->forget('fichajes_fecha');
             $fichajes = Fichaje::where('id_usuario', auth()->user()->id)
             ->orderBy('id', 'desc')
             ->paginate(10);  
@@ -39,6 +40,7 @@ class FichajeController extends Controller
             ->where('id_usuario', auth()->user()->id)
             ->orderBy('id', 'desc')
             ->paginate(10);  
+            session()->flash('fichajes_fecha', [$fechaDesde, $fechaHasta]);
             return view('Fichaje.index', ['fichajes' => $fichajes]);
         }
         catch(Exception $e){

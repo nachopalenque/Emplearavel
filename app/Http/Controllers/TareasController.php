@@ -11,6 +11,8 @@ class TareasController extends Controller
     public function index()
     {
         try{
+                session()->forget('tareas_nombre');
+
                 $tareas = DB::table('eventos')
                 ->where('eventos.id_empleado', auth()->user()->empleado->id)
                 ->join('proyectos', 'eventos.id_proyecto', '=', 'proyectos.id')
@@ -43,6 +45,49 @@ class TareasController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+
+      public function indexFiltrar(Request $request)
+    {
+        try{
+                session()->forget('tareas_nombre');
+
+                $tareas = DB::table('eventos')
+                ->where('eventos.id_empleado', auth()->user()->empleado->id)
+                ->where('eventos.titulo', 'like', "%{$request->input('nombre')}%")
+                ->join('proyectos', 'eventos.id_proyecto', '=', 'proyectos.id')
+                ->select(
+                    'eventos.id',
+                    'proyectos.nombre',
+                    'eventos.titulo',
+                    'eventos.observaciones',
+                    'eventos.fecha_inicio',
+                    'eventos.fecha_fin',
+                    'eventos.estado_evento'
+          
+                )
+                ->groupBy(
+                    'eventos.id',
+                    'proyectos.nombre',
+                    'eventos.titulo',
+                    'eventos.observaciones',
+                    'eventos.fecha_inicio',
+                    'eventos.fecha_fin',
+                    'eventos.estado_evento'
+             
+                )
+                ->paginate(10);
+
+            session()->flash('tareas_nombre', $request->input('nombre'));
+            return view('Tareas.index', [ 'estadoSeleccionado' => null,'tareas' => $tareas]);
+
+        }catch(Exception $e){
+
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
 
       public function indexEstado($estado)
     {
@@ -149,6 +194,18 @@ class TareasController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+       public function showFiltrar()
+    {
+        try{
+            return view('Tareas.show-filter');
+
+        }catch(Exepcion $e){
+        
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 
     public function edit($id)
     {

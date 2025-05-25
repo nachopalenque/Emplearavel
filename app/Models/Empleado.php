@@ -43,4 +43,16 @@ class Empleado extends Model
         return $this->belongsToMany(Proyecto::class, 'proyecto_empleado');
     }
 
+     // Notificaciones que el empleado ha enviado
+    public function notificacionesEnviadas()
+    {
+        return $this->hasMany(Notificacion::class, 'id_empleado_origen');
+    }
+
+    // Notificaciones que el empleado ha recibido
+    public function notificacionesRecibidas()
+    {
+        return $this->hasMany(Notificacion::class, 'id_empleado_destino');
+    }
+
 }

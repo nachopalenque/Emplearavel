@@ -19,6 +19,8 @@ class ProyectoController extends Controller
     {
         try{
             $authRol = PermisosController::authRol();
+            session()->forget('proyectos_nombre');
+            session()->forget('proyectos_estado');
 
             switch ($authRol) {
                 case 'Administrador':
@@ -67,7 +69,8 @@ class ProyectoController extends Controller
                     ->paginate(10);                
                 break;
             }
-
+            
+            session()->flash('proyectos_nombre', $request->input('nombre'));
             return view('Proyecto.index', ['proyectos' => $proyectos]);
         }catch(\Exception $e){
             return response()->json(['error' => $e->getMessage()], 500);   

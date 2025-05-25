@@ -1,11 +1,11 @@
 <div class="card">
     
               <div class="card-header">
-                <h3 class="card-title">Escriba el nombre completo o parcial del proyecto</h3><br>
-                <span class="text-maroon">(Buscara todos los proyectos que coincidan)</span>
+                <h3 class="card-title">Escriba el nombre completo o parcial de la tarea</h3><br>
+                <span class="text-maroon">(Buscara todas las tareas que coincidan)</span>
               </div>
 
-              <form method="POST" action="{{ route('proyectos.filtrar.index') }}">
+              <form method="POST" action="{{ route('tareas.filtrar.index') }}">
                @csrf
        
               <div class="card-body">
@@ -15,7 +15,7 @@
                     <div class="col">
                     
                         
-                        <x-adminlte-input type="text" name="nombre" label="Nombre" placeholder="Ingrese el nombre del Proyecto"  label-class="text-lightblue" >
+                        <x-adminlte-input type="text" name="nombre" label="Nombre" placeholder="Ingrese el nombre de la tarea"  label-class="text-lightblue" >
                 
                         <x-slot name="prependSlot">
                             <div class="input-group-text">
@@ -36,7 +36,7 @@
 
                 <div class="card-footer">
                
-                <x-adminlte-button class="btn-flat" type="submit" label="Filtrar proyectos" theme="success" icon="fas fa-lg fa-sync-alt"/>
+                <x-adminlte-button class="btn-flat" type="submit" label="Filtrar tareas" theme="success" icon="fas fa-lg fa-sync-alt"/>
 
                 </div>
               </form>

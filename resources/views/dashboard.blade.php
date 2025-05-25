@@ -10,11 +10,12 @@
 @section('content')
     <div id="welcome" class="card">
         <div class="card-body text-left">
-                <h4 class="text-white display-4">Bienvenido  {{ auth()->user()->name }}  !! Nos encanta volver a verte.</h4>
+                <p class="text-white display-5">Bienvenido  {{ auth()->user()->name }}  !! Nos encanta volver a verte.</p>
              <div id="contentCLima"></div>
         </div>
     </div>
     <hr>
+    <div class="card-body bg-gradient-navy text-left">
     <p><strong>Tipo de usuario: </strong> <span class="text-maroon">{{ auth()->user()->getRoleNames()->first() }}</span> </p>
     <p><strong>Centro productivo: </strong> <span class="text-maroon">{{ auth()->user()->centro->nombre }}</span></p>
     <x-adminlte-button 
@@ -23,6 +24,9 @@
     icon="fas fa-lg fa-calendar-check"
     onclick="window.location.href='{{ route('fichaje.index') }}'"
     />
+
+    </div>
+
 
 @stop
 

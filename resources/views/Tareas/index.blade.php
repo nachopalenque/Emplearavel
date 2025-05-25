@@ -9,6 +9,11 @@
 
 @section('content')
  
+@php
+
+$filtroNombreTarea = session()->get('tareas_nombre');
+
+@endphp
    <div class="container-fluid">
 
 
@@ -56,28 +61,52 @@
       
 
 
-                                      <div class="card-tools">
+                                <div class="card-tools">
+
+
+
+                                    @if($filtroNombreTarea != null)
+
+                                  
+
+                                            <button type="button" id="btnQuitarFiltrarTarea" class="btn btn-block btn-outline-info mb-3" onclick="window.location.href='/tareas'">
+                                                <i class="fas fa-times"></i>Quitar filtro
+                                            </button>
+
+
+
+                                    @else
+
+                            
+
+                                            <button type="button"  id="btnFiltrar" class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                                                <i class="fas fa-search"></i>Filtrar por nombre de tarea
+                                            </button>
+
+
+                                    @endif
                 
-                                <div class="input-group input-group-sm">
-                                <label class="text-lightblue m-1">Filtrar por:</label>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
+                                    <div class="input-group input-group-sm">
+                                        <label class="text-lightblue m-1">Filtrar por:</label>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
 
-                                    <select name="estado" id="selectEstado">
-                                        <option value="Pendiente" {{ $estadoSeleccionado == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>
-                                        <option value="En curso" {{ $estadoSeleccionado == 'En curso' ? 'selected' : '' }}>En curso</option>
-                                        <option value="Parada" {{ $estadoSeleccionado == 'Parada' ? 'selected' : '' }}>Parada</option>
-                                        <option value="Cancelada" {{ $estadoSeleccionado == 'Cancelada' ? 'selected' : '' }}>Cancelada</option>
-                                        <option value="Terminada" {{ $estadoSeleccionado == 'Terminada' ? 'selected' : '' }}>Terminada</option>
-                                        <option value="Todas" {{ $estadoSeleccionado == 'Todas' ? 'selected' : '' }}>Todas</option>
+                                            <select name="estado" id="selectEstado">
+                                                <option value="Pendiente" {{ $estadoSeleccionado == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                                <option value="En curso" {{ $estadoSeleccionado == 'En curso' ? 'selected' : '' }}>En curso</option>
+                                                <option value="Parada" {{ $estadoSeleccionado == 'Parada' ? 'selected' : '' }}>Parada</option>
+                                                <option value="Cancelada" {{ $estadoSeleccionado == 'Cancelada' ? 'selected' : '' }}>Cancelada</option>
+                                                <option value="Terminada" {{ $estadoSeleccionado == 'Terminada' ? 'selected' : '' }}>Terminada</option>
+                                                <option value="Todas" {{ $estadoSeleccionado == 'Todas' ? 'selected' : '' }}>Todas</option>
 
-                                    </select>
+                                            </select>
+
+                                        </div>
+
+
+                                    </div>
 
                                 </div>
-
-
-                                </div>
-              </div>
 
              
 
@@ -242,23 +271,37 @@
             break;
             }
 
-             document.addEventListener('click', function (e) {
+                document.addEventListener('click', function (e) {
 
 
-                      //Botón : Para abrir el modal que cambia el estado de la tarea
-                if (e.target.closest('#btnCambiarEstado')) {
-                    const btn = e.target.closest('#btnCambiarEstado');
-                    const id = btn.dataset.id;
-                    document.getElementById('tituloModal').innerHTML = 'Cambiar estado de la tarea';
-                    fetch(`/tareas/${id}/edit`)
-                        .then(res => res.text())
-                        .then(html => {
-                            document.getElementById('modalBody').innerHTML = html;
+                        //Botón : Para abrir el modal que cambia el estado de la tarea
+                    if (e.target.closest('#btnCambiarEstado')) {
+                        const btn = e.target.closest('#btnCambiarEstado');
+                        const id = btn.dataset.id;
+                        document.getElementById('tituloModal').innerHTML = 'Cambiar estado de la tarea';
+                        fetch(`/tareas/${id}/edit`)
+                            .then(res => res.text())
+                            .then(html => {
+                                document.getElementById('modalBody').innerHTML = html;
+                            });
+                    }
+
+
+                    if (e.target.closest('#btnFiltrar')) {
+                        console.log('boton filtrar');
+                        fetch(`/tareas/nombre/filtrar`)
+                            .then(res => res.text())
+                            .then(html => {
+                                document.getElementById('modalBody').innerHTML = html;
+                            })
+                            .catch(error => {
+                            console.error('Error al cargar empleados:', error);
                         });
-                }
+    
+                    }
+                    
 
-
-             });
+                });
 
 
                const select = document.getElementById('selectEstado');

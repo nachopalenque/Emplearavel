@@ -10,6 +10,7 @@ use App\Http\Controllers\PermisosController;
 use App\Http\Controllers\ProyectoController;
 use App\Http\Controllers\ArchivoController;
 use App\Http\Controllers\TareasController;
+use App\Http\Controllers\NotificacionController;
 
 
 /*
@@ -111,6 +112,12 @@ Route::middleware([
     //rutas para gestionar las tareas
     Route::resource('/tareas', TareasController::class);
     Route::get('/tareas/estado/{estado}', [TareasController::class,"indexEstado"])->name('tareas.indexEstado');
+    Route::get('/tareas/nombre/filtrar', [TareasController::class,"showFiltrar"])->name('tareas.filtrar.show');
+    Route::post('/tareas/nombre/filtrar', [TareasController::class,"indexFiltrar"])->name('tareas.filtrar.index');
+
+    //rutas para gestionar las notificaciones
+    Route::resource('/notificacion', NotificacionController::class);
+
 
 
 });

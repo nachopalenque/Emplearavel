@@ -33,7 +33,7 @@ return [
     */
 
     'use_ico_only' => true,
-    'use_full_favicon' => false,
+    'use_full_favicon' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -326,7 +326,7 @@ return [
         [
             'type' => 'navbar-search',
             'text' => 'search',
-            'topnav_right' => true,
+            'topnav_right' => false,
         ],
         [
             'type' => 'fullscreen-widget',
@@ -376,6 +376,34 @@ return [
         ],
 
 
+           [
+            'text' => 'Notificaciones',
+            'icon' => 'far fa-fw fa-envelope',
+   
+            'submenu' => [
+                [
+                    'text' => 'Bandeja de entrada',
+                    'route' => 'notificacion.index',
+                    'icon' => 'fas fa-envelope-open',
+
+                ],
+
+                [
+                    'text' => 'Enviadas',
+                    'route' => 'notificacion.index',
+                    'icon' => 'fas fa-comment-dots',
+
+                ],
+
+                [
+                    'text' => 'Eliminadas',
+                    'route' => 'notificacion.index',
+                    'icon' => 'fas fa-trash',
+
+                ],
+            
+            ],
+        ],
 
 
 

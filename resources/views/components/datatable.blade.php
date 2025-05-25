@@ -13,7 +13,11 @@
 
 @php
 $selectMesFichajes = session()->get('fichajes_mes');
+$filtroFechaFichajes = session()->get('fichajes_fecha');
+
 $selectEstadoProyecto = session()->get('proyectos_estado');
+$filtroNombreProyecto = session()->get('proyectos_nombre');
+
 $rolAuth = auth()->user()->getRoleNames()->first();
 @endphp
 <div>
@@ -185,6 +189,22 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                       @case('Fichaje')
 
+
+                          @if($filtroFechaFichajes != null)
+
+                                    <button type="button"  id='btnQuitarFiltroFechas' class="btn btn-block btn-outline-info mb-3" onclick="window.location.href='/fichaje'" >
+                                        <i class="fas fa-times"></i>Quitar filtro
+                                    </button>
+
+                          @else
+
+                                    <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                                      <i class="fas fa-search"></i>Filtrar por fecha de fichaje
+                                    </button>
+
+
+                          @endif
+
                               <div class="input-group input-group-sm m-1">
                                 <label class="text-lightblue m-2">Filtrar por mes año actual:</label>
                                 <div class="input-group-prepend">
@@ -211,14 +231,39 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                          </div>
 
-                      <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
-                        <i class="fas fa-search"></i>Filtrar por fecha de fichaje
-                      </button>
+
+        
+
+            
 
                       @break
 
 
                       @case('Proyecto')
+
+
+                          @if($filtroNombreProyecto != null)
+
+                                  
+
+                                  <button type="button" id="btnQuitarFiltrarProyecto" class="btn btn-block btn-outline-info mb-3" onclick="window.location.href='/proyecto'">
+                                    <i class="fas fa-times"></i>Quitar filtro
+                                  </button>
+
+
+
+                           @else
+
+
+                                   <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                                    <i class="fas fa-search"></i>Filtrar por nombre de proyecto
+                                  </button>
+
+
+                          @endif
+                    
+
+                    
 
                         <div class="input-group input-group-sm m-1">
                                 <label class="text-lightblue m-2">Filtrar estado:</label>
@@ -238,13 +283,16 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                          </div>
 
-                      <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
-                        <i class="fas fa-search"></i>Filtrar por nombre de proyecto
-                      </button>
+
+
+                
 
 
 
                       @break
+
+
+
 
 
                       @default
