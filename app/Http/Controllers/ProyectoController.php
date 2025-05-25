@@ -43,6 +43,70 @@ class ProyectoController extends Controller
 
     }
 
+       public function indexFiltrar(Request $request)
+    {
+        try{
+            $authRol = PermisosController::authRol();
+
+            switch ($authRol) {
+                case 'Administrador':
+                    $proyectos = Proyecto::where('nombre', 'like', "%{$request->input('nombre')}%")
+                    ->paginate(10);
+                break;
+
+                case 'ProductManager':
+                    $proyectos = Proyecto::where('nombre', 'like', "%{$request->input('nombre')}%")
+                    ->paginate(10);                
+                break;
+
+                case 'Usuario':
+                    $proyectos = Proyecto::whereHas('empleados', function ($query) {
+                        $query->where('id_empleado', auth()->user()->empleado->id);
+                    })
+                    ->where('nombre', 'like', "%{$request->input('nombre')}%")
+                    ->paginate(10);                
+                break;
+            }
+
+            return view('Proyecto.index', ['proyectos' => $proyectos]);
+        }catch(\Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);   
+        }
+
+    }
+
+        public function indexFiltrarEstado($estado)
+    {
+        try{
+            $authRol = PermisosController::authRol();
+
+            switch ($authRol) {
+                case 'Administrador':
+                    $proyectos = Proyecto::where('estado', $estado)
+                    ->paginate(10);
+                break;
+
+                case 'ProductManager':
+                    $proyectos = Proyecto::where('estado', $estado)
+                    ->paginate(10);
+                break;
+
+                case 'Usuario':
+                    $proyectos = Proyecto::whereHas('empleados', function ($query) {
+                        $query->where('id_empleado', auth()->user()->empleado->id);
+                    })
+                    ->where('estado', $estado)->paginate(10);                
+                break;
+            }
+
+            session()->flash('proyectos_estado', $estado);
+            return view('Proyecto.index', ['proyectos' => $proyectos]);
+        }catch(\Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);   
+        }
+
+    }
+
     public function showDocs($id)
     {
         try{
@@ -185,6 +249,18 @@ class ProyectoController extends Controller
     public function show(Proyecto $proyecto)
     {
         //
+    }
+
+   public function showFiltrar()
+    {
+        try{
+
+            return view('Proyecto.show-filter');
+
+        }catch(Exepcion $e){
+        
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
 

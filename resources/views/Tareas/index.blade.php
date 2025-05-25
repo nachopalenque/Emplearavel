@@ -54,6 +54,34 @@
           
                         <h3 class="card-title">Total de tareas: {{ count($tareas) }}</h3>
       
+
+
+                                      <div class="card-tools">
+                
+                                <div class="input-group input-group-sm">
+                                <label class="text-lightblue m-1">Filtrar por:</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
+
+                                    <select name="estado" id="selectEstado">
+                                        <option value="Pendiente" {{ $estadoSeleccionado == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                        <option value="En curso" {{ $estadoSeleccionado == 'En curso' ? 'selected' : '' }}>En curso</option>
+                                        <option value="Parada" {{ $estadoSeleccionado == 'Parada' ? 'selected' : '' }}>Parada</option>
+                                        <option value="Cancelada" {{ $estadoSeleccionado == 'Cancelada' ? 'selected' : '' }}>Cancelada</option>
+                                        <option value="Terminada" {{ $estadoSeleccionado == 'Terminada' ? 'selected' : '' }}>Terminada</option>
+                                        <option value="Todas" {{ $estadoSeleccionado == 'Todas' ? 'selected' : '' }}>Todas</option>
+
+                                    </select>
+
+                                </div>
+
+
+                                </div>
+              </div>
+
+             
+
+
               </div>
 
               <div class="card-body">
@@ -231,6 +259,16 @@
 
 
              });
+
+
+               const select = document.getElementById('selectEstado');
+
+                    select.addEventListener('change', (event) => {
+                            const estado = select.value;
+                            console.log(estado);
+                            window.location.href = `/tareas/estado/${estado}`
+                                        
+                    });
 
 
         

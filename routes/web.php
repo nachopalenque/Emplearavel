@@ -71,12 +71,19 @@ Route::middleware([
     Route::post('/proyecto/evento/empleados', [ProyectoController::class,"storeEvent"])->name('proyecto.evento.empleados.store');
     Route::post('/proyecto/empleados/{id_proyecto}/{id_empleado}', [ProyectoController::class,"storeProyectoEmpleado"])->name('proyecto.empleados.store');
     Route::delete('/proyecto/empleados/{id_proyecto}/{id_empleado}', [ProyectoController::class,"destroyProyectoEmpleado"])->name('proyecto.empleados.destroy');
+    Route::get('/proyectos/filtrar/estado/{estado}', [ProyectoController::class,"indexFiltrarEstado"])->name('proyectos.filtrar.estados');
+    Route::get('/proyectos/filtrar', [ProyectoController::class,"showFiltrar"])->name('proyectos.filtrar.show');
+    Route::post('/proyectos/filtrar', [ProyectoController::class,"indexFiltrar"])->name('proyectos.filtrar.index');
+
     //rutas para la gestion de los fichajes
     Route::resource('/fichaje', FichajeController::class);
     Route::get('/fichar', [FichajeController::class,"fichar"])->name('fichaje.fichar');
     Route::get('/terminar-fichar', [FichajeController::class,"terminarFichar"])->name('fichaje.terminarFichar');
     Route::get('/fichaje-print', [FichajeController::class,"indexPrint"])->name('fichaje.indexPrint');
     Route::post('/fichaje-print', [FichajeController::class,"storePrint"])->name('fichaje.storePrint');
+    Route::get('/fichajes/filtrar', [FichajeController::class,"showFiltrar"])->name('fichajes.filtrar.show');
+    Route::post('/fichajes/filtrar', [FichajeController::class,"indexFiltrar"])->name('fichajes.filtrar.index');
+    Route::get('/fichajes/filtrar/mes/{mes}', [FichajeController::class,"indexFiltrarMes"])->name('fichajes.filtrar.mes');
 
     //rutas para la gestion de los empleados
     Route::resource('/empleado',EmpleadoController::class);
@@ -103,6 +110,7 @@ Route::middleware([
 
     //rutas para gestionar las tareas
     Route::resource('/tareas', TareasController::class);
+    Route::get('/tareas/estado/{estado}', [TareasController::class,"indexEstado"])->name('tareas.indexEstado');
 
 
 });

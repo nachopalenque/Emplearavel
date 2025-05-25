@@ -36,7 +36,77 @@ class TareasController extends Controller
                 )
                 ->paginate(10);
 
-            return view('Tareas.index', ['tareas' => $tareas]);
+            return view('Tareas.index', [ 'estadoSeleccionado' => null,'tareas' => $tareas]);
+
+        }catch(Exception $e){
+
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+      public function indexEstado($estado)
+    {
+        try{
+                if($estado =='Todas'){
+
+                    $tareas = DB::table('eventos')
+                ->where('eventos.id_empleado', auth()->user()->empleado->id)
+                ->join('proyectos', 'eventos.id_proyecto', '=', 'proyectos.id')
+                ->select(
+                    'eventos.id',
+                    'proyectos.nombre',
+                    'eventos.titulo',
+                    'eventos.observaciones',
+                    'eventos.fecha_inicio',
+                    'eventos.fecha_fin',
+                    'eventos.estado_evento'
+          
+                )
+                ->groupBy(
+                    'eventos.id',
+                    'proyectos.nombre',
+                    'eventos.titulo',
+                    'eventos.observaciones',
+                    'eventos.fecha_inicio',
+                    'eventos.fecha_fin',
+                    'eventos.estado_evento'
+             
+                )
+                ->paginate(10);
+
+
+
+
+                }else{
+                    $tareas = DB::table('eventos')
+                ->where('eventos.estado_evento', $estado)
+                ->where('eventos.id_empleado', auth()->user()->empleado->id)
+                ->join('proyectos', 'eventos.id_proyecto', '=', 'proyectos.id')
+                ->select(
+                    'eventos.id',
+                    'proyectos.nombre',
+                    'eventos.titulo',
+                    'eventos.observaciones',
+                    'eventos.fecha_inicio',
+                    'eventos.fecha_fin',
+                    'eventos.estado_evento'
+          
+                )
+                ->groupBy(
+                    'eventos.id',
+                    'proyectos.nombre',
+                    'eventos.titulo',
+                    'eventos.observaciones',
+                    'eventos.fecha_inicio',
+                    'eventos.fecha_fin',
+                    'eventos.estado_evento'
+             
+                )
+                ->paginate(10);
+
+                }
+                
+            return view('Tareas.index', ['estadoSeleccionado'=> $estado,'tareas' => $tareas]);
 
         }catch(Exception $e){
 

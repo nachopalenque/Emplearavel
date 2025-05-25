@@ -12,7 +12,8 @@
 <body>
 
 @php
-
+$selectMesFichajes = session()->get('fichajes_mes');
+$selectEstadoProyecto = session()->get('proyectos_estado');
 $rolAuth = auth()->user()->getRoleNames()->first();
 @endphp
 <div>
@@ -180,20 +181,87 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                 @endif
 
+                    @switch($modeloNombre)
+
+                      @case('Fichaje')
+
+                              <div class="input-group input-group-sm m-1">
+                                <label class="text-lightblue m-2">Filtrar por mes año actual:</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
+
+                                    <select name="selectMesFichajes" id="selectMesFichajes">
+                                        <option value="1" {{ $selectMesFichajes == '1' ? 'selected' : '' }}>Enero</option>
+                                        <option value="2" {{ $selectMesFichajes == '2' ? 'selected' : '' }}>Febrero</option>
+                                        <option value="3" {{ $selectMesFichajes == '3' ? 'selected' : '' }}>Marzo</option>
+                                        <option value="4" {{ $selectMesFichajes == '4' ? 'selected' : '' }}>Abril</option>
+                                        <option value="5" {{ $selectMesFichajes == '5' ? 'selected' : '' }}>Mayo</option>
+                                        <option value="6" {{ $selectMesFichajes == '6' ? 'selected' : '' }}>Junio</option>
+                                        <option value="7" {{ $selectMesFichajes == '7' ? 'selected' : '' }}>Julio</option>
+                                        <option value="8" {{ $selectMesFichajes == '8' ? 'selected' : '' }}>Agosto</option>
+                                        <option value="9" {{ $selectMesFichajes == '9' ? 'selected' : '' }}>Septiembre</option>
+                                        <option value="10" {{ $selectMesFichajes == '10' ? 'selected' : '' }}>Obtubre</option>
+                                        <option value="11" {{ $selectMesFichajes == '11' ? 'selected' : '' }}>Noviembre</option>
+                                        <option value="12" {{ $selectMesFichajes == '12' ? 'selected' : '' }}>Diciembre</option>
+
+                                    </select>
+
+                                </div>
 
 
-                  <div class="input-group input-group-sm" style="width: 150px;">
+                         </div>
 
-                    <input type="text" name="table_search" class="form-control float-right" placeholder="Buscar">
-
-                    <div class="input-group-append">
-                      
-                      <button type="submit" class="btn btn-default">
-                        <i class="fas fa-search"></i>
+                      <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                        <i class="fas fa-search"></i>Filtrar por fecha de fichaje
                       </button>
-                    </div>
 
-                  </div>
+                      @break
+
+
+                      @case('Proyecto')
+
+                        <div class="input-group input-group-sm m-1">
+                                <label class="text-lightblue m-2">Filtrar estado:</label>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
+
+                                    <select name="selectEstadoProyecto" id="selectEstadoProyecto">
+                                        <option value="Pendiente" {{ $selectEstadoProyecto == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                        <option value="En curso" {{ $selectEstadoProyecto == 'En curso' ? 'selected' : '' }}>En curso</option>
+                                        <option value="En Desarrollo" {{ $selectEstadoProyecto == 'En Desarrollo' ? 'selected' : '' }}>En Desarrollo</option>
+                                        <option value="En fase de pruebas" {{ $selectEstadoProyecto == 'En fase de pruebas' ? 'selected' : '' }}>En fase de pruebas</option>
+                                        <option value="Finalizado" {{ $selectEstadoProyecto == 'Finalizado' ? 'selected' : '' }}>Finalizado</option>
+                                    </select>
+
+                                </div>
+
+
+                         </div>
+
+                      <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                        <i class="fas fa-search"></i>Filtrar por nombre de proyecto
+                      </button>
+
+
+
+                      @break
+
+
+                      @default
+
+                        <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                          <i class="fas fa-search"></i>Filtrar
+                        </button>
+
+
+                    @endswitch
+
+
+
+           
+                      
+            
+
                   
                 </div>
 
@@ -700,11 +768,137 @@ $rolAuth = auth()->user()->getRoleNames()->first();
             });
       }
 
+        //Botón filtrar
+          if (e.target.closest('#btnFiltrar')) {
+          const btn = e.target.closest('#btnFiltrar');
+          const modelo = @json($modeloNombre);
+          document.getElementById('modalBody').innerHTML = '';
+          document.getElementById('tituloModal').innerHTML = 'Filtrar registros:';
+
+          switch(modelo){
+
+            case 'Empleado':
+            fetch(`/empleados/filtrar`)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('modalBody').innerHTML = html;
+                })
+                .catch(error => {
+                  console.error('Error al cargar empleados:', error);
+              });
+            break;
+
+            case 'Proyecto':
+            fetch(`/proyectos/filtrar`)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('modalBody').innerHTML = html;
+                })
+                .catch(error => {
+                  console.error('Error al cargar empleados:', error);
+              });
+            break;
+
+            case 'Tarea':
+            fetch(`/tareas/filtrar`)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('modalBody').innerHTML = html;
+                })
+                .catch(error => {
+                  console.error('Error al cargar empleados:', error);
+              });
+            break;
+
+            case 'Fichaje':
+              console.log('antes del fetch');
+            fetch(`/fichajes/filtrar`)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('modalBody').innerHTML = html;
+                })
+                .catch(error => {
+                  console.error('Error al cargar empleados:', error);
+              });
+            break;
+
+            case 'Usuario':
+            fetch(`/usuarios/filtrar`)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('modalBody').innerHTML = html;
+                })
+                .catch(error => {
+                  console.error('Error al cargar empleados:', error);
+              });
+            break;
+
+
+            case 'Evento':
+            fetch(`/eventos/filtrar`)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('modalBody').innerHTML = html;
+                })
+                .catch(error => {
+                  console.error('Error al cargar empleados:', error);
+              });
+            break;
+
+
+            case 'Centro':
+            fetch(`/centros/filtrar`)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('modalBody').innerHTML = html;
+                })
+                .catch(error => {
+                  console.error('Error al cargar empleados:', error);
+              });
+            break;
+          }
+
+      }
+
+      
+
+  
+
+  });
+
+
+//Capturamos el evento de cambio de cualquier select
+  document.addEventListener('change', function (e) {
+
+    //Comprobamos que el select que ha cambiado sea el de mes de fichajes
+      if (e.target.closest('#selectMesFichajes')) {
+
+            //Select filtro mes de fichajes para el ejercicio actual
+         const selectMesFichajes = document.getElementById('selectMesFichajes');
+         const mes = selectMesFichajes.value;
+         window.location.href = `/fichajes/filtrar/mes/${mes}`
+                                              
+      }
+
+    //Comprobamos que el select que ha cambiado sea el de estado de proyectos
+
+      if (e.target.closest('#selectEstadoProyecto')) {
+       
+          //Select filtro estado de proyectos
+          const selectEstadoProyecto = document.getElementById('selectEstadoProyecto');
+          const estado = selectEstadoProyecto.value;
+          window.location.href = `/proyectos/filtrar/estado/${estado}` 
+
+
+      }
+
 
 
   });
 
+
     
+
 
 
 

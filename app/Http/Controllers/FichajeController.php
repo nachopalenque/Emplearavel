@@ -7,6 +7,7 @@ use App\Models\Empleado;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class FichajeController extends Controller
 {
@@ -27,6 +28,57 @@ class FichajeController extends Controller
         }
     
     }
+
+       public function indexFiltrar(Request $request)
+    {
+        try{
+            $fechaDesde = Carbon::parse($request->input('fecha_desde'))->startOfDay();
+            $fechaHasta = Carbon::parse($request->input('fecha_hasta'))->endOfDay();
+            $fichajes = Fichaje::where('created_at', '>=',  $fechaDesde)
+            ->where('created_at', '<=', $fechaHasta)
+            ->where('id_usuario', auth()->user()->id)
+            ->orderBy('id', 'desc')
+            ->paginate(10);  
+            return view('Fichaje.index', ['fichajes' => $fichajes]);
+        }
+        catch(Exception $e){
+
+            return response()->json(['error' => $e->getMessage()], 500);   
+        }
+    
+    }
+
+          public function indexFiltrarMes($mes)
+    {
+        try{
+         $fichajes = Fichaje::whereMonth('created_at', $mes)
+        ->whereYear('created_at', date('Y'))
+        ->where('id_usuario', auth()->user()->id)
+        ->orderBy('id', 'desc')
+        ->paginate(10);
+
+            session()->flash('fichajes_mes', $mes);
+            return view('Fichaje.index', ['fichajes' => $fichajes]);
+        }
+        catch(Exception $e){
+
+            return response()->json(['error' => $e->getMessage()], 500);   
+        }
+    
+    }
+
+
+    public function showFiltrar(){
+        try{
+
+            return view('Fichaje.show-filter');
+
+        }catch(Exception $e){
+            
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 
   
     /**
