@@ -45,6 +45,7 @@
                                 <option value="asuntos_propios">Día de asuntos propios</option>
                                 <option value="baja" >Día de baja por enfermedad</option>
                                 <option value="asistencia_medica">Asistencia a consulta médica</option>
+                                <option value="administrativo">Notificaciones administrativas (ejemplo nóminas, boletines informátivos...)</option>
                                 <option value="otro" >Otros</option>
                 
                                 </select>

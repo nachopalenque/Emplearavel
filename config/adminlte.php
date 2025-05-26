@@ -390,14 +390,14 @@ return [
 
                 [
                     'text' => 'Enviadas',
-                    'route' => 'notificacion.index',
+                    'route' => 'notificacion.indexSend',
                     'icon' => 'fas fa-comment-dots',
 
                 ],
 
                 [
                     'text' => 'Eliminadas',
-                    'route' => 'notificacion.index',
+                    'route' => 'notificacion.indexDel',
                     'icon' => 'fas fa-trash',
 
                 ],

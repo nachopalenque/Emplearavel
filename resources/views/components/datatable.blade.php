@@ -18,6 +18,9 @@ $filtroFechaFichajes = session()->get('fichajes_fecha');
 $selectEstadoProyecto = session()->get('proyectos_estado');
 $filtroNombreProyecto = session()->get('proyectos_nombre');
 
+$selectEstadoNotificaciones = session()->get('notificaciones_estado');
+$filtroAsuntoNotificaciones = session()->get('notificaciones_asunto');
+
 $rolAuth = auth()->user()->getRoleNames()->first();
 @endphp
 <div>
@@ -54,6 +57,13 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                       @include('Proyecto.create')
                       
                       @endif
+
+                      @if($modeloNombre == 'Notificacion')
+
+                      @include('Notificacion.create')
+                      
+                      @endif
+
 
                     </div>
                     
@@ -150,6 +160,8 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                 <div class="card-tools">
 
+    
+
                 @if($modeloNombre == 'Proyecto')
 
                   @if($rolAuth == 'Administrador' || $rolAuth == 'ProductManager')
@@ -162,7 +174,6 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                 @if($modeloNombre == 'Fichaje')
 
-                <button type="button" id="btnprintFichaje" class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal"><i class="fa fa-print mr-1"></i>Imprimir fichajes</button>
 
 
                   @if($items->first()?->estado == 'en curso')
@@ -189,6 +200,12 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                       @case('Fichaje')
 
+                          @if(count($items)>0)
+                          
+                                    <button type="button" id="btnprintFichaje" class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal"><i class="fa fa-print mr-1"></i>Imprimir fichajes</button>
+
+
+                          @endif
 
                           @if($filtroFechaFichajes != null)
 
@@ -197,15 +214,25 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                                     </button>
 
                           @else
+                                    <!-- Solo se muestra el filtro si hay registros -->
+                                    @if(count($items)>0)
 
                                     <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
                                       <i class="fas fa-search"></i>Filtrar por fecha de fichaje
                                     </button>
 
+                                    @endif
+                               
+
 
                           @endif
 
-                              <div class="input-group input-group-sm m-1">
+                                  
+                              <!-- Solo se muestra el filtro si hay registros -->
+
+                              @if(count($items)>0)
+
+                                  <div class="input-group input-group-sm m-1">
                                 <label class="text-lightblue m-2">Filtrar por mes año actual:</label>
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
@@ -229,7 +256,10 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                                 </div>
 
 
-                         </div>
+                              </div>
+
+                              @endif
+                          
 
 
         
@@ -254,38 +284,130 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                            @else
 
+                                    @if(count($items)>0)
 
-                                   <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
-                                    <i class="fas fa-search"></i>Filtrar por nombre de proyecto
-                                  </button>
+                                         <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                                          <i class="fas fa-search"></i>Filtrar por nombre de proyecto
+                                         </button>
+
+                                    @endif
+                              
 
 
                           @endif
                     
 
-                    
+                                  <!-- Solo se muestra el filtro si hay registros -->
 
-                        <div class="input-group input-group-sm m-1">
+                                    @if(count($items)>0)
+
+                                       <div class="input-group input-group-sm m-1">
+                                          <label class="text-lightblue m-2">Filtrar estado:</label>
+                                          <div class="input-group-prepend">
+                                              <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
+
+                                              <select name="selectEstadoProyecto" id="selectEstadoProyecto">
+                                                  <option value="Pendiente" {{ $selectEstadoProyecto == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                                  <option value="En curso" {{ $selectEstadoProyecto == 'En curso' ? 'selected' : '' }}>En curso</option>
+                                                  <option value="En Desarrollo" {{ $selectEstadoProyecto == 'En Desarrollo' ? 'selected' : '' }}>En Desarrollo</option>
+                                                  <option value="En fase de pruebas" {{ $selectEstadoProyecto == 'En fase de pruebas' ? 'selected' : '' }}>En fase de pruebas</option>
+                                                  <option value="Finalizado" {{ $selectEstadoProyecto == 'Finalizado' ? 'selected' : '' }}>Finalizado</option>
+                                              </select>
+
+                                          </div>
+                                        </div>
+
+
+                                    
+                                    @endif
+               
+
+
+                
+
+
+
+                      @break
+
+
+
+                      @case('Notificacion')
+
+                        @if($opcional == 'notificaciones_recibidas')
+
+                      <button type="button" id='btnNuevo' class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalValidaciones" ><i class="fa fa-plus mr-1"></i>Nueva {{$modeloNombre}}</button>
+
+
+
+                        @endif
+
+                        @if($opcional == 'notificaciones_eliminadas')
+
+                            @if(count($items)>0)
+
+                               <form action="{{ route('notificacion.vaciar.papelera')}}" method="POST">
+                                @csrf
+                                <button type="submit" id='btnVaciarPapeleraNotificaciones' class="btn btn-block btn-outline-danger mb-3 btn-eliminar" ><i class="fa fa-trash mr-1"></i>Vaciar papelera de notificaciones</button>
+                                </form>
+
+                            @endif
+                       
+
+                        @endif
+
+                        @if($filtroAsuntoNotificaciones != null )
+
+                                  @if(count($items)>0)
+
+                                    <button type="button" id="btnQuitarFiltrarProyecto" class="btn btn-block btn-outline-info mb-3" onclick="window.location.href='/proyecto'">
+                                      <i class="fas fa-times"></i>Quitar filtro
+                                    </button>
+
+
+                                  @endif
+
+
+
+
+                           @else
+
+                                  @if(count($items)>0)
+
+                                    <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                                      <i class="fas fa-search"></i>Filtrar por asunto de la notificacion
+                                    </button>
+
+                                  @endif
+                
+
+
+                          @endif
+                    
+                          @if(count($items)>0)
+
+                              <div class="input-group input-group-sm m-1">
                                 <label class="text-lightblue m-2">Filtrar estado:</label>
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
 
-                                    <select name="selectEstadoProyecto" id="selectEstadoProyecto">
-                                        <option value="Pendiente" {{ $selectEstadoProyecto == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>
-                                        <option value="En curso" {{ $selectEstadoProyecto == 'En curso' ? 'selected' : '' }}>En curso</option>
-                                        <option value="En Desarrollo" {{ $selectEstadoProyecto == 'En Desarrollo' ? 'selected' : '' }}>En Desarrollo</option>
-                                        <option value="En fase de pruebas" {{ $selectEstadoProyecto == 'En fase de pruebas' ? 'selected' : '' }}>En fase de pruebas</option>
-                                        <option value="Finalizado" {{ $selectEstadoProyecto == 'Finalizado' ? 'selected' : '' }}>Finalizado</option>
+                                    <select name="selectEstadoNotificacion" id="selectEstadoNotificacion">
+                                        <option value="Todas" {{ $selectEstadoNotificaciones == 'Todas' ? 'selected' : '' }}>Todas</option>
+                                        <option value="0" {{ $selectEstadoNotificaciones == '1' ? 'selected' : '' }}>Sin leer</option>
+                                        <option value="1" {{ $selectEstadoNotificaciones == '0' ? 'selected' : '' }}>Leidas</option>
+                             
                                     </select>
 
                                 </div>
 
 
-                         </div>
+                              </div>
+                          
+                          
+                          
+                          @endif
 
+          
 
-
-                
 
 
 
@@ -344,12 +466,30 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                 
                       @foreach($items as $item)
 
+                   
             
                       <tr id="{{ $item->id }}">
                         @foreach($columnas as $columna)
 
+                       
+
                           @if($columna == 'id' || $columna == 'id_usuario' || $columna == 'password' || $columna == 'id_centro')
                           <td hidden>{{ $item->$columna }}</td>
+
+                          @elseIf($columna == 'leido')
+  
+                                @if($opcional == 'notificaciones_recibidas')
+
+                                     @if($item->$columna == 0)
+                                      <td class="text-danger">Sin leer</td>
+                                      @else
+                                      <td class="text-success">Leida</td>
+                                    @endif
+
+                                @endif
+                             
+                         
+
                           @else
 
 
@@ -573,6 +713,30 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                                   @endif
                             
+
+
+                          @endif
+
+
+
+                          @if($modeloNombre == 'Notificacion')
+
+                                    <figure class=" btn-group btn-group-sm">
+                                      <button data-id="{{ $item->id }}" id="btnNotificacionResp" title="Responder notificación"  class="btn btn-info mr-2" data-toggle="modal" data-target="#modal">
+                                      <i class="fas fa-eye"></i>
+                                      </button>
+                                    </figure>
+
+                                   <form action="{{ route('notificacion.updateDelete', ['id_notificacion' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
+                                    @csrf
+                                    @method('PUT')
+                                    <button  type="submit" title="Eliminar Notificación" class="btn  btn-danger btn-eliminar mr-2 ">
+                                    <i class="fas fa-trash"></i>
+                                    </button>
+                                    </form>
+
+
+
 
 
                           @endif
@@ -815,6 +979,29 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                 console.error('Error al cargar empleados:', error);
             });
       }
+
+
+
+      //Botón : Responder notificaciones 
+      if (e.target.closest('#btnNotificacionResp')) {
+          const btn = e.target.closest('#btnNotificacionResp');
+          const id = btn.dataset.id;
+          document.getElementById('modalBody').innerHTML = '';
+          document.getElementById('tituloModal').innerHTML = 'Contenido de la notificación:';
+          fetch(`/notificacion/${id}/edit`)
+              .then(res => res.text())
+              .then(html => {
+                  document.getElementById('modalBody').innerHTML = html;
+              })
+              .catch(error => {
+                console.error('Error al cargar empleados:', error);
+            });
+      }
+
+
+
+
+      
 
         //Botón filtrar
           if (e.target.closest('#btnFiltrar')) {

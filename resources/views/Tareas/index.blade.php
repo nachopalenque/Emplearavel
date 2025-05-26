@@ -78,34 +78,42 @@ $filtroNombreTarea = session()->get('tareas_nombre');
                                     @else
 
                             
+                                            @if(count($tareas)>0)
 
-                                            <button type="button"  id="btnFiltrar" class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
-                                                <i class="fas fa-search"></i>Filtrar por nombre de tarea
-                                            </button>
+                                                <button type="button"  id="btnFiltrar" class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                                                    <i class="fas fa-search"></i>Filtrar por nombre de tarea
+                                                </button>
+
+
+                                            @endif
+                                           
+
+                                    @endif
+
+                                    <!-- Si no hay tareas no aparecen los filtros -->
+                                    @if(count($tareas)>0)
+
+
+                                        <div class="input-group input-group-sm">
+                                            <label class="text-lightblue m-1">Filtrar por:</label>
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
+
+                                                <select name="estado" id="selectEstado">
+                                                    <option value="Pendiente" {{ $estadoSeleccionado == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>
+                                                    <option value="En curso" {{ $estadoSeleccionado == 'En curso' ? 'selected' : '' }}>En curso</option>
+                                                    <option value="Parada" {{ $estadoSeleccionado == 'Parada' ? 'selected' : '' }}>Parada</option>
+                                                    <option value="Cancelada" {{ $estadoSeleccionado == 'Cancelada' ? 'selected' : '' }}>Cancelada</option>
+                                                    <option value="Terminada" {{ $estadoSeleccionado == 'Terminada' ? 'selected' : '' }}>Terminada</option>
+                                                    <option value="Todas" {{ $estadoSeleccionado == 'Todas' ? 'selected' : '' }}>Todas</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
 
 
                                     @endif
                 
-                                    <div class="input-group input-group-sm">
-                                        <label class="text-lightblue m-1">Filtrar por:</label>
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
-
-                                            <select name="estado" id="selectEstado">
-                                                <option value="Pendiente" {{ $estadoSeleccionado == 'Pendiente' ? 'selected' : '' }}>Pendiente</option>
-                                                <option value="En curso" {{ $estadoSeleccionado == 'En curso' ? 'selected' : '' }}>En curso</option>
-                                                <option value="Parada" {{ $estadoSeleccionado == 'Parada' ? 'selected' : '' }}>Parada</option>
-                                                <option value="Cancelada" {{ $estadoSeleccionado == 'Cancelada' ? 'selected' : '' }}>Cancelada</option>
-                                                <option value="Terminada" {{ $estadoSeleccionado == 'Terminada' ? 'selected' : '' }}>Terminada</option>
-                                                <option value="Todas" {{ $estadoSeleccionado == 'Todas' ? 'selected' : '' }}>Todas</option>
-
-                                            </select>
-
-                                        </div>
-
-
-                                    </div>
-
                                 </div>
 
              

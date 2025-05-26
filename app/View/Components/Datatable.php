@@ -17,12 +17,14 @@ class Datatable extends Component
     public $columNames;
     public $modeloNombre;
     public $columnas;
-    public function __construct($items,$modelo,$modeloNombre,$columNombres)
+    public $opcional;
+    public function __construct($items,$modelo,$modeloNombre,$columNombres, $opcional = null)
     {
         $this->modeloClase = new $modelo();
         $this->columNames = $columNombres;
         $this->modeloNombre = $modeloNombre;
         $this->items = $items;
+        $this->opcional = $opcional;
     }
 
     /**

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Evento;
 use App\Models\Empleado;
 use App\Models\Proyecto;
-
+use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -56,8 +56,15 @@ class EventoController extends Controller
     {
         try{
 
+            
             //creando el evento para el proyecto
             if($request->input('id_proyecto') != null){
+
+                $request->validate([
+                    'adjunto' => 'required|file|mimes:jpg,png,pdf,docx|max:2048',
+                ]);
+
+
                 $proyecto = Proyecto::find($request->input('id_proyecto'));           
                 $evento = new Evento();
                 $evento->id_empleado = auth()->user()->empleado->id;
@@ -67,7 +74,7 @@ class EventoController extends Controller
                 $evento->fecha_fin = Now();
                 $evento->tipo_evento = 'Archivo de proyecto';
                 $evento->observaciones = 'Añadido archivo de proyecto '. $request->input('adjunto');
-                $evento->estado_evento = 'pendiente';
+                $evento->estado_evento = 'Pendiente';
 
                 if ($request->hasFile('adjunto')) {
                     $nombreOriginal = $request->file('adjunto')->getClientOriginalName(); 
@@ -76,6 +83,7 @@ class EventoController extends Controller
 
                 }
                 $evento->save();
+                $this->createNotificacionEvent('evento_proyecto', $evento);
 
                 return redirect()->route('proyecto.index')->with('estado', 'creado');
            
@@ -102,7 +110,7 @@ class EventoController extends Controller
                 $evento->fecha_fin = $request->input('fecha_fin');
                 $evento->tipo_evento = $request->input('tipo_evento');
                 $evento->observaciones = $request->input('observaciones');
-                $evento->estado_evento = 'pendiente';
+                $evento->estado_evento = 'Pendiente';
                 $evento->adjunto = '';
 
                 if($request->input('id_empleado') != null){
@@ -146,6 +154,8 @@ class EventoController extends Controller
                 }
 
                     $evento->save();
+
+                    $this->createNotificacionEvent('evento_empleado', $evento);
                     return redirect()->route('evento.index')->with('estado', 'creado');
 
             }
@@ -169,6 +179,65 @@ class EventoController extends Controller
         //
     }
 
+
+    public function createNotificacionEvent($tipo_notificacion, $evento=null){
+        try{
+
+            switch($tipo_notificacion){
+
+                case 'evento_proyecto':
+
+                        $proyecto = Proyecto::find($evento->id_proyecto);
+                        $empleados_proyecto = $proyecto->empleados()->pluck('id_empleado')->toArray();
+                        foreach($empleados_proyecto as $empleado){
+
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion->id_empleado_destino = $empleado;
+                            $notificacion->titulo = "Añadido archivo a proyecto ". $proyecto->nombre;
+                            $notificacion->mensaje = "Se ha añadido un archivo al proyecto ". $proyecto->adjunto;
+                            $notificacion->save();
+                        }
+                    
+               
+
+                break;
+
+
+
+
+                case 'evento_empleado':
+
+
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion->id_empleado_destino = $evento->id_empleado;
+                            $notificacion->titulo = "Notificacion de tipo : ". $evento->tipo_evento;
+                            $notificacion->mensaje = $evento->observaciones;
+                            $notificacion->save();
+                        
+
+
+
+                 
+                break;   
+
+
+
+                case 'evento_empleado_tarea':
+
+
+
+                 
+                break;   
+            }
+
+
+        }catch(Exception $e){
+
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      */

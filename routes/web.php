@@ -117,6 +117,11 @@ Route::middleware([
 
     //rutas para gestionar las notificaciones
     Route::resource('/notificacion', NotificacionController::class);
+    Route::get('/notificacion-enviadas', [NotificacionController::class,"indexSend"])->name('notificacion.indexSend');
+    Route::get('/notificacion-eliminadas', [NotificacionController::class,"indexDel"])->name('notificacion.indexDel');
+    Route::post('/notificacion/vaciar-papelera', [NotificacionController::class,"destroyAll"])->name('notificacion.vaciar.papelera');
+
+    Route::put('/notificacion/eliminar/{id_notificacion}', [NotificacionController::class,"updateDelete"])->name('notificacion.updateDelete');
 
 
 
