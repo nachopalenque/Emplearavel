@@ -15,7 +15,7 @@
 use App\Models\Centro;
 
 
-if (auth()->check()) {
+if (auth()->check() && auth()->user()->empleado && auth()->user()->empleado->id !== null) {
 
 $user = auth()->user();
 $centro = Centro::find($user->id_centro);

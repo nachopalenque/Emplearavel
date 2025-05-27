@@ -36,7 +36,7 @@
 
                 <div class="card-footer">
                
-                <x-adminlte-button class="btn-flat" type="submit" label="Filtrar proyectos" theme="success" icon="fas fa-lg fa-sync-alt"/>
+                <x-adminlte-button class="btn-flat" type="submit" label="Filtrar proyectos" theme="success" icon="fas fa-lg fa-search"/>
 
                 </div>
               </form>

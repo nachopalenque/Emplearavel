@@ -180,7 +180,7 @@ class EventoController extends Controller
     }
 
 
-    public function createNotificacionEvent($tipo_notificacion, $evento=null){
+    public static function createNotificacionEvent($tipo_notificacion, $evento=null, $centro=null, $usuario = null){
         try{
 
             switch($tipo_notificacion){
@@ -225,11 +225,55 @@ class EventoController extends Controller
 
 
                 case 'evento_empleado_tarea':
-
+                    
+                            $proyecto = Proyecto::find($evento->id_proyecto);
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion->id_empleado_destino = $evento->id_empleado;
+                            $notificacion->titulo = "Se le asignado una tarea en el proyecto : ". $proyecto->nombre;
+                            $notificacion->mensaje = $evento->observaciones;
+                            $notificacion->save();
+                        
 
 
                  
                 break;   
+
+                case 'evento_empleado_tarea_actualizacion':
+
+                            $proyecto = Proyecto::find($evento->id_proyecto);
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion->id_empleado_destino = $proyecto->empleados()->first()->id;
+                            $notificacion->titulo = "Se han hecho cambios en la tarea : ". $evento->titulo . " en el proyecto : ". $proyecto->nombre . " por el usuario : ". auth()->user()->empleado->nombre . " " . auth()->user()->empleado->apellidos;
+                            $notificacion->mensaje = "Tarea en estado: ". $evento->estado_evento . " : " . $evento->observaciones;
+                            $notificacion->save();
+                        
+
+                break; 
+                
+                case 'evento_centro_productivo_nuevo':
+
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion->id_empleado_destino = Empleado::all()->first()->id;
+                            $notificacion->titulo = "Se ha creado un centro productivo nuevo denominado : ". $centro->nombre . " por el empleado : ". auth()->user()->empleado->nombre . " " . auth()->user()->empleado->apellidos;
+                            $notificacion->mensaje = "Se ha creado el centro productivo denominado :" .$centro->nombre . " de la localidad : " . $centro->localidad . " con la siguiente direccion : " . $centro->direccion;
+                            $notificacion->save();
+
+                break;
+                
+                case 'empleado_centro_nuevo':
+
+
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = $usuario->empleado->id;
+                            $notificacion->id_empleado_destino = Empleado::all()->first()->id;
+                            $notificacion->titulo = "Se ha dado de alta el empleado : ". $usuario->empleado->nombre . " " . $usuario->empleado->apellidos . " y asociado al centro productivo : ". $centro->nombre;
+                            $notificacion->mensaje = "El empleado : " . $usuario->empleado->nombre . " " . $usuario->empleado->apellidos . " con el rol de : " .$usuario->getRoleNames()->first() . " con el correo : " . $usuario-> empleado->email . " y que desempeñara el puesto de : " . $usuario->empleado->puesto . "se ha asociado a el centro productivo :" .$centro->nombre . " de la localidad : " . $centro->localidad . " ubicado en : " . $centro->direccion;
+                            $notificacion->save();
+
+                break;
             }
 
 

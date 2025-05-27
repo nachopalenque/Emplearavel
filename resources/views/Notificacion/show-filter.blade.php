@@ -1,13 +1,14 @@
 <div class="card">
     
               <div class="card-header">
-                <h3 class="card-title">Escriba el nombre completo o parcial de la tarea</h3><br>
-                <span class="text-maroon">(Buscara todas las tareas que coincidan)</span>
+                <h3 class="card-title">Escriba el nombre completo o parcial del asunto de la notificacion</h3><br>
+                <span class="text-maroon">(Buscara todas las notificaciones que coincidan)</span>
               </div>
 
-              <form method="POST" action="{{ route('tareas.filtrar.index') }}">
+              <form method="POST" action="{{ route('notificacion.filtrar.index')  }}">
                @csrf
-       
+            
+               <input type="text" name="tipo" value="{{$tipo}}" hidden="true">
               <div class="card-body">
 
                 <div class="row">
@@ -15,7 +16,7 @@
                     <div class="col">
                     
                         
-                        <x-adminlte-input type="text" name="nombre" label="Nombre" placeholder="Ingrese el nombre de la tarea"  label-class="text-lightblue" >
+                        <x-adminlte-input type="text" name="titulo" label="Asunto" placeholder="Ingrese el asunto de la notificación"  label-class="text-lightblue" >
                 
                         <x-slot name="prependSlot">
                             <div class="input-group-text">
@@ -36,7 +37,7 @@
 
                 <div class="card-footer">
                
-                <x-adminlte-button class="btn-flat" type="submit" label="Filtrar tareas" theme="success" icon="fas fa-lg fa-search"/>
+                <x-adminlte-button class="btn-flat" type="submit" label="Filtrar notificación" theme="success" icon="fas fa-lg fa-search"/>
 
                 </div>
               </form>

@@ -335,9 +335,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                         @if($opcional == 'notificaciones_recibidas')
 
-                      <button type="button" id='btnNuevo' class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalValidaciones" ><i class="fa fa-plus mr-1"></i>Nueva {{$modeloNombre}}</button>
-
-
+                        <button type="button" id='btnNuevo' class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalValidaciones" ><i class="fa fa-plus mr-1"></i>Nueva {{$modeloNombre}}</button>
 
                         @endif
 
@@ -355,16 +353,51 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                         @endif
 
+
                         @if($filtroAsuntoNotificaciones != null )
 
-                                  @if(count($items)>0)
+                                    
 
-                                    <button type="button" id="btnQuitarFiltrarProyecto" class="btn btn-block btn-outline-info mb-3" onclick="window.location.href='/proyecto'">
-                                      <i class="fas fa-times"></i>Quitar filtro
-                                    </button>
+                                    @if($opcional == 'notificaciones_recibidas')
+
+                                         <button type="button" id="btnQuitarFiltrarNotificacionesRecibidas" class="btn btn-block btn-outline-info mb-3" onclick="window.location.href='/notificacion'">
+                                            <i class="fas fa-times"></i>Quitar filtro
+                                         </button>
 
 
-                                  @endif
+                                    @endif
+
+                                    @if($opcional == 'notificaciones_enviadas')
+
+                                       <form action="{{ route('notificacion.indexSend')}}" method="GET">
+
+                                         <button type="submit" id="btnQuitarFiltrarNotificacionesEnviadas" class="btn btn-block btn-outline-info mb-3" onclick="window.location.href='/notificacion-enviadas'">
+                                            <i class="fas fa-times"></i>Quitar filtro
+                                         </button>
+
+
+                                       </form>
+
+
+                                    @endif
+
+
+                                    @if($opcional == 'notificaciones_eliminadas')
+
+                                       <form action="{{ route('notificacion.indexDel')}}" method="GET">
+
+                                         <button type="submit" id="btnQuitarFiltrarNotificacionesEliminadas" class="btn btn-block btn-outline-info mb-3" onclick="window.location.href='/notificacion-eliminadas'">
+                                            <i class="fas fa-times"></i>Quitar filtro
+                                         </button>
+
+
+                                       </form>
+
+                                    @endif
+
+                               
+
+
 
 
 
@@ -385,23 +418,27 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                     
                           @if(count($items)>0)
 
-                              <div class="input-group input-group-sm m-1">
-                                <label class="text-lightblue m-2">Filtrar estado:</label>
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
+                                @if($opcional == 'notificaciones_recibidas')
 
-                                    <select name="selectEstadoNotificacion" id="selectEstadoNotificacion">
-                                        <option value="Todas" {{ $selectEstadoNotificaciones == 'Todas' ? 'selected' : '' }}>Todas</option>
-                                        <option value="0" {{ $selectEstadoNotificaciones == '1' ? 'selected' : '' }}>Sin leer</option>
-                                        <option value="1" {{ $selectEstadoNotificaciones == '0' ? 'selected' : '' }}>Leidas</option>
-                             
-                                    </select>
+                                       <div class="input-group input-group-sm m-1">
+                                        <label class="text-lightblue m-2">Filtrar estado:</label>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
 
-                                </div>
+                                            <select name="selectEstadoNotificacion" id="selectEstadoNotificacion">
+                                                <option value="Todas" {{ $selectEstadoNotificaciones == 'Todas' ? 'selected' : '' }}>Todas</option>
+                                                <option value="Sin leer" {{ $selectEstadoNotificaciones == 'Sin leer' ? 'selected' : '' }}>Sin leer</option>
+                                                <option value="Leidas" {{ $selectEstadoNotificaciones == 'Leidas' ? 'selected' : '' }}>Leidas</option>
+                                    
+                                            </select>
 
+                                        </div>
 
-                              </div>
+                                      </div>
                           
+                                @endif
+
+                           
                           
                           
                           @endif
@@ -727,13 +764,47 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                                       </button>
                                     </figure>
 
-                                   <form action="{{ route('notificacion.updateDelete', ['id_notificacion' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
-                                    @csrf
-                                    @method('PUT')
-                                    <button  type="submit" title="Eliminar Notificación" class="btn  btn-danger btn-eliminar mr-2 ">
-                                    <i class="fas fa-trash"></i>
-                                    </button>
-                                    </form>
+
+                                        @if($opcional == 'notificaciones_recibidas')
+
+                                          
+                                                <form action="{{ route('notificacion.updateDelete', ['id_notificacion' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
+                                                  @csrf
+                                                  @method('PUT')
+                                                  <button  type="submit" title="Eliminar Notificación" class="btn  btn-danger btn-eliminar mr-2 ">
+                                                  <i class="fas fa-trash"></i>
+                                                  </button>
+                                                </form>
+
+
+                                        @endif  
+
+
+                                        @if($opcional == 'notificaciones_eliminadas') 
+
+                                                                                          
+                                                <form action="{{ route('notificacion.updateRecuperar', ['id_notificacion' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
+                                                  @csrf
+                                                  @method('PUT')
+                                                  <button  type="submit" title="Restaurar Notificación" class="btn  btn-success mr-2 ">
+                                                  <i class="fas fa-undo"></i>
+                                                  </button>
+                                                </form>
+
+                                          
+                                                <form action="{{ route('notificacion.destroy', ['notificacion' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
+                                                  @csrf
+                                                  @method('PUT')
+                                                  <button  type="submit" title="Eliminar Notificación Permanente" class="btn  btn-danger btn-eliminar mr-2 ">
+                                                  <i class="fas fa-trash"></i>
+                                                  </button>
+                                                </form>
+
+
+                                        @endif  
+
+
+                             
 
 
 
@@ -1012,6 +1083,21 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
           switch(modelo){
 
+
+
+            case 'Notificacion':
+            const tipo = @json($opcional);  
+            fetch(`/notificaciones/filtrar/${tipo}`)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('modalBody').innerHTML = html;
+                })
+                .catch(error => {
+                  console.error('Error al cargar empleados:', error);
+              });
+            break;
+
+
             case 'Empleado':
             fetch(`/empleados/filtrar`)
                 .then(res => res.text())
@@ -1125,6 +1211,18 @@ $rolAuth = auth()->user()->getRoleNames()->first();
           window.location.href = `/proyectos/filtrar/estado/${estado}` 
 
 
+      }
+
+
+    //Comprobamos que el select que ha cambiado sea el de notificaciones bandeja de entrada
+      if (e.target.closest('#selectEstadoNotificacion')) {
+
+            //Select filtro mes de fichajes para el ejercicio actual
+         const selectNotificacionesEntrada = document.getElementById('selectEstadoNotificacion');
+         const estado = selectNotificacionesEntrada.value;
+         window.location.href = `/notificacion/filtrar/${estado}`
+
+                                              
       }
 
 

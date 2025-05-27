@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Datos Notificacion</title>
+  <title>Datos Notificación</title>
 </head>
 <body>
     <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Datos Notificacion</h3>
+                <h3 class="card-title">Datos Notificación</h3>
               </div>
               <!-- /.card-header -->
 
@@ -70,7 +70,7 @@
                             {{$notificacion->mensaje}}
                             <x-slot name="prependSlot">
                                 <div class="input-group-text">
-                                     <i class="fas fa-address-book text-lightblue"></i>
+                                     <i class="fas fa-pen-square text-lightblue"></i>
                                 </div>
                             </x-slot>
                         </x-adminlte-textarea>
@@ -100,7 +100,7 @@
                             igroup-size="sm" >
                             <x-slot name="prependSlot">
                                 <div class="input-group-text">
-                                     <i class="fas fa-address-book text-lightblue"></i>
+                                     <i class="fas fa-pen-square text-lightblue"></i>
                                 </div>
                             </x-slot>
                         </x-adminlte-textarea>

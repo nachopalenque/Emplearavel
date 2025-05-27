@@ -69,7 +69,7 @@ $empleados = Empleado::all();
                             igroup-size="sm" placeholder="Ingrese el contenido del mensaje" text="{{ old('texto') }}">
                             <x-slot name="prependSlot">
                                 <div class="input-group-text">
-                                     <i class="fas fa-address-book text-lightblue"></i>
+                                     <i class="fas fa-pen-square text-lightblue"></i>
                                 </div>
                             </x-slot>
                         </x-adminlte-textarea>

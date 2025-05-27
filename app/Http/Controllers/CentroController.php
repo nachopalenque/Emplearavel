@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Centro;
 use App\Http\Controllers\PermisosController;
+use App\Http\Controllers\EventoController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -81,7 +82,9 @@ class CentroController extends Controller
     
             $centro->save();
 
+            EventoController::createNotificacionEvent('evento_centro_productivo_nuevo', null, $centro);
             session()->flash('estado', 'creado');
+
 
             return back();
     

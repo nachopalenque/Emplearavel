@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Evento;
+use App\Http\Controllers\EventoController;
 
 class TareasController extends Controller
 {
@@ -26,6 +27,7 @@ class TareasController extends Controller
                     'eventos.estado_evento'
           
                 )
+                ->orderBy('eventos.id', 'desc')
                 ->groupBy(
                     'eventos.id',
                     'proyectos.nombre',
@@ -185,7 +187,7 @@ class TareasController extends Controller
                     'eventos.estado_evento'
              
                 )
-                ->paginate(10);
+                ->get();
 
             return view('Tareas.show', ['tareas' => $tareas]);
 
@@ -226,6 +228,11 @@ class TareasController extends Controller
             $evento = Evento::find($request->input('id_evento'));
             $evento->estado_evento = $request->input('estado_evento');
             $evento->save();
+
+            if($evento->id_proyecto != null){
+
+                EventoController::createNotificacionEvent('evento_empleado_tarea_actualizacion', $evento);
+            }
             session()->flash('estado', 'actualizado');
             return redirect()->route('tareas.index');
 

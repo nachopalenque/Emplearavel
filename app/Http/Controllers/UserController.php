@@ -8,10 +8,13 @@ use App\Models\Centro;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\EventoController;
 
 
 class UserController extends Controller
 {
+
+
 
     //asigna un centro de trabajo a un usuario
     public function updateUserCentro(Request $request){
@@ -39,7 +42,7 @@ class UserController extends Controller
             Storage::disk('local')->makeDirectory('intranet/'.$centro->nombre.'/empleados/'.$usuario->empleado->nombre);
 
             $usuario->save();
-    
+            EventoController::createNotificacionEvent('empleado_centro_nuevo', null, $centro, $usuario);
             return redirect('dashboard');
 
         }catch(Exception $e){

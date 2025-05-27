@@ -120,7 +120,10 @@ Route::middleware([
     Route::get('/notificacion-enviadas', [NotificacionController::class,"indexSend"])->name('notificacion.indexSend');
     Route::get('/notificacion-eliminadas', [NotificacionController::class,"indexDel"])->name('notificacion.indexDel');
     Route::post('/notificacion/vaciar-papelera', [NotificacionController::class,"destroyAll"])->name('notificacion.vaciar.papelera');
-
+    Route::get('/notificacion/filtrar/{estado}', [NotificacionController::class,"indexEstado"])->name('notificacion.filtrar.estado');
+    Route::get('/notificaciones/filtrar/{tipo}', [NotificacionController::class,"showFiltrar"])->name('notificacion.filtrar.show');
+    Route::post('/notificaciones/filtrar', [NotificacionController::class,"indexFiltrar"])->name('notificacion.filtrar.index');
+    Route::put('/notificacion/recuperar/{id_notificacion}', [NotificacionController::class,"updateRecuperar"])->name('notificacion.updateRecuperar');
     Route::put('/notificacion/eliminar/{id_notificacion}', [NotificacionController::class,"updateDelete"])->name('notificacion.updateDelete');
 
 

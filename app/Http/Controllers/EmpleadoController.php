@@ -10,9 +10,7 @@ use Illuminate\Http\Request;
 
 class EmpleadoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
       try{

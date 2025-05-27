@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Proyecto;
 use App\Models\Empleado;
 use App\Models\Evento;
-
+use App\Http\Controllers\EventoController;
 use App\Http\Controllers\PermisosController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -183,6 +183,7 @@ class ProyectoController extends Controller
             }
 
             $evento->save();
+            EventoController::createNotificacionEvent('evento_empleado_tarea', $evento);
 
             return redirect()->route('proyecto.index')->with('estado', 'creado');
 

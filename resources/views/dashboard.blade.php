@@ -8,16 +8,37 @@
 @stop
 
 @section('content')
+
+@php
+
+Use App\Http\Controllers\NotificacionController;
+
+    if (auth()->check() && auth()->user()->empleado && auth()->user()->empleado->id !== null) {
+        $numNotificaciones = NotificacionController::numNotificacionesNoLeidas();
+        $usuario = auth()->user()->name ;
+        $rol = auth()->user()->getRoleNames()->first();
+        $centro = auth()->user()->centro->nombre;
+        $ciudad = auth()->user()->empleado->localidad;
+    }else{
+        $numNotificaciones = 0;
+        $usuario = '';
+        $rol = '';
+        $centro = '';
+        $ciudad = '';
+    }
+
+@endphp
     <div id="welcome" class="card">
         <div class="card-body text-left">
-                <p class="text-white display-5">Bienvenido  {{ auth()->user()->name }}  !! Nos encanta volver a verte.</p>
+                <p class="text-white display-5">Bienvenido  {{ $usuario}}  !! Estamos encantados de volver a verte.</p>
              <div id="contentCLima"></div>
         </div>
     </div>
     <hr>
     <div class="card-body bg-gradient-navy text-left">
-    <p><strong>Tipo de usuario: </strong> <span class="text-maroon">{{ auth()->user()->getRoleNames()->first() }}</span> </p>
-    <p><strong>Centro productivo: </strong> <span class="text-maroon">{{ auth()->user()->centro->nombre }}</span></p>
+    <p><strong>Tipo de usuario: </strong> <span class="text-maroon">{{ $rol }}</span> </p>
+    <p><strong>Centro productivo: </strong> <span class="text-maroon">{{ $centro }}</span></p>
+    <p><strong>Número de notificaciones sin leer: </strong> <span class="text-maroon">{{ $numNotificaciones  }}</span></p>
     <x-adminlte-button 
     class="btn-sm bg-gradient-info" 
     type="button" label="Ir al panel de fichajes" 
@@ -49,7 +70,7 @@
     
     window.addEventListener('DOMContentLoaded', (event) => {
         
-            const ciudad = @json(auth()->user()->empleado->localidad);
+            const ciudad = @json($ciudad);
             const apiKey = @json(config('services.api_clima.key'));
 
              fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&APPID=${apiKey}`)
