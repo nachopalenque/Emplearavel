@@ -17,8 +17,27 @@ class CentroController extends Controller
      */
     public function index()
     {
-        try{    
+        try{  
+            session()->forget('centro_nombre');
+
             $centros = Centro::paginate(10);
+            return view('Centro.index', ['centros' => $centros]);
+        }
+        catch(Exception $e){
+
+             return response()->json(['error' => $e->getMessage()], 500);
+
+        }
+    
+    }
+
+        public function indexFiltrar(Request $request)
+    {
+        try{    
+            $centros = Centro::where('nombre', 'like', "%{$request->input('nombre')}%")
+            ->paginate(10);
+            session()->flash('centro_nombre', $request->input('nombre'));
+
             return view('Centro.index', ['centros' => $centros]);
         }
         catch(Exception $e){
@@ -204,6 +223,17 @@ class CentroController extends Controller
 
 
     }
+     public function showFiltrar()
+    {
+        try{
+            return view('Centro.show-filter');
+
+        }catch(Exepcion $e){
+        
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 
     public function showUserCentro(){
 

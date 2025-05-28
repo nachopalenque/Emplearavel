@@ -60,6 +60,8 @@ class UserController extends Controller
     public function index(){
 
         try{
+            session()->forget('usuario_nombre');
+
             if(PermisosController::authAdmin()){
 
                 //$usuarios = User::all();
@@ -76,6 +78,35 @@ class UserController extends Controller
         }
 
     }
+
+        public function indexFiltrar(Request $request)
+    {
+        try{    
+            $usuarios = User::where('name', 'like', "%{$request->input('nombre')}%")
+            ->paginate(10);
+            session()->flash('usuario_nombre', $request->input('nombre'));
+
+            return view('User.index', ['usuarios' => $usuarios]);
+        }
+        catch(Exception $e){
+
+             return response()->json(['error' => $e->getMessage()], 500);
+
+        }
+    
+    }
+
+        public function showFiltrar()
+    {
+        try{
+            return view('User.show-filter');
+
+        }catch(Exepcion $e){
+        
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 
     public static function usersRolCenter(){
         try{

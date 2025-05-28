@@ -48,7 +48,7 @@
                 Seleccione el día
 
                 <div class="card-tools">
-                    <x-adminlte-button class="btn-flat  m-1" type="button" label="Nuevo evento" theme="outline-success" icon="fa fa-plus mr-1" data-toggle="modal" data-target="#modalNuevo"/>
+                    <x-adminlte-button class="btn-sm btn-flat  m-1" type="button" label="Nuevo evento" theme="outline-success" icon="fa fa-plus mr-1" data-toggle="modal" data-target="#modalNuevo"/>
 
                   
                 </div>

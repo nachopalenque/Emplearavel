@@ -384,6 +384,7 @@ class ProyectoController extends Controller
                 $proyecto->progreso_proyecto = $request->input('progreso_proyecto');
                 $proyecto->save();
                 session()->flash('estado', 'actualizado');
+                EventoController::createNotificacionEvent('evento_proyecto_actualizar', null, null, null, $proyecto);
                 return redirect()->route('proyecto.index');
 
 

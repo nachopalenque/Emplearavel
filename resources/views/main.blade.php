@@ -10,7 +10,6 @@
             height:100vh;
             margin: 0;
             padding: 0;
-            overflow: hidden;
             font-family: 'monospace', 'system-ui', 'sans-serif';
             background-color:oklch(98.7% 0.019 192.83);
         }
@@ -134,12 +133,75 @@
             text-aling:center;
             
             color: white;   
-            top:400px;
+            top:300px;
             left: 0;
             width: 100vw;
             height: auto;
             background-color: #333;
         }
+
+        .soporte{
+            position: fixed;
+            text-aling:center;
+            padding: 2px;
+            margin:10px;
+            color: white;   
+            top:80vh;
+            right: 2vw;
+            width: 22vw;
+            height: 12.5vh;
+            background-color: #333;
+            outline:2px solid gray;
+
+        }
+
+        .soporte__texto--titulo{
+            padding:1px;
+            color:#5dc1b9;
+            margin:1px;
+            text-align:center;
+            font-size:clamp(1.5rem, 0.75vw + 0.75rem, 1rem);
+ 
+        }
+
+        .soporte__texto--contenido{
+            display: flex;
+            margin-left: 10px;
+
+            width: 100%;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: start;
+            text-align:justify;
+            hyphens: auto;
+            line-height: 1.625;
+            font-size:clamp(1rem, 0.5vw + 0.5rem, 0.25rem);
+ 
+        }
+        
+        .soporte__texto--enlace{
+            color:rgb(245, 48, 3);
+            padding:10px;
+            text-align:center;
+        }
+        .soporte__texto--enlance:hover{
+            color:rgb(245, 48, 3);
+            outline:1px solid rgb(245, 48, 3);
+            box-shadow: 0 0 0 1px rgb(245, 48, 3);
+            border-radius: 5px;
+
+            text-decoration: underline;
+            text-underline-position: under; /* subrayado debajo del texto */
+            text-underline-offset: 1px; 
+            text-decoration-color: white;
+        }
+
+        .logo__soporte{
+            max-width: 75px;
+            max-height:auto;
+        }
+   
+     
 
         .logo{
             max-width: 75px;
@@ -170,6 +232,8 @@
             font-size:clamp(0.5rem, 2vw + 1rem, 1.5rem);
  
         }
+
+        
         video {
             object-fit: contain;
             width: 100%;
@@ -259,6 +323,25 @@
            </article>
           
         </article>
+
+
+        </section>
+
+        <section class="soporte">
+                         <h2 class="soporte__texto--titulo">Soporte</h2>
+                        
+                         <article  class="soporte__texto--contenido">
+                            
+                          
+                        <img src="{{ asset('img/programmer.webp') }}" alt="Contacto" class="logo__soporte">
+                        <a class="soporte__texto--enlace" href="mailto:suport@emplearavel.com">Clic aqui para contactarnos</a>
+                           
+
+
+                         </article>
+
+
+
 
 
         </section>

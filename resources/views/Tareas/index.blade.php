@@ -61,7 +61,8 @@ $filtroNombreTarea = session()->get('tareas_nombre');
       
 
 
-                                <div class="card-tools">
+                            <div class="card-tools">
+                                 <div class="card card-info card-outline p-3">
 
 
 
@@ -69,7 +70,7 @@ $filtroNombreTarea = session()->get('tareas_nombre');
 
                                   
 
-                                            <button type="button" id="btnQuitarFiltrarTarea" class="btn btn-block btn-outline-info mb-3" onclick="window.location.href='/tareas'">
+                                            <button type="button" id="btnQuitarFiltrarTarea" class="btn-sm btn-block btn-outline-info mb-3" onclick="window.location.href='/tareas'">
                                                 <i class="fas fa-times"></i>Quitar filtro
                                             </button>
 
@@ -80,7 +81,7 @@ $filtroNombreTarea = session()->get('tareas_nombre');
                             
                                             @if(count($tareas)>0)
 
-                                                <button type="button"  id="btnFiltrar" class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                                                <button type="button"  id="btnFiltrar" class="btn-sm btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
                                                     <i class="fas fa-search"></i>Filtrar por nombre de tarea
                                                 </button>
 
@@ -114,7 +115,8 @@ $filtroNombreTarea = session()->get('tareas_nombre');
 
                                     @endif
                 
-                                </div>
+                                 </div>
+                            </div>
 
              
 

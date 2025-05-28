@@ -17,10 +17,12 @@ $filtroFechaFichajes = session()->get('fichajes_fecha');
 
 $selectEstadoProyecto = session()->get('proyectos_estado');
 $filtroNombreProyecto = session()->get('proyectos_nombre');
+$filtroNombreUsuario = session()->get('usuario_nombre');
 
+$filtroNombreCentro = session()->get('centro_nombre');
+$filtroNombreEmpleado = session()->get('empleado_nombre');
 $selectEstadoNotificaciones = session()->get('notificaciones_estado');
 $filtroAsuntoNotificaciones = session()->get('notificaciones_asunto');
-
 $rolAuth = auth()->user()->getRoleNames()->first();
 @endphp
 <div>
@@ -157,75 +159,136 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                 
        
 
-
                 <div class="card-tools">
 
-    
-
-                @if($modeloNombre == 'Proyecto')
-
-                  @if($rolAuth == 'Administrador' || $rolAuth == 'ProductManager')
-                    <button type="button" id="btnNuevoProyecto" class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalValidaciones"><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
-
-                  @endif
-
-                @endif
+                  <div class="card card-info card-outline p-3">
 
 
-                @if($modeloNombre == 'Fichaje')
-
-
-
-                  @if($items->first()?->estado == 'en curso')
-
-                  <button type="button"  class="btn btn-block btn-outline-success mb-3" onclick="window.location.href='/terminar-fichar'" ><i class="fa fa-plus mr-1"></i>Terminar {{$modeloNombre}}</button>
-
-
-                  @else
-
-                  <button type="button"  class="btn btn-block btn-outline-success mb-3 " onclick="window.location.href='/fichar'" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
-
-
-                  @endif
-
-
-
-
-                @elseif($modeloNombre == 'Centro')
-                <button type="button" id='btnNuevo' class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalValidaciones" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
-
-                @endif
 
                     @switch($modeloNombre)
 
+                      @case('Centro')
+                                      <button type="button" id='btnNuevo' class="btn-sm btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalValidaciones" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
+
+                                      @if($filtroNombreCentro != null)
+                                            
+                                        <button type="button"  id='btnQuitarFiltroCentro' class="btn-sm btn-block btn-outline-info mb-3" onclick="window.location.href='/centro-auth'" >
+                                            <i class="fas fa-times"></i>Quitar filtro
+                                        </button> 
+
+                                      @else
+
+                                               @if(count($items)>0)
+                                                  <button type="button"  id='btnFiltrar' class="btn-sm btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                                                    <i class="fas fa-search"></i>Filtrar por nombre del centro
+                                                  </button>
+                                                @endif
+
+
+
+                                      @endif
+
+                     
+
+                      @break
+
+
+
+                        @case('Empleado')
+
+                                      @if($filtroNombreEmpleado != null)
+                                            
+                                        <button type="button"  id='btnQuitarFiltroEmpleado' class="btn-sm btn-block btn-outline-info mb-3" onclick="window.location.href='/empleado'" >
+                                            <i class="fas fa-times"></i>Quitar filtro
+                                        </button> 
+
+                                      @else
+
+                                               @if(count($items)>0)
+                                                  <button type="button"  id='btnFiltrar' class="btn-sm btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                                                    <i class="fas fa-search"></i>Filtrar por nombre del empleado
+                                                  </button>
+                                                @endif
+
+
+
+                                      @endif
+
+                     
+
+                      @break
+
+
+
+
+                       @case('Usuario')
+
+                                      @if($filtroNombreUsuario != null)
+                                            
+                                        <button type="button"  id='btnQuitarFiltroUsuario' class="btn-sm btn-block btn-outline-info mb-3" onclick="window.location.href='/usuario'" >
+                                            <i class="fas fa-times"></i>Quitar filtro
+                                        </button> 
+
+                                      @else
+
+                                               @if(count($items)>0)
+                                                  <button type="button"  id='btnFiltrar' class="btn-sm btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                                                    <i class="fas fa-search"></i>Filtrar por nombre del usuario
+                                                  </button>
+                                                @endif
+
+
+
+                                      @endif
+
+                     
+
+                      @break
+
+
+                      
                       @case('Fichaje')
 
-                          @if(count($items)>0)
-                          
-                                    <button type="button" id="btnprintFichaje" class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal"><i class="fa fa-print mr-1"></i>Imprimir fichajes</button>
+
+                            @if($items->first()?->estado == 'en curso')
+
+                            <button type="button"  class="btn-sm btn-block btn-outline-success mb-3" onclick="window.location.href='/terminar-fichar'" ><i class="fa fa-plus mr-1"></i>Terminar {{$modeloNombre}}</button>
 
 
-                          @endif
+                            @else
 
-                          @if($filtroFechaFichajes != null)
-
-                                    <button type="button"  id='btnQuitarFiltroFechas' class="btn btn-block btn-outline-info mb-3" onclick="window.location.href='/fichaje'" >
-                                        <i class="fas fa-times"></i>Quitar filtro
-                                    </button>
-
-                          @else
-                                    <!-- Solo se muestra el filtro si hay registros -->
-                                    @if(count($items)>0)
-
-                                    <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
-                                      <i class="fas fa-search"></i>Filtrar por fecha de fichaje
-                                    </button>
-
-                                    @endif
-                               
+                            <button type="button"  class="btn-sm btn-block btn-outline-success mb-3 " onclick="window.location.href='/fichar'" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
 
 
-                          @endif
+                            @endif
+
+
+                            @if(count($items)>0)
+                            
+                                      <button type="button" id="btnprintFichaje" class="btn-sm btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal"><i class="fa fa-print mr-1"></i>Imprimir fichajes</button>
+
+
+                            @endif
+
+                            @if($filtroFechaFichajes != null)
+
+                                      <button type="button"  id='btnQuitarFiltroFechas' class="btn-sm btn-block btn-outline-info mb-3" onclick="window.location.href='/fichaje'" >
+                                          <i class="fas fa-times"></i>Quitar filtro
+                                      </button>
+
+                            @else
+                                      <!-- Solo se muestra el filtro si hay registros -->
+                                      @if(count($items)>0)
+
+                                      <button type="button"  id='btnFiltrar' class="btn-sm btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                                        <i class="fas fa-search"></i>Filtrar por fecha de fichaje
+                                      </button>
+
+                                      @endif
+                                
+
+
+                            @endif
 
                                   
                               <!-- Solo se muestra el filtro si hay registros -->
@@ -233,7 +296,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                               @if(count($items)>0)
 
                                   <div class="input-group input-group-sm m-1">
-                                <label class="text-lightblue m-2">Filtrar por mes año actual:</label>
+                                <label class="text-lightblue m-2">Filtrar mes/año actual:</label>
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
 
@@ -272,11 +335,17 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                       @case('Proyecto')
 
 
+                          @if($rolAuth == 'Administrador' || $rolAuth == 'ProductManager')
+                            <button type="button" id="btnNuevoProyecto" class="btn-sm btn-block  btn-outline-success mb-3" data-toggle="modal" data-target="#modalValidaciones"><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
+
+                          @endif
+
+
                           @if($filtroNombreProyecto != null)
 
                                   
 
-                                  <button type="button" id="btnQuitarFiltrarProyecto" class="btn btn-block btn-outline-info mb-3" onclick="window.location.href='/proyecto'">
+                                  <button type="button" id="btnQuitarFiltrarProyecto" class="btn-sm btn-block btn-outline-info mb-3" onclick="window.location.href='/proyecto'">
                                     <i class="fas fa-times"></i>Quitar filtro
                                   </button>
 
@@ -286,7 +355,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                                     @if(count($items)>0)
 
-                                         <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                                         <button type="button"  id='btnFiltrar' class="btn-sm btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
                                           <i class="fas fa-search"></i>Filtrar por nombre de proyecto
                                          </button>
 
@@ -335,7 +404,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                         @if($opcional == 'notificaciones_recibidas')
 
-                        <button type="button" id='btnNuevo' class="btn btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalValidaciones" ><i class="fa fa-plus mr-1"></i>Nueva {{$modeloNombre}}</button>
+                        <button type="button" id='btnNuevo' class="btn-sm btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalValidaciones" ><i class="fa fa-plus mr-1"></i>Nueva {{$modeloNombre}}</button>
 
                         @endif
 
@@ -345,7 +414,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                                <form action="{{ route('notificacion.vaciar.papelera')}}" method="POST">
                                 @csrf
-                                <button type="submit" id='btnVaciarPapeleraNotificaciones' class="btn btn-block btn-outline-danger mb-3 btn-eliminar" ><i class="fa fa-trash mr-1"></i>Vaciar papelera de notificaciones</button>
+                                <button type="submit" id='btnVaciarPapeleraNotificaciones' class="btn-sm btn-block btn-outline-danger mb-3 btn-eliminar" ><i class="fa fa-trash mr-1"></i>Vaciar papelera de notificaciones</button>
                                 </form>
 
                             @endif
@@ -360,7 +429,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                                     @if($opcional == 'notificaciones_recibidas')
 
-                                         <button type="button" id="btnQuitarFiltrarNotificacionesRecibidas" class="btn btn-block btn-outline-info mb-3" onclick="window.location.href='/notificacion'">
+                                         <button type="button" id="btnQuitarFiltrarNotificacionesRecibidas" class="btn-sm btn-block btn-outline-info mb-3" onclick="window.location.href='/notificacion'">
                                             <i class="fas fa-times"></i>Quitar filtro
                                          </button>
 
@@ -386,7 +455,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                                        <form action="{{ route('notificacion.indexDel')}}" method="GET">
 
-                                         <button type="submit" id="btnQuitarFiltrarNotificacionesEliminadas" class="btn btn-block btn-outline-info mb-3" onclick="window.location.href='/notificacion-eliminadas'">
+                                         <button type="submit" id="btnQuitarFiltrarNotificacionesEliminadas" class="btn-sm btn-block btn-outline-info mb-3" onclick="window.location.href='/notificacion-eliminadas'">
                                             <i class="fas fa-times"></i>Quitar filtro
                                          </button>
 
@@ -406,7 +475,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                                   @if(count($items)>0)
 
-                                    <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                                    <button type="button"  id='btnFiltrar' class="btn-sm btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
                                       <i class="fas fa-search"></i>Filtrar por asunto de la notificacion
                                     </button>
 
@@ -423,7 +492,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                                        <div class="input-group input-group-sm m-1">
                                         <label class="text-lightblue m-2">Filtrar estado:</label>
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fas fa-history text-lightblue"></i></span>
+                                            <span class="input-group-text "><i class="fas fa-history text-lightblue"></i></span>
 
                                             <select name="selectEstadoNotificacion" id="selectEstadoNotificacion">
                                                 <option value="Todas" {{ $selectEstadoNotificaciones == 'Todas' ? 'selected' : '' }}>Todas</option>
@@ -456,7 +525,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                       @default
 
-                        <button type="button"  id='btnFiltrar' class="btn btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
+                        <button type="button"  id='btnFiltrar' class="btn-sm btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
                           <i class="fas fa-search"></i>Filtrar
                         </button>
 
@@ -469,7 +538,8 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                       
             
 
-                  
+                  </div>
+
                 </div>
 
               </div>
@@ -1099,7 +1169,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
 
             case 'Empleado':
-            fetch(`/empleados/filtrar`)
+            fetch(`/empleado/nombre/filtrar`)
                 .then(res => res.text())
                 .then(html => {
                     document.getElementById('modalBody').innerHTML = html;
@@ -1144,7 +1214,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
             break;
 
             case 'Usuario':
-            fetch(`/usuarios/filtrar`)
+            fetch(`/usuario/nombre/filtrar`)
                 .then(res => res.text())
                 .then(html => {
                     document.getElementById('modalBody').innerHTML = html;
@@ -1168,7 +1238,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
 
             case 'Centro':
-            fetch(`/centros/filtrar`)
+            fetch(`/centro/nombre/filtrar`)
                 .then(res => res.text())
                 .then(html => {
                     document.getElementById('modalBody').innerHTML = html;

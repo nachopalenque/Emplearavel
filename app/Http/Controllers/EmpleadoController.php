@@ -15,6 +15,7 @@ class EmpleadoController extends Controller
     {
       try{
 
+        session()->forget('empleado_nombre');
         $empleados = Empleado::paginate(10);
         return view('Empleado.index', ['empleados' => $empleados]);
 
@@ -25,6 +26,34 @@ class EmpleadoController extends Controller
 
       }
     }
+
+     public function indexFiltrar(Request $request)
+    {
+        try{    
+            $empleados = Empleado::where('nombre', 'like', "%{$request->input('nombre')}%")
+            ->paginate(10);
+            session()->flash('empleado_nombre', $request->input('nombre'));
+
+            return view('Empleado.index', ['empleados' => $empleados]);
+        }
+        catch(Exception $e){
+
+             return response()->json(['error' => $e->getMessage()], 500);
+
+        }
+    
+    }
+    public function showFiltrar()
+    {
+        try{
+            return view('Empleado.show-filter');
+
+        }catch(Exepcion $e){
+        
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.

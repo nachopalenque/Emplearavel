@@ -180,7 +180,7 @@ class EventoController extends Controller
     }
 
 
-    public static function createNotificacionEvent($tipo_notificacion, $evento=null, $centro=null, $usuario = null){
+    public static function createNotificacionEvent($tipo_notificacion, $evento=null, $centro=null, $usuario = null, $proyecto = null){
         try{
 
             switch($tipo_notificacion){
@@ -205,16 +205,38 @@ class EventoController extends Controller
 
 
 
-
-                case 'evento_empleado':
-
+                case 'evento_proyecto_actualizar':
 
                             $notificacion = new Notificacion();
                             $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion->id_empleado_destino = $proyecto->empleados()->first()->id;
+                            $notificacion->titulo = "Se ha actualizado el proyecto ". $proyecto->nombre;
+                            $notificacion->mensaje = "El proyecto ". $proyecto->nombre." ha sido actualizado por ".auth()->user()->empleado->nombre . ' ' . auth()->user()->empleado->apellidos . ". Su estado actual es : ". $proyecto->estado . " con un porcentaje de progreso del ". $proyecto->progreso_proyecto."%";
+                            $notificacion->save();
+               
+
+                break;
+
+
+
+
+                case 'evento_empleado':
+
+                            //notificación empleado del evento
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = auth()->user()->empleado->id;
                             $notificacion->id_empleado_destino = $evento->id_empleado;
-                            $notificacion->titulo = "Notificacion de tipo : ". $evento->tipo_evento;
+                            $notificacion->titulo = "Notificacion de tipo : ". $evento->tipo_evento . " con fecha de inicio en : ". $evento->fecha_inicio . " y fecha de fin en : ". $evento->fecha_fin;
                             $notificacion->mensaje = $evento->observaciones;
                             $notificacion->save();
+                            //notificación al usuario admin
+                            $notificacion_Admin = new Notificacion();
+                            $admin = Empleado::all()->first();
+                            $notificacion_Admin->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion_Admin->id_empleado_destino = $admin->id;
+                            $notificacion_Admin->titulo = "Notificacion del empleado : ". auth()->user()->empleado->nombre . ' ' . auth()->user()->empleado->apellidos . " de tipo : ". $evento->tipo_evento . " con fecha de inicio en : ". $evento->fecha_inicio . " y fecha de fin en : ". $evento->fecha_fin;
+                            $notificacion_Admin->mensaje = $evento->observaciones;
+                            $notificacion_Admin->save();
                         
 
 
@@ -265,12 +287,20 @@ class EventoController extends Controller
                 
                 case 'empleado_centro_nuevo':
 
-
+                            //notificación administrativa
                             $notificacion = new Notificacion();
                             $notificacion->id_empleado_origen = $usuario->empleado->id;
                             $notificacion->id_empleado_destino = Empleado::all()->first()->id;
                             $notificacion->titulo = "Se ha dado de alta el empleado : ". $usuario->empleado->nombre . " " . $usuario->empleado->apellidos . " y asociado al centro productivo : ". $centro->nombre;
-                            $notificacion->mensaje = "El empleado : " . $usuario->empleado->nombre . " " . $usuario->empleado->apellidos . " con el rol de : " .$usuario->getRoleNames()->first() . " con el correo : " . $usuario-> empleado->email . " y que desempeñara el puesto de : " . $usuario->empleado->puesto . "se ha asociado a el centro productivo :" .$centro->nombre . " de la localidad : " . $centro->localidad . " ubicado en : " . $centro->direccion;
+                            $notificacion->mensaje = "El empleado : " . $usuario->empleado->nombre . " " . $usuario->empleado->apellidos . " con el rol de : " .$usuario->getRoleNames()->first() . ",  y correo : " . $usuario-> email . " desempeñara el puesto de : " . $usuario->empleado->puesto . " en el centro productivo :" .$centro->nombre . " de la localidad : " . $centro->localidad . " ubicado en : " . $centro->direccion;
+                            $notificacion->save();
+
+                            //notificación bienvenida al empleado
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = Empleado::all()->first()->id;
+                            $notificacion->id_empleado_destino = $usuario->empleado->id;
+                            $notificacion->titulo = "Bienvenido empleado ". $usuario->empleado->nombre . " " . $usuario->empleado->apellidos;
+                            $notificacion->mensaje = "Bienvenido a Emple@Ravel ante todo gracias por utilizar nuestro sistema. En el podras realizar muchas funciones, como gestionar tus jornadas laborales, tu calendario, proyectos y mucho mas. ";
                             $notificacion->save();
 
                 break;

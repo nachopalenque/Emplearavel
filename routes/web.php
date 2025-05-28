@@ -57,11 +57,14 @@ Route::middleware([
     //rutas para la gestion de los centros productivos
     Route::resource('/centro', CentroController::class);
     Route::get('/centro-auth', [CentroController::class,"showAuth"])->name('user.centro.showAuth');
-
+    Route::get('/centro/nombre/filtrar', [CentroController::class,"showFiltrar"])->name('centro.filtrar.show');
+    Route::post('/centro/nombre/filtrar', [CentroController::class,"indexFiltrar"])->name('centro.filtrar.index');
     //rutas para la gestion de los usuarios
     Route::resource('/usuario', UserController::class);
     Route::get('/usuario/cambiarCentro/{id}', [UserController::class,"editUserCenter"])->name('user.centro.edit');
     Route::post('/usuario/cambiarCentro', [UserController::class,"updateUserCenter"])->name('user.centro.update');
+    Route::get('/usuario/nombre/filtrar', [UserController::class,"showFiltrar"])->name('usuario.filtrar.show');
+    Route::post('/usuario/nombre/filtrar', [UserController::class,"indexFiltrar"])->name('usuario.filtrar.index');
 
     //rutas para la gestion de los proyectos
     Route::resource('/proyecto', ProyectoController::class);
@@ -90,6 +93,8 @@ Route::middleware([
     Route::resource('/empleado',EmpleadoController::class);
     Route::get('/empleado-auth', [EmpleadoController::class,"showAuth"])->name('empleado.showAuth');
     Route::get('/empleado/intranet/docs', [EmpleadoController::class,"showDocs"])->name('empleado.intranet.show');
+    Route::get('/empleado/nombre/filtrar', [EmpleadoController::class,"showFiltrar"])->name('empleado.filtrar.show');
+    Route::post('/empleado/nombre/filtrar', [EmpleadoController::class,"indexFiltrar"])->name('empleado.filtrar.index');
 
     //rutas para la gestion de los eventos
     Route::resource('/evento',EventoController::class);

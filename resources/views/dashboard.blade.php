@@ -40,6 +40,12 @@ Use App\Http\Controllers\NotificacionController;
     <p><strong>Centro productivo: </strong> <span class="text-maroon">{{ $centro }}</span></p>
     <p><strong>Número de notificaciones sin leer: </strong> <span class="text-maroon">{{ $numNotificaciones  }}</span></p>
     <x-adminlte-button 
+    class="btn-sm bg-gradient-olive" 
+    type="button" label="Ir a la bandeja de notificaciones" 
+    icon="fas fa-lg fa-bell"
+    onclick="window.location.href='{{ route('notificacion.index') }}'"
+    />
+    <x-adminlte-button 
     class="btn-sm bg-gradient-info" 
     type="button" label="Ir al panel de fichajes" 
     icon="fas fa-lg fa-calendar-check"

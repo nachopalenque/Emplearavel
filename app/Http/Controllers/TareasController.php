@@ -81,6 +81,7 @@ class TareasController extends Controller
                 ->paginate(10);
 
             session()->flash('tareas_nombre', $request->input('nombre'));
+            
             return view('Tareas.index', [ 'estadoSeleccionado' => null,'tareas' => $tareas]);
 
         }catch(Exception $e){
