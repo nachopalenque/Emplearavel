@@ -177,6 +177,9 @@ class UserController extends Controller
             //cambiamos el id_centro de usuario al nuevo
             $user->id_centro = $request->centro;
             $user->save();
+            //notificamos de la operación al administrador general y al usuario implicado en cuestión
+            EventoController::createNotificacionEvent('empleado_centro_actualiza', null, $user->centro, $user,null);
+
             //volvemos a cargar los usuarios, centros y roles
             $usuarios = $this->usersRolCenter();
             return redirect()->route('usuario.index', ['usuarios' => $usuarios])->with('estado', 'actualizado');

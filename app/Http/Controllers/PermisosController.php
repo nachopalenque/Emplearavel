@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EventoController;
+
 use App\Models\User;
 
 class PermisosController extends Controller
@@ -124,7 +126,7 @@ class PermisosController extends Controller
             $nuevoRol = Role::find($request->rol);
             $usuario->syncRoles($nuevoRol);
             $usuarios = UserController::usersRolCenter();
-
+            EventoController::createNotificacionEvent('usuario_rol_actualiza', null, null, $usuario, null);
             return redirect()->route('usuario.index', ['usuarios' => $usuarios])->with('estado', 'actualizado');
 
         }catch(Exception $e){

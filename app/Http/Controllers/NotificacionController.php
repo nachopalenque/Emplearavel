@@ -46,6 +46,32 @@ class NotificacionController extends Controller
         }
     }
 
+    public function indexNumNoLeidas(){
+        try{
+        $num_notificaciones = Notificacion::where('id_empleado_destino', auth()->user()->empleado->id)
+                ->where('eliminada', false)
+                ->where('leido', false)
+                ->count();
+
+        return response()->json(['num_notificaciones' => $num_notificaciones], 200);
+        }catch(Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    public function updateMarcarLeido()
+    {
+        try{
+
+         $notificaciones = Notificacion::where('id_empleado_destino', auth()->user()->empleado->id)->where('eliminada', false);
+         $notificaciones->update(['leido' => true]);
+        return back()->with('estado', 'marcadas');
+        }catch(Exception $e){
+
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+    }
+
     public static function numNotificacionesNoLeidas(){
 
         try{

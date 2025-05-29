@@ -20,7 +20,7 @@
         </div>
     @endif
 
-    <form action="{{ $passEmailUrl }}" method="post">
+    <form action="{{ route('password.email') }}" method="post">
         @csrf
 
         {{-- Email field --}}

@@ -5,6 +5,7 @@
 @vite('resources/js/app.js')
 
 @section('adminlte_css')
+
     @stack('css')
     @yield('css')
 @stop
@@ -166,6 +167,7 @@ switch ($centro->estilo){
 @section('body_data', $layoutHelper->makeBodyData())
 
 @section('body')
+
     <div class="wrapper">
 
         {{-- Preloader Animation (fullscreen mode) --}}
@@ -186,6 +188,21 @@ switch ($centro->estilo){
         @endif
 
         {{-- Content Wrapper --}}
+
+    <div id="panelNotificaciones" class=" container-fluid alert col-6 offset-2 mt-3 alert-secondary bg-gradient-light alert-dismissible fade show" role="alert" hidden>
+        <p class="text-navy">Tiene notificaciones nuevas sin leer : <strong id="numNotificaciones" class="text-maroon"> 0</strong></p>
+            <label>
+                <input type="checkbox" id="desactivarNotificaciones">
+                No mostrar más avisos de notificaciones durante esta sesión
+            </label><br>
+            <a id="irBandejaNotificaciones"  class="alert-link text-navy"><i class="fa fa-bell"></i> Ir a ver notificaciones</a>
+            <a href="{{route('notificacion.marcar.leidas')}}" class="alert-link text-maroon p-3"><i class="fa fa-book"></i>Marcar como leidas</a>
+
+        <button type="button" id="btnCloseOk" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
         @empty($iFrameEnabled)
             @include('adminlte::partials.cwrapper.cwrapper-default')
         @else
@@ -208,4 +225,59 @@ switch ($centro->estilo){
 @section('adminlte_js')
     @stack('js')
     @yield('js')
+    <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let numNotificaciones = 0;
+        let mostrarNotificaciones = sessionStorage.getItem('mostrarNotificaciones');
+        hayNotificacionesNuevas();
+        console.log(mostrarNotificaciones);
+        
+        document.addEventListener('click', function (e) {
+
+
+
+            if (e.target.closest('#irBandejaNotificaciones')) {
+                event.preventDefault(); 
+                window.location.href = '/notificacion';
+                document.getElementById('btnCloseOk').click();
+            }
+
+            if(e.target.closest('#btnCloseOk')) {
+                if(document.getElementById('desactivarNotificaciones').checked) {
+                    sessionStorage.setItem('mostrarNotificaciones', false);
+                }else{
+                    sessionStorage.setItem('mostrarNotificaciones', true);
+                }
+            }
+        });
+
+
+           function hayNotificacionesNuevas() {
+                fetch(`/notificacion-nueva`)
+              .then(res => res.json())
+              .then(notificaciones => {
+                
+                 numNotificaciones = notificaciones.num_notificaciones;
+
+                 if (mostrarNotificaciones === null || mostrarNotificaciones === "true") {
+                    console.log('entro');
+                    document.getElementById('panelNotificaciones').hidden = (numNotificaciones <= 0);
+                    document.getElementById('numNotificaciones').innerHTML = numNotificaciones;
+                }
+
+              })
+              .catch(error => console.log(error));
+             }
+
+
+
+       
+
+    })
+
+
+ 
+
+</script>
 @stop

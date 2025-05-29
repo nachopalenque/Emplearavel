@@ -323,11 +323,10 @@ return [
 
         
         // Navbar items:
-        [
-            'type' => 'navbar-search',
-            'text' => 'search',
-            'topnav_right' => false,
-        ],
+
+
+
+
         [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,

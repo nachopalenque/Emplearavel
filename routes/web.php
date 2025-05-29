@@ -130,7 +130,8 @@ Route::middleware([
     Route::post('/notificaciones/filtrar', [NotificacionController::class,"indexFiltrar"])->name('notificacion.filtrar.index');
     Route::put('/notificacion/recuperar/{id_notificacion}', [NotificacionController::class,"updateRecuperar"])->name('notificacion.updateRecuperar');
     Route::put('/notificacion/eliminar/{id_notificacion}', [NotificacionController::class,"updateDelete"])->name('notificacion.updateDelete');
-
+    Route::get('/notificacion-nueva', [NotificacionController::class,"indexNumNoLeidas"])->name('notificacion.nueva.index');
+    Route::get('/notificacion/marcar/leidas', [NotificacionController::class,"updateMarcarLeido"])->name('notificacion.marcar.leidas');
 
 
 });

@@ -86,9 +86,9 @@
 
 @section('auth_footer')
     {{-- Password reset link --}}
-    @if($passResetUrl)
+    @if(Route::has('password.request'))
         <p class="my-0">
-            <a href="{{ $passResetUrl }}">
+            <a href="{{ route('password.request') }}">
                 {{ __('adminlte::adminlte.i_forgot_my_password') }}
             </a>
         </p>
@@ -102,4 +102,14 @@
             </a>
         </p>
     @endif
+@stop
+
+@section('adminlte_js')
+    @yield('js')
+    @stack('js')
+    <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
+    <script>
+     //para limpiar las variables de session del navegador cuando salta el evento submit de logou
+    sessionStorage.clear(); 
+    </script>
 @stop

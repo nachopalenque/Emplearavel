@@ -304,6 +304,48 @@ class EventoController extends Controller
                             $notificacion->save();
 
                 break;
+
+                           
+                case 'empleado_centro_actualiza':
+
+                            //notificación administrativa
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion->id_empleado_destino = Empleado::all()->first()->id;
+                            $notificacion->titulo = "Se ha cambiado de centro productivo al empleado : ". $usuario->empleado->nombre . " " . $usuario->empleado->apellidos . "  al centro productivo : ". $centro->nombre;
+                            $notificacion->mensaje = "El empleado : " . $usuario->empleado->nombre . " " . $usuario->empleado->apellidos . " con el rol de : " .$usuario->getRoleNames()->first() . ",  y correo : " . $usuario-> email . " desempeñara el puesto de : " . $usuario->empleado->puesto . " ha sido reubicado en el centro productivo :" .$centro->nombre . " de la localidad : " . $centro->localidad . " con dirección en : " . $centro->direccion;
+                            $notificacion->save();
+
+                            //notificación bienvenida al empleado
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = Empleado::all()->first()->id;
+                            $notificacion->id_empleado_destino = $usuario->empleado->id;
+                            $notificacion->titulo = "Bienvenido empleado ". $usuario->empleado->nombre . " " . $usuario->empleado->apellidos . "  al nuevo centro productivo : ". $centro->nombre;
+                            $notificacion->mensaje = "Has sido reasignado a un nuevo centro productivo de la localidad : " . $centro->localidad . " ubicado en : " . $centro->direccion;
+                            $notificacion->save();
+
+                break;
+
+
+                  case 'usuario_rol_actualiza':
+
+                            //notificación administrativa
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion->id_empleado_destino = Empleado::all()->first()->id;
+                            $notificacion->titulo = "Se ha cambiado de rol al empleado : ". $usuario->empleado->nombre . " " . $usuario->empleado->apellidos . "  al rol : ". $usuario->getRoleNames()->first();
+                            $notificacion->mensaje = "Se ha cambiado el al empleado : " . $usuario->empleado->nombre . " " . $usuario->empleado->apellidos . " a el rol de : " .$usuario->getRoleNames()->first() ;
+                            $notificacion->save();
+
+                            //notificación bienvenida al empleado
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = Empleado::all()->first()->id;
+                            $notificacion->id_empleado_destino = $usuario->empleado->id;
+                            $notificacion->titulo = "Nuevo rol asignado ". $usuario->empleado->nombre . " " . $usuario->empleado->apellidos ;
+                            $notificacion->mensaje = "Se le ha asignado el nuevo rol de : " . $usuario->getRoleNames()->first();
+                            $notificacion->save();
+
+                break;
             }
 
 
