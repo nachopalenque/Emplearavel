@@ -547,7 +547,9 @@ $rolAuth = auth()->user()->getRoleNames()->first();
               <div class="card-body">
 
                 @if(count($items)>0)
-                <table class="table table-bordered">
+                <div class="table-responsive">
+
+                <table id="tabla" class="table table-bordered">
                   <thead>
 
                       <tr>
@@ -894,6 +896,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                       </tr>
                       @endforeach
                   </tbody>
+                 </div>
                 </table>
 
                 @endif
@@ -1299,6 +1302,8 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
   });
 
+ 
+</script>
 
     
 

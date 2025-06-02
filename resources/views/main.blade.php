@@ -49,14 +49,14 @@
             color:rgb(245, 48, 3);
             font-family: 'Helvetica', 'system-ui', 'sans-serif';
             text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000; 
-            font-size:clamp(5rem, 2vw + 1rem, 2.25rem);
+            font-size:clamp(1rem, 2vw + 2rem, 5rem);
 
         }
         .titulo__text--0{
             font-family: 'Helvetica', 'system-ui', 'sans-serif';
             color:oklch(98.7% 0.019 192.83);
             text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000; 
-            font-size:clamp(5rem, 2vw + 1rem, 2.25rem);
+            font-size:clamp(1rem, 2vw + 2rem, 5rem);
 
 
         }
@@ -65,6 +65,8 @@
             text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000; 
             background:transparent;
             content: " ";
+            font-size:clamp(0.5rem, 1vw + 1rem, 3rem);
+
         }
         .menu{
             display: flex;
@@ -131,7 +133,6 @@
         .descripcion{
             position: absolute;
             text-aling:center;
-            
             color: white;   
             top:300px;
             left: 0;
@@ -140,16 +141,19 @@
             background-color: #333;
         }
 
+        .soporte__mobile{
+            display: none;
+        }
         .soporte{
-            position: fixed;
+            position: relative;
             text-aling:center;
             padding: 2px;
             margin:10px;
             color: white;   
-            top:80vh;
-            right: 2vw;
+            top:70vh;
+            left: 75vw;
             width: 22vw;
-            height: 12.5vh;
+            height: auto;
             background-color: #333;
             outline:2px solid gray;
 
@@ -160,7 +164,7 @@
             color:#5dc1b9;
             margin:1px;
             text-align:center;
-            font-size:clamp(1.5rem, 0.75vw + 0.75rem, 1rem);
+            font-size:clamp(0.25rem, 0.75vw + 0.5rem, 1.25rem);
  
         }
 
@@ -175,9 +179,10 @@
             text-align:justify;
             hyphens: auto;
             line-height: 1.625;
-            font-size:clamp(1rem, 0.5vw + 0.5rem, 0.25rem);
+            font-size:clamp(0.25rem, 0.75vw + 0.5rem, 0.75rem);
  
         }
+
         
         .soporte__texto--enlace{
             color:rgb(245, 48, 3);
@@ -198,6 +203,7 @@
 
         .logo__soporte{
             max-width: 75px;
+            min-width: 25px;
             max-height:auto;
         }
    
@@ -205,6 +211,7 @@
 
         .logo{
             max-width: 75px;
+            min-width: 25px;
             max-height:auto;
         }
         .descripcion__texto{
@@ -216,10 +223,11 @@
             outline:2px solid gray;
 
         }
+
         .descripcion__texto--titulo{
             padding:6px;
             text-align:left;
-            font-size:clamp(3rem, 2vw + 1rem, 2.25rem);
+            font-size:clamp(0.5rem, 2vw + 1rem, 3rem);
  
         }
 
@@ -240,6 +248,25 @@
             height: 100vh;
         }
 
+         @media (max-width: 520px) {
+            .descripcion__texto {
+                flex-direction: column; /* Cambiar a columna */
+            }
+         
+            .soporte__texto--contenido{
+                flex-direction: column; /* Cambiar a columna */
+
+            }
+        }
+        @media(max-width: 1260px){
+            .soporte{
+                display: none;
+            }
+            .soporte__mobile{
+                display: block;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -249,6 +276,8 @@
 
         @if (Route::has('login'))
             <section class="menu">
+                <a href="mailto:suport@emplearavel.com" class="menu__a soporte__mobile" >Soporte</a>
+
                 @auth
                     <a href="{{ url('/dashboard') }}" class="menu__a" >Inicio</a>
                 @else

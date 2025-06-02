@@ -83,8 +83,8 @@ Use App\Http\Controllers\NotificacionController;
                   .then(res => res.json())
                   .then(data => {
                       console.log(data);
-
                       switch(data.weather[0].main){
+                        
                           case 'Clouds':
                               document.getElementById('contentCLima').innerHTML = `<h3>Hoy el clima en ${data.name} es de ${Math.trunc(data.main.temp_max-273.15)} grados y mayormente nublado <img src="https://cdn-icons-png.flaticon.com/512/1163/1163763.png" with="50px" height="50px" alt=""> </h3> `;
                               limpiarClases();

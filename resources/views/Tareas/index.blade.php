@@ -126,6 +126,7 @@ $filtroNombreTarea = session()->get('tareas_nombre');
               <div class="card-body">
 
               @if(count($tareas)>0)
+             <div class="table-responsive">
 
               <table class="table table-bordered">
                   <thead>
@@ -212,6 +213,7 @@ $filtroNombreTarea = session()->get('tareas_nombre');
              
 
                 </table>
+                </diV>
 
                 @else
                 <p class="text-center text-info">Aún no tiene asignada ninguna tarea</p>
