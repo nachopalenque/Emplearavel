@@ -323,6 +323,7 @@ class CentroController extends Controller
                 $centro->estilo = $request->input('estilo');
                 $centro->save();
                 session()->flash('estado', 'actualizado');
+                EventoController::createNotificacionEvent('centro_actualiza', null, $centro);
                 return redirect()->route('centro.index');
 
             }else{
