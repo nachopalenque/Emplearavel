@@ -112,8 +112,9 @@ class FichajeController extends Controller
     public function storePrint(Request $request){
         try{
 
-            $fecha_inicio = $request->input('fecha_inicio');
-            $fecha_fin = $request->input('fecha_fin');
+     
+            $fecha_inicio = Carbon::parse($request->input('fecha_inicio'))->startOfDay();
+            $fecha_fin = Carbon::parse($request->input('fecha_fin'))->endOfDay();
             $empleado = auth()->user()->empleado->nombre . ' ' . auth()->user()->empleado->apellidos;
             $dni = auth()->user()->empleado->dni;
             $seguridad_social = auth()->user()->empleado->seguridad_social;
@@ -121,8 +122,8 @@ class FichajeController extends Controller
             $cif = auth()->user()->centro->CIF;
 
             $fichajes = Fichaje::where('id_usuario', auth()->user()->id)
-                    ->where('fecha_inicio', '>=', $fecha_inicio)
-                    ->where('fecha_fin', '<=', $fecha_fin)
+                    ->where('created_at', '>=', $fecha_inicio)
+                    ->where('created_at', '<=', $fecha_fin)
                     ->get();
 
             return $this->generarPDF('Fichaje.print-create', ['fichajes' => $fichajes , 'fecha_inicio' => $fecha_inicio, 'fecha_fin' => $fecha_fin, 'empleado' => $empleado, 'dni' => $dni, 'seguridad_social' => $seguridad_social, 'razon_social' => $razon_social, 'cif' => $cif]);      

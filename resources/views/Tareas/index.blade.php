@@ -84,6 +84,9 @@ $filtroNombreTarea = session()->get('tareas_nombre');
                                                 <button type="button"  id="btnFiltrar" class="btn-sm btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
                                                     <i class="fas fa-search"></i>Filtrar por nombre de tarea
                                                 </button>
+                                            @else
+
+                                                <label for="" class="text-maroon">Aún no hay funcionalidades disponibles</label>
 
 
                                             @endif

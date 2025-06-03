@@ -54,6 +54,12 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                       
                       @endif
 
+                      @if($modeloNombre == 'Evento')
+
+                      @include('Evento.create')
+                      
+                      @endif
+
                       @if($modeloNombre == 'Proyecto')
 
                       @include('Proyecto.create')
@@ -182,6 +188,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                                                   <button type="button"  id='btnFiltrar' class="btn-sm btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
                                                     <i class="fas fa-search"></i>Filtrar por nombre del centro
                                                   </button>
+                                                
                                                 @endif
 
 
@@ -358,6 +365,8 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                                          <button type="button"  id='btnFiltrar' class="btn-sm btn-block btn-outline-info mb-3" data-toggle="modal" data-target="#modal">
                                           <i class="fas fa-search"></i>Filtrar por nombre de proyecto
                                          </button>
+                                    @else
+                                        <label for="" class="text-maroon">Aún no hay funcionalidades disponibles</label>
 
                                     @endif
                               
@@ -519,6 +528,17 @@ $rolAuth = auth()->user()->getRoleNames()->first();
 
                       @break
 
+
+                      
+                      @case('Evento')
+
+                  
+                        <button type="button" id='btnNuevo' class="btn-sm btn-block btn-outline-success mb-3" data-toggle="modal" data-target="#modalValidaciones" ><i class="fa fa-plus mr-1"></i>Nuevo {{$modeloNombre}}</button>
+
+
+
+
+                      @break
 
 
 

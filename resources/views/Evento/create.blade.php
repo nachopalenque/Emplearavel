@@ -20,7 +20,7 @@
 
                     <div class="col">
 
-                    <x-adminlte-input type="text" name="titulo" label="Titulo" placeholder="Ingrese el titulo del evento"  label-class="text-lightblue" value="{{ old('nombre') }}" >
+                    <x-adminlte-input type="text" name="titulo" label="Titulo" placeholder="Ingrese el titulo del evento"  label-class="text-lightblue" value="{{ old('titulo') }}" >
             
                     <x-slot name="prependSlot">
                         <div class="input-group-text">
@@ -113,6 +113,7 @@
 
                         <x-adminlte-textarea name="observaciones" label="Observaciones" rows=3 label-class="text-lightblue"
                             igroup-size="sm" placeholder="Aquí puede ingresar si lo desea información adicional" text="{{ old('observaciones') }}">
+                            {{ old('observaciones') }}
                             <x-slot name="prependSlot">
                                 <div class="input-group-text">
                                      <i class="fas fa-pencil-alt text-lightblue"></i>

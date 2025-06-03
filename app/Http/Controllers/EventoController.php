@@ -9,6 +9,7 @@ use App\Models\Notificacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+
 class EventoController extends Controller
 {
     /**
@@ -44,8 +45,11 @@ class EventoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create($id_empleado)
+    public function create($id_empleado = null)
     {
+        if($id_empleado == null){
+            $id_empleado = auth()->user()->empleado->id;
+        }
         return view('Evento.create-id-empleado', ['id_empleado' => $id_empleado]);
     }
 
@@ -92,16 +96,14 @@ class EventoController extends Controller
             //creando el evento de empleado
             else{
 
-                $validacion = $request->validate([
+                // Validar manualmente
+              $validacion = $request->validate([
                     'titulo' => 'required',
                     'fecha_inicio' => 'required|date|after_or_equal:today',
                     'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
                     'tipo_evento' => 'required',
                     'adjunto' => 'file|mimes:jpg,png,pdf,docx|max:2048',
-
-            
                 ]);
-        
 
 
                 $evento = new Evento();
@@ -158,17 +160,22 @@ class EventoController extends Controller
                     $this->createNotificacionEvent('evento_empleado', $evento);
                     return redirect()->route('evento.index')->with('estado', 'creado');
 
+
             }
             
 
 
 
-        }catch(\Exception $e){
+        }
+        
+   
+        catch(Exception $e){
 
-            return response()->json(['error' => $e->getMessage()], 500);
+        return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
 
             
         }
+
     }
 
     /**
