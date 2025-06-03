@@ -357,14 +357,27 @@ class CentroController extends Controller
                     return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Solo existe un centro de trabajo y no puede ser eliminado.']);
 
                 }else{
+                    $usuarios = User::where('id_centro', $id)->get();
 
-                    $centro = Centro::find($id);
-                    //borrando directorio de carpetas
-                    Storage::disk('local')->deleteDirectory('intranet/'.$centro->nombre);
-                    $centro->delete();
-                    session()->flash('estado', 'eliminado');
+                    if(count($usuarios) > 0){
+
+                        return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'El Centro Productivo tiene usuarios asociados y no puede ser eliminado. Reubique los usuarios a otro Centro Productivo.']);    
+
+                    }else{
+
+                         $centro = Centro::find($id);
+                        //borrando directorio de carpetas
+                        Storage::disk('local')->deleteDirectory('intranet/'.$centro->nombre);
+                        EventoController::createNotificacionEvent('centro_eliminar', null, $centro);
+                        $centro->delete();
+
+                        session()->flash('estado', 'eliminado');
     
                     return back();
+
+                    }
+
+                   
                     
                 }
 

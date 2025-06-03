@@ -346,6 +346,19 @@ class EventoController extends Controller
                             $notificacion->save();
 
                 break;
+
+                          case 'centro_eliminar':
+
+                            //notificación administrativa
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion->id_empleado_destino = Empleado::all()->first()->id;
+                            $notificacion->titulo = "Se ha eliminado el centro productivo : ". $centro->nombre . " por el usuario : ". auth()->user()->empleado->nombre . " " . auth()->user()->empleado->apellidos;
+                            $notificacion->mensaje = "Se ha eliminado el centro productivo : " . $centro->nombre . " de la localidad : " . $centro->localidad . " ubicado en : " . $centro->direccion;
+                            $notificacion->save();
+
+
+                break;
             }
 
 
