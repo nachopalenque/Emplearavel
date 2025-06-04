@@ -426,6 +426,10 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                                 <button type="submit" id='btnVaciarPapeleraNotificaciones' class="btn-sm btn-block btn-outline-danger mb-3 btn-eliminar" ><i class="fa fa-trash mr-1"></i>Vaciar papelera de notificaciones</button>
                                 </form>
 
+                            @else
+
+                                <label for="" class="text-maroon">Aún no hay funcionalidades disponibles</label>
+
                             @endif
                        
 

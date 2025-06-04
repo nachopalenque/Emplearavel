@@ -198,7 +198,7 @@ switch ($centro->estilo){
             <a id="irBandejaNotificaciones"  class="alert-link text-navy"><i class="fa fa-bell"></i> Ir a ver notificaciones</a>
             <a href="{{route('notificacion.marcar.leidas')}}" class="alert-link text-maroon p-3"><i class="fa fa-book"></i>Marcar como leidas</a>
 
-        <button type="button" id="btnCloseOk" class="close" data-dismiss="alert" aria-label="Close">
+        <button type="button" id="btnCloseOk" class="close"  aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -225,11 +225,12 @@ switch ($centro->estilo){
 @section('adminlte_js')
     @stack('js')
     @yield('js')
-    <script>
+        <script>
 
     document.addEventListener("DOMContentLoaded", function () {
         let numNotificaciones = 0;
         let mostrarNotificaciones = sessionStorage.getItem('mostrarNotificaciones');
+        let panelNotificaciones = document.getElementById('panelNotificaciones');
         hayNotificacionesNuevas();
         console.log(mostrarNotificaciones);
         
@@ -240,10 +241,12 @@ switch ($centro->estilo){
             if (e.target.closest('#irBandejaNotificaciones')) {
                 event.preventDefault(); 
                 window.location.href = '/notificacion';
-                document.getElementById('btnCloseOk').click();
+                if (panelNotificaciones) panelNotificaciones.hidden = true;
             }
 
             if(e.target.closest('#btnCloseOk')) {
+                if (panelNotificaciones) panelNotificaciones.hidden = true;
+
                 if(document.getElementById('desactivarNotificaciones').checked) {
                     sessionStorage.setItem('mostrarNotificaciones', false);
                 }else{
@@ -254,6 +257,7 @@ switch ($centro->estilo){
 
 
            function hayNotificacionesNuevas() {
+                let numNotificacionesHTML = document.getElementById('numNotificaciones');
                 fetch(`/notificacion-nueva`)
               .then(res => res.json())
               .then(notificaciones => {
@@ -261,15 +265,25 @@ switch ($centro->estilo){
                  numNotificaciones = notificaciones.num_notificaciones;
 
                  if (mostrarNotificaciones === null || mostrarNotificaciones === "true") {
-                    console.log('entro');
-                    document.getElementById('panelNotificaciones').hidden = (numNotificaciones <= 0);
-                    document.getElementById('numNotificaciones').innerHTML = numNotificaciones;
+                    console.log(panelNotificaciones);
+                    if(panelNotificaciones) {
+                    panelNotificaciones.hidden = (numNotificaciones <= 0);
+                    numNotificacionesHTML.innerHTML = numNotificaciones;
+                    }
+             
                 }
 
               })
               .catch(error => console.log(error));
              }
 
+
+             setInterval(() => {
+                console.log(numNotificaciones);
+                if(numNotificaciones>0 &&  mostrarNotificaciones === "true"){
+                    hayNotificacionesNuevas();
+                }
+             }, 30000);
 
 
        
@@ -281,3 +295,5 @@ switch ($centro->estilo){
 
 </script>
 @stop
+
+

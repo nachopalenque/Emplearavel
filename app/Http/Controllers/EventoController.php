@@ -102,6 +102,7 @@ class EventoController extends Controller
                     'fecha_inicio' => 'required|date|after_or_equal:today',
                     'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
                     'tipo_evento' => 'required',
+                    'observaciones' => 'required',
                     'adjunto' => 'file|mimes:jpg,png,pdf,docx|max:2048',
                 ]);
 
@@ -191,6 +192,61 @@ class EventoController extends Controller
         try{
 
             switch($tipo_notificacion){
+
+                 case 'proyecto_nuevo':
+
+                        //notificación al creador del proyecto
+                        $notificacion = new Notificacion();
+                        $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                        $notificacion->id_empleado_destino = $proyecto->empleados()->first()->id;
+                        $notificacion->titulo = "Has creado un proyecto nuevo ". $proyecto->nombre;
+                        $notificacion->mensaje = "Descripción del proyecto: ". $proyecto->descripcion;
+                        $notificacion->save();
+               
+
+                        //notificación a todos los empleados del proyecto
+                        $empleados_proyecto = $proyecto->empleados()->pluck('id_empleado')->toArray();
+                        foreach($empleados_proyecto as $empleado){
+
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion->id_empleado_destino = $empleado;
+                            $notificacion->titulo = "Añadido archivo a proyecto ". $proyecto->nombre;
+                            $notificacion->mensaje = "Se ha añadido un archivo al proyecto ". $proyecto->adjunto;
+                            $notificacion->save();
+                        }
+                    
+               
+
+                break;
+
+                case 'proyecto_eliminar':
+
+                        //notificación al creador del proyecto
+                        $notificacion = new Notificacion();
+                        $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                        $notificacion->id_empleado_destino = $proyecto->empleados()->first()->id;
+                        $notificacion->titulo = "Has eliminado el proyecto ". $proyecto->nombre;
+                        $notificacion->mensaje = "Descripción del proyecto eliminado: ". $proyecto->descripcion;
+                        $notificacion->save();
+               
+
+                        //notificación a todos los empleados del proyecto
+                        $empleados_proyecto = $proyecto->empleados()->pluck('id_empleado')->toArray();
+                        foreach($empleados_proyecto as $empleado){
+
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion->id_empleado_destino = $empleado;
+                            $notificacion->titulo = "El proyecto ". $proyecto->nombre ." ha sido eliminado";
+                            $notificacion->mensaje = "El administrador del proyecto a eliminado el proyecto ". $proyecto->nombre;
+                            $notificacion->save();
+                        }
+                    
+               
+
+                break;
+
 
                 case 'evento_proyecto':
 

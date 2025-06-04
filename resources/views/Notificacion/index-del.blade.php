@@ -3,7 +3,7 @@
 @section('title', 'Notificaciones')
 
 @section('content_header')
-    <h1>Listado de notificaciones</h1>
+    <h1>Listado de notificaciones eliminadas</h1>
     <hr>
 @stop
 

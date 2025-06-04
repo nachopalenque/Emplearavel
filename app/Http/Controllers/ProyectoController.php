@@ -222,6 +222,9 @@ class ProyectoController extends Controller
 
             Storage::disk('local')->makeDirectory('intranet/'.auth()->user()->centro->nombre.'/proyectos/'.'proyecto-'.$proyecto->id);
 
+            EventoController::createNotificacionEvent('proyecto_nuevo', null, null, null, $proyecto);
+
+
             return redirect()->route('proyecto.index')->with('estado', 'creado');
 
         }catch(Exception $e){
@@ -415,6 +418,9 @@ class ProyectoController extends Controller
             if (Storage::exists($proyecto->intranet)) {
                 Storage::deleteDirectory($proyecto->intranet);
              }
+            
+            EventoController::createNotificacionEvent('proyecto_eliminar', null, null, null, $proyecto);
+
             $proyecto->delete();
             return redirect()->route('proyecto.index')->with('estado', 'eliminado');
         }
