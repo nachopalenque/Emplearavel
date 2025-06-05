@@ -232,7 +232,6 @@ switch ($centro->estilo){
         let mostrarNotificaciones = sessionStorage.getItem('mostrarNotificaciones');
         let panelNotificaciones = document.getElementById('panelNotificaciones');
         hayNotificacionesNuevas();
-        console.log(mostrarNotificaciones);
         
         document.addEventListener('click', function (e) {
 
@@ -262,16 +261,24 @@ switch ($centro->estilo){
               .then(res => res.json())
               .then(notificaciones => {
                 
+  
                  numNotificaciones = notificaciones.num_notificaciones;
 
-                 if (mostrarNotificaciones === null || mostrarNotificaciones === "true") {
-                    console.log(panelNotificaciones);
-                    if(panelNotificaciones) {
-                    panelNotificaciones.hidden = (numNotificaciones <= 0);
-                    numNotificacionesHTML.innerHTML = numNotificaciones;
-                    }
-             
-                }
+
+                        if (mostrarNotificaciones === null || mostrarNotificaciones === "true") {
+                            console.log(panelNotificaciones);
+                            if(panelNotificaciones) {
+                            panelNotificaciones.hidden = (numNotificaciones <= 0);
+                            numNotificacionesHTML.innerHTML = numNotificaciones;
+                            }
+                    
+                        }
+                    
+                
+
+
+
+       
 
               })
               .catch(error => console.log(error));
@@ -279,7 +286,6 @@ switch ($centro->estilo){
 
 
              setInterval(() => {
-                console.log(numNotificaciones);
                 if(numNotificaciones>0 &&  mostrarNotificaciones === "true"){
                     hayNotificacionesNuevas();
                 }

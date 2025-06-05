@@ -70,11 +70,7 @@
              <div>
 
                   <!-- /.card-body -->
-              <div class="card-footer clearfix">
-                <ul class="pagination pagination-sm m-0 float-right">
-                {{ $fichajes->links() }}
-                </ul>
-              </div>
+        
             </div>
 
 

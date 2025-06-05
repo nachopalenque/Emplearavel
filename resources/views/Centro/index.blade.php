@@ -40,8 +40,11 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            
             const modalElement = document.getElementById('modalValidaciones');
             const modal = new bootstrap.Modal(modalElement);
+            const form = document.getElementById('form-centro-edit');
+
             modal.show();
 
             document.addEventListener('click', function (e) {
@@ -50,7 +53,9 @@
                 }
             })
 
-        
+
+ 
+
 
         });
     </script>

@@ -188,10 +188,57 @@ class EventoController extends Controller
     }
 
 
-    public static function createNotificacionEvent($tipo_notificacion, $evento=null, $centro=null, $usuario = null, $proyecto = null){
+    public static function createNotificacionEvent($tipo_notificacion, $evento=null, $centro=null, $usuario = null, $proyecto = null, $empleado = null){
         try{
 
             switch($tipo_notificacion){
+                  case 'proyecto_nuevo_empleado':
+
+                        //notificación al creador del proyecto
+                        $notificacion = new Notificacion();
+                        $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                        $notificacion->id_empleado_destino = $proyecto->empleados()->first()->id;
+                        $notificacion->titulo = "Has asignado un nuevo empleado al proyecto ". $proyecto->nombre;
+                        $notificacion->mensaje = "Has asignado el nuevo empleado  ". $empleado->nombre . " " . $empleado->apellidos . " al proyecto " . $proyecto->nombre;
+                        $notificacion->save();
+               
+
+                        //notificación al empleado nuevo del proyecto
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion->id_empleado_destino = $empleado->id;
+                            $notificacion->titulo = "Has sido asignado a un nuevo proyecto ". $proyecto->nombre;
+                            $notificacion->mensaje = "Has sido asignado a un nuevo proyecto ". $proyecto->nombre.": ". $proyecto->descripcion;
+                            $notificacion->save();
+                        
+                    
+               
+
+                break;
+
+                case 'proyecto_elimina_empleado':
+
+                        //notificación al creador del proyecto
+                        $notificacion = new Notificacion();
+                        $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                        $notificacion->id_empleado_destino = $proyecto->empleados()->first()->id;
+                        $notificacion->titulo = "Has eliminado un empleado al proyecto ". $proyecto->nombre;
+                        $notificacion->mensaje = "Has eliminado el empleado  ". $empleado->nombre . " " . $empleado->apellidos . " al proyecto " . $proyecto->nombre;
+                        $notificacion->save();
+               
+
+                        //notificación al empleado nuevo del proyecto
+                            $notificacion = new Notificacion();
+                            $notificacion->id_empleado_origen = auth()->user()->empleado->id;
+                            $notificacion->id_empleado_destino = $empleado->id;
+                            $notificacion->titulo = "Has sido eliminado del proyecto ". $proyecto->nombre;
+                            $notificacion->mensaje = "Has sido eliminado del proyecto ". $proyecto->nombre.": ". $proyecto->descripcion;
+                            $notificacion->save();
+                        
+                    
+               
+
+                break;
 
                  case 'proyecto_nuevo':
 

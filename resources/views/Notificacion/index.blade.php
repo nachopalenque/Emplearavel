@@ -77,6 +77,13 @@
             mensajeConfirmacionEliminacionElemento();
             break;
             }
+            
+            //Recargo la página cuando cierro el modal para recargar notificaciones
+            document.addEventListener('click', function (e) {
+                 if (e.target.closest('#btnCerrarModalGenerico')) {
+                    location.reload(true);
+                }
+            })
 
         });
 

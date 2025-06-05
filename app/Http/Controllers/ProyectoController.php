@@ -39,7 +39,7 @@ class ProyectoController extends Controller
             }
 
             return view('Proyecto.index', ['proyectos' => $proyectos]);
-        }catch(\Exception $e){
+        }catch(Exception $e){
             return response()->json(['error' => $e->getMessage()], 500);   
         }
 
@@ -72,7 +72,7 @@ class ProyectoController extends Controller
             
             session()->flash('proyectos_nombre', $request->input('nombre'));
             return view('Proyecto.index', ['proyectos' => $proyectos]);
-        }catch(\Exception $e){
+        }catch(Exception $e){
             return response()->json(['error' => $e->getMessage()], 500);   
         }
 
@@ -104,7 +104,7 @@ class ProyectoController extends Controller
 
             session()->flash('proyectos_estado', $estado);
             return view('Proyecto.index', ['proyectos' => $proyectos]);
-        }catch(\Exception $e){
+        }catch(Exception $e){
             return response()->json(['error' => $e->getMessage()], 500);   
         }
 
@@ -119,7 +119,7 @@ class ProyectoController extends Controller
             ->paginate(10);
             return view('Proyecto.show-intranet', ['id'=> $id,'documentos' => $documentos]);
 
-        }catch(\Exception $e){
+        }catch(Exception $e){
 
             return response()->json(['error' => $e->getMessage()], 500);        }
     }
@@ -239,7 +239,10 @@ class ProyectoController extends Controller
       try{
 
             $proyecto = Proyecto::find($id_proyecto);
+            $empleado = Empleado::find($id_empleado);
             $proyecto->empleados()->attach($id_empleado);
+            EventoController::createNotificacionEvent('proyecto_nuevo_empleado', null, null, null, $proyecto,$empleado);
+
             return redirect()->route('proyecto.index')->with('estado', 'creado');
         }
         catch(Exception $e){
@@ -253,9 +256,16 @@ class ProyectoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Proyecto $proyecto)
+    public function show($id)
     {
-        //
+        try{
+            $proyecto = Proyecto::find($id);
+            return view('Proyecto.show', ['proyecto' => $proyecto]);
+
+        }catch(Exepcion $e){
+        
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
    public function showFiltrar()
@@ -436,7 +446,10 @@ class ProyectoController extends Controller
       try{
 
             $proyecto = Proyecto::find($id_proyecto);
+            $empleado = Empleado::find($id_empleado);
             $proyecto->empleados()->detach($id_empleado);
+            EventoController::createNotificacionEvent('proyecto_elimina_empleado', null, null, null, $proyecto,$empleado);
+
             return redirect()->route('proyecto.index')->with('estado', 'eliminado');
         }
         catch(Exception $e){

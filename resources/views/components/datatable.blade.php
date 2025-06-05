@@ -114,7 +114,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                     </div>
                     
                     <div class="modal-footer">
-                      <button  type="button" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
+                      <button  type="button" id="btnCerrarModalGenerico" class="btn btn-danger" data-dismiss="modal" >Cancelar</button>
                     </div>
                   
                   </div>
@@ -722,12 +722,16 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                           </figure>
 
 
+
+
                           <!-- Boton usuarios 
                           <form action="{{ route('centro.edit', ['centro' => $item->id]) }}" method="POST" class="btn-group btn-group-sm">
                             <button  type="submit" value="" class="btn btn-secondary bg-pink mr-2">
                             <i class="fas fa-user"></i>
                             </button>
                           </form> 
+
+                          
                           -->
 
                         
@@ -818,8 +822,8 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                                   @if($rolAuth == 'Administrador' || $rolAuth == 'ProductManager') 
 
                                     <figure class=" btn-group btn-group-sm">
-                                      <button data-id="{{ $item->id }}" id="btnProyectosMod" title="Modificar datos del proyecto"  class="btn btn-info mr-2" data-toggle="modal" data-target="#modal">
-                                      <i class="fas fa-pen"></i>
+                                      <button data-id="{{ $item->id }}" id="btnProyectosMod" title="Ver datos del proyecto"  class="btn btn-info mr-2" data-toggle="modal" data-target="#modal">
+                                     <i class="fas fa-eye"></i>
                                       </button>
                                     </figure>
 
@@ -1011,8 +1015,8 @@ $rolAuth = auth()->user()->getRoleNames()->first();
       if (e.target.closest('.btn-editar-centro')) {
           const btn = e.target.closest('.btn-editar-centro');
           const id = btn.dataset.id;
-          document.getElementById('tituloModal').innerHTML = 'Editar Centro Productivo';
-          fetch(`/centro/${id}/edit`)
+          document.getElementById('tituloModal').innerHTML = 'Ver Centro Productivo';
+          fetch(`/centro/${id}`)
               .then(res => res.text())
               .then(html => {
                   document.getElementById('modalBody').innerHTML = html;
@@ -1059,12 +1063,15 @@ $rolAuth = auth()->user()->getRoleNames()->first();
       if (e.target.closest('#btnProyectosMod')) {
           const btn = e.target.closest('#btnProyectosMod');
           const id = btn.dataset.id;
-          document.getElementById('tituloModal').innerHTML = 'Editar Proyecto';
-          fetch(`/proyecto/${id}/edit`)
+          document.getElementById('tituloModal').innerHTML = 'Ver Proyecto';
+          fetch(`/proyecto/${id}`)
               .then(res => res.text())
               .then(html => {
                   document.getElementById('modalBody').innerHTML = html;
-              });
+              })
+              .catch(error => {
+                console.error('Error al cargar empleados:', error);
+            });
       }
 
             //Botón : Editar datos del proyecto

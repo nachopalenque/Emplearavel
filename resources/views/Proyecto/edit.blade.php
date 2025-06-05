@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+@extends('adminlte::page')
 
-    <title>actualizar proyecto</title>
-</head>
-<body>
+@section('title', 'Centro Productivo')
+
+@section('content_header')
+    <h1>Editar Centro Productivo</h1>
+@stop
+
+@section('content')
 <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Actualice los datos del proyecto</h3>
@@ -144,14 +144,18 @@
 
                 <div class="card-footer">
                 <x-adminlte-button class="btn-flat" type="submit" label="Actualizar Proyecto" theme="success" icon="fas fa-lg fa-save"/>
+                <x-adminlte-button class="btn-flat" type="button" label="Volver a la lista" theme="info" icon="fas fa-lg fa-arrow-left"  onclick="window.location.href = '{{ route('proyecto.index') }}'"/>
 
                 </div>
               </form>
 </div>
+@stop
 
+@section('css')
+    {{-- Add here extra stylesheets --}}
+    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+@stop
 
-
-
-
-</body>
-</html>
+@section('js')
+    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
+@stop

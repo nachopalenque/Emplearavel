@@ -160,7 +160,7 @@ class FichajeController extends Controller
             $empleado = Empleado::find($id);
             $fichajes = Fichaje::where('id_usuario', $empleado->id_usuario)
             ->orderBy('id', 'desc')
-            ->paginate(10);  
+            ->get();  
             return view('Fichaje.show', ['fichajes' => $fichajes]);
         }
         catch(Exception $e){

@@ -5,7 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('vendor/select2/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/select2/select2-bootstrap4.min.css') }}">
+    <style>
 
+    /* Añadimos un margen de 1px para que los tags en Select2 tengan un espacio entre ellos y esten dentro del input*/
+      .select2-selection__choice {
+
+            margin: 1px !important;
+
+        }
+
+
+        /* Estilo para los tags en Select2 en modo oscuro */
+        body.dark-mode .select2-selection__choice {
+            background-color: #333 !important; /* Fondo oscuro */
+            color: #fff !important;            /* Texto claro */
+            border: 1px solid #555 !important;
+
+        }
+
+        body.dark-mode .select2-selection__choice__remove {
+            color: #ccc !important;  /* Color del icono de eliminar */
+
+        }
+    </style>
     <title>crear proyecto</title>
 </head>
 <body>
@@ -78,7 +100,7 @@
                         ]" id="empleados">
                         
                         {{-- Placeholder visible sólo si no hay elementos seleccionados --}}
-                        <option disabled >Escriba para buscar un empleado...</option>
+                        <option  disabled >Escriba para buscar un empleado...</option>
 
                         @foreach ($empleados as $empleado)
                             <option  value="{{ $empleado->id }}">{{ $empleado->nombre }}</option>

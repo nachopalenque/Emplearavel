@@ -8,6 +8,7 @@ use App\Http\Controllers\EventoController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 
 class CentroController extends Controller
@@ -333,6 +334,7 @@ class CentroController extends Controller
             }
 
         }
+   
         catch(Exception $e){
 
             return response()->json(['error' => $e->getMessage()], 500);
