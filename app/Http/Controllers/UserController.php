@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\EventoController;
+use App\Http\Controllers\PermisosController;
 
 
 class UserController extends Controller
@@ -99,7 +100,16 @@ class UserController extends Controller
         public function showFiltrar()
     {
         try{
-            return view('User.show-filter');
+
+            if(PermisosController::authAdmin()){
+
+                return view('User.show-filter');
+
+            }else{
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede filtrar usuarios. Pongase en contacto con su administrador.']);
+
+            }
+
 
         }catch(Exepcion $e){
         
@@ -150,8 +160,17 @@ class UserController extends Controller
     public function editUserCenter($id_usuario){
         try{
 
-            $centros = Centro::all();
-            return view('User.edit-centro', ['centros' => $centros, 'id_usuario' => $id_usuario]);
+            if(PermisosController::authAdmin()){
+
+                $centros = Centro::all();
+                return view('User.edit-centro', ['centros' => $centros, 'id_usuario' => $id_usuario]);
+
+            }else{
+
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede cambiar usuarios de centro. Pongase en contacto con su administrador.']);
+
+            }
+          
 
         }catch(Exception $e){
                     

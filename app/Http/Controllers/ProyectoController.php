@@ -113,11 +113,35 @@ class ProyectoController extends Controller
     public function showDocs($id)
     {
         try{
-            $documentos = Evento::where('id_proyecto', $id)
-            ->where('adjunto', '!=', '')
-            ->select('id','adjunto')
-            ->paginate(10);
-            return view('Proyecto.show-intranet', ['id'=> $id,'documentos' => $documentos]);
+
+
+            $rol = PermisosController::authRol();
+
+            if($rol=='Administrador' || $rol=='ProductManager'){
+
+                $documentos = Evento::where('id_proyecto', $id)
+                ->where('adjunto', '!=', '')
+                ->select('id','adjunto')
+                ->paginate(10);
+                return view('Proyecto.show-intranet', ['id'=> $id,'documentos' => $documentos]);
+            }else{
+
+                  if($this->esProyectoEmpAuth($id)){
+
+                    $documentos = Evento::where('id_proyecto', $id)
+                    ->where('adjunto', '!=', '')
+                    ->select('id','adjunto')
+                    ->paginate(10);
+                    return view('Proyecto.show-intranet', ['id'=> $id,'documentos' => $documentos]);
+                    
+                }else{
+
+                    return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede ver la intranet de un proyecto no asignado. Pongase en contacto con su administrador.']);
+
+                }
+
+            }
+   
 
         }catch(Exception $e){
 
@@ -137,9 +161,19 @@ class ProyectoController extends Controller
     {
         try{
 
-            $proyecto = Proyecto::find($id);
-            $empleadosDelProyecto = $proyecto->empleados()->get();            
-            return view('Proyecto.create-event', ['id'=> $id ,'empleados' => $empleadosDelProyecto]);
+             $rol = PermisosController::authRol();
+            if($rol=='Administrador' || $rol=='ProductManager'){
+                $proyecto = Proyecto::find($id);
+                $empleadosDelProyecto = $proyecto->empleados()->get();            
+                return view('Proyecto.create-event', ['id'=> $id ,'empleados' => $empleadosDelProyecto]);
+            
+            }else{
+                
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede crear tareas en un proyecto. Pongase en contacto con su administrador.']);
+
+
+            }
+           
 
         }catch(Exception $e){
 
@@ -259,8 +293,30 @@ class ProyectoController extends Controller
     public function show($id)
     {
         try{
+
+            $rol = PermisosController::authRol();
+
+            if($rol=='Administrador' || $rol=='ProductManager'){
+
             $proyecto = Proyecto::find($id);
             return view('Proyecto.show', ['proyecto' => $proyecto]);
+
+            } else{
+
+                if($this->esProyectoEmpAuth($id)){
+
+                    $proyecto = Proyecto::find($id);
+                    return view('Proyecto.show', ['proyecto' => $proyecto]);
+                    
+                }else{
+
+                    return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede ver un proyecto no asignado. Pongase en contacto con su administrador.']);
+
+                }
+
+            }
+            
+
 
         }catch(Exepcion $e){
         
@@ -285,11 +341,20 @@ class ProyectoController extends Controller
     {
         try{
 
+
+            $rol = PermisosController::authRol();
+
+            if($rol=='Administrador' || $rol=='ProductManager'){
+
             $empleadosOcupadosIds = $this->empleadosProyecto($id);
             $empleadosDisponibles = $this->empleadosDisponibles($empleadosOcupadosIds);
-
-
             return view('Proyecto.edit-emp',['id'=>$id,'empleados'=>$empleadosDisponibles]);
+
+            }else{
+
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede ver ni añadir empleados a un proyecto. Pongase en contacto con su administrador.']);
+            }
+   
 
         }catch(Exepcion $e){
         
@@ -334,9 +399,15 @@ class ProyectoController extends Controller
     {
         try{
 
-            $proyecto = Proyecto::find($id);
-            return view('Proyecto.pr-emp',['id'=>$id,'empleados'=>$proyecto->empleados]);
+            $rol = PermisosController::authRol();
+            if($rol=='Administrador' || $rol=='ProductManager'){
 
+                $proyecto = Proyecto::find($id);
+                return view('Proyecto.pr-emp',['id'=>$id,'empleados'=>$proyecto->empleados]);
+            }else{  
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede ver ni añadir empleados a un proyecto. Pongase en contacto con su administrador.']);
+            }
+         
         }catch(Exepcion $e){
         
             return response()->json(['error' => $e->getMessage()], 500);
@@ -458,6 +529,24 @@ class ProyectoController extends Controller
         }   
 
      }
+
+
+         public function esProyectoEmpAuth($id_proyecto){
+
+        try{
+            $proyecto = Proyecto::find($id_proyecto);
+            $existe = $proyecto->empleados()->where('id_empleado', auth()->user()->empleado->id)->exists();
+            if($existe){
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(Exception $e){
+        
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
 
      

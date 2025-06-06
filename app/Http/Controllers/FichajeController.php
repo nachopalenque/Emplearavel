@@ -8,6 +8,7 @@ use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Http\Controllers\PermisosController;
 
 class FichajeController extends Controller
 {
@@ -157,17 +158,36 @@ class FichajeController extends Controller
     public function show($id)
     {
         try{
-            $empleado = Empleado::find($id);
-            $fichajes = Fichaje::where('id_usuario', $empleado->id_usuario)
-            ->orderBy('id', 'desc')
-            ->get();  
-            return view('Fichaje.show', ['fichajes' => $fichajes]);
+
+            if(PermisosController::authAdmin()){
+            
+                $empleado = Empleado::find($id);
+                $fichajes = Fichaje::where('id_usuario', $empleado->id_usuario)
+                ->orderBy('id', 'desc')
+                ->get();  
+                return view('Fichaje.show', ['fichajes' => $fichajes]);
+               
+            }else{
+
+                if($this->perteneceFichaje($id)){
+                    $empleado = Empleado::find($id);
+                    $fichajes = Fichaje::where('id_usuario', $empleado->id_usuario)
+                    ->orderBy('id', 'desc')
+                    ->get();  
+                    return view('Fichaje.show', ['fichajes' => $fichajes]);
+                }else{
+                    return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede ver estos fichajes. Pongase en contacto con su administrador.']);
+
+                }
+
+            }
+  
         }
         catch(Exception $e){
 
             return response()->json(['error' => $e->getMessage()], 500);   
         }
-        }
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -238,6 +258,22 @@ class FichajeController extends Controller
           
         }
 
+    }
+
+        public function perteneceFichaje($id_empleado){
+
+        try{
+
+            if(auth()->user()->empleado->id == $id_empleado){
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(Exception $e){
+            
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
 }

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Evento;
 use App\Http\Controllers\EventoController;
+use App\Http\Controllers\PermisosController;
 
 class TareasController extends Controller
 {
@@ -165,32 +166,76 @@ class TareasController extends Controller
      public function show($id)
     {
         try{
-                $tareas = DB::table('eventos')
-                ->where('eventos.id_empleado', $id)
-                ->join('proyectos', 'eventos.id_proyecto', '=', 'proyectos.id')
-                ->select(
-                    'eventos.id',
-                    'proyectos.nombre',
-                    'eventos.titulo',
-                    'eventos.observaciones',
-                    'eventos.fecha_inicio',
-                    'eventos.fecha_fin',
-                    'eventos.estado_evento'
-          
-                )
-                ->groupBy(
-                    'eventos.id',
-                    'proyectos.nombre',
-                    'eventos.titulo',
-                    'eventos.observaciones',
-                    'eventos.fecha_inicio',
-                    'eventos.fecha_fin',
-                    'eventos.estado_evento'
-             
-                )
-                ->get();
 
-            return view('Tareas.show', ['tareas' => $tareas]);
+                 if(PermisosController::authAdmin()){
+
+
+                         $tareas = DB::table('eventos')
+                            ->where('eventos.id_empleado', $id)
+                            ->join('proyectos', 'eventos.id_proyecto', '=', 'proyectos.id')
+                            ->select(
+                                'eventos.id',
+                                'proyectos.nombre',
+                                'eventos.titulo',
+                                'eventos.observaciones',
+                                'eventos.fecha_inicio',
+                                'eventos.fecha_fin',
+                                'eventos.estado_evento'
+                    
+                            )
+                            ->groupBy(
+                                'eventos.id',
+                                'proyectos.nombre',
+                                'eventos.titulo',
+                                'eventos.observaciones',
+                                'eventos.fecha_inicio',
+                                'eventos.fecha_fin',
+                                'eventos.estado_evento'
+                        
+                            )
+                            ->get();
+
+                        return view('Tareas.show', ['tareas' => $tareas]);
+
+                }else{
+
+                    if($this->esTareaEmpAuth($id)){
+                        
+                          $tareas = DB::table('eventos')
+                            ->where('eventos.id_empleado', $id)
+                            ->join('proyectos', 'eventos.id_proyecto', '=', 'proyectos.id')
+                            ->select(
+                                'eventos.id',
+                                'proyectos.nombre',
+                                'eventos.titulo',
+                                'eventos.observaciones',
+                                'eventos.fecha_inicio',
+                                'eventos.fecha_fin',
+                                'eventos.estado_evento'
+                    
+                            )
+                            ->groupBy(
+                                'eventos.id',
+                                'proyectos.nombre',
+                                'eventos.titulo',
+                                'eventos.observaciones',
+                                'eventos.fecha_inicio',
+                                'eventos.fecha_fin',
+                                'eventos.estado_evento'
+                        
+                            )
+                            ->get();
+
+                        return view('Tareas.show', ['tareas' => $tareas]);
+
+
+
+                    }else{
+                        return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Estas tareas no pertenecen al empleado autentificado. Pongase en contacto con su administrador.']);
+                    }                   
+
+                }
+           
 
         }catch(Exception $e){
 
@@ -239,6 +284,22 @@ class TareasController extends Controller
 
         }catch(Exception $e){
 
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function esTareaEmpAuth($id_empleado){
+
+        try{
+
+            if(auth()->user()->empleado->id == $id_empleado){
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(Exception $e){
+        
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }

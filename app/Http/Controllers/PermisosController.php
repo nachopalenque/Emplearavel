@@ -100,7 +100,6 @@ class PermisosController extends Controller
            
         }catch(Exception $e){
 
-        
           return response()->json(['error' => $e->getMessage()], 500);           
         }
     }
@@ -109,9 +108,15 @@ class PermisosController extends Controller
     public function rolEditUser($id_usuario){
         try{
           
-        $roles = Role::all();
-
-        return view('Rol.edit-user-rol', ['roles' => $roles, 'id_usuario' => $id_usuario]);
+            if($this->authAdmin()){
+                
+                $roles = Role::all();
+                return view('Rol.edit-user-rol', ['roles' => $roles, 'id_usuario' => $id_usuario]);
+                
+            }else{
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no tiene permisos para realizar esta acción. Pongase en contacto con su administrador.']);
+            }
+        
 
         }catch(Exception $e){
                     

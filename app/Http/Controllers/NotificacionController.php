@@ -371,7 +371,11 @@ class NotificacionController extends Controller
     public function edit($id)
     {
         try{
-            //marco como leida la notificacion
+
+            if($this->esNotificacionEmpleadoAuth($id) == false){
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede leer notificaciones ni conversaciones que no son suyas.']);
+            }else{
+             //marco como leida la notificacion
             $notificacion_leida = Notificacion::find($id);
             $notificacion_leida->leido = true;
             $notificacion_leida->save();
@@ -386,6 +390,8 @@ class NotificacionController extends Controller
                 ->first();            
             
             return view('Notificacion.edit', ['notificacion' => $notificacion]);
+            }
+         
 
         }catch(Exception $e){
 
@@ -421,9 +427,8 @@ class NotificacionController extends Controller
         public function updateDelete($id_notificacion)
     {
         try{
-
+            
             $notificacion = Notificacion::find($id_notificacion);
-
             $notificacion->eliminada = true;
             $notificacion->save();
 
@@ -481,5 +486,23 @@ class NotificacionController extends Controller
 
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+
+    public function esNotificacionEmpleadoAuth($id_notificacion){
+
+        try{
+
+            $notificacion = Notificacion::find($id_notificacion);
+            if($notificacion->id_empleado_destino == auth()->user()->empleado->id){
+                return true;
+            }else{
+                return false;
+            }
+            
+        }catch(Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
     }
 }

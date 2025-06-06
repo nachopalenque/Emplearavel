@@ -52,7 +52,7 @@
                                
                                     <a href="{{ route('descarga.archivo.empleado', ['id' => $doc->id]) }}" class="text-warning m-1" title="Descargar documento" download><i class="fas fa-download"></i></a>
                                     
-                                    <button  type="submit" title="Eliminar archivo"   class="text-danger m-1 bg-transparent ">
+                                    <button  type="submit" title="Eliminar archivo"   class="text-danger m-1 border-0 bg-transparent">
                                     <i class="fas fa-trash"></i>
                                     </button>
                                     </form>

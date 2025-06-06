@@ -56,7 +56,14 @@ class CentroController extends Controller
     {
         try{
 
-            return view('Centro.create');
+            if(PermisosController::authAdmin()){
+            
+                return view('Centro.create');
+
+            }else{
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede crear centros. Pongase en contacto con su administrador.']);
+            }
+
 
         }catch(Exception $e){
             
@@ -161,8 +168,10 @@ class CentroController extends Controller
     
         
             }else{
+                
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no puede crear un Centro Productivo. Pongase en contacto con su administrador.']);
+
     
-                return view('Mensaje.advertencia', ['Operación no disponible' => $titulo, 'Este usuario no puede crear un Centro Productivo. Pongase en contacto con su administrador.' => $mensaje]);
             }
 
         }catch(Exception $e){
@@ -182,8 +191,29 @@ class CentroController extends Controller
     {
         try{
 
-            $centro = Centro::find($id_centro);
-            return view('Centro.show', ['centro' => $centro]);    
+            //Si el usuario es administrador puede ver todos los centros
+              if(PermisosController::authAdmin()){
+
+                     $centro = Centro::find($id_centro);
+                     return view('Centro.show', ['centro' => $centro]);    
+
+              }else{
+
+                if($this->perteneceCentro($id_centro)){
+
+                        $centro = Centro::find($id_centro);
+                        return view('Centro.show', ['centro' => $centro]);    
+                    
+                }else{
+
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no pertenece a este centro productivo. Pongase en contacto con su administrador.']);
+
+
+                }
+
+
+              }
+       
 
         }catch(Exception $e){
             
@@ -227,7 +257,16 @@ class CentroController extends Controller
      public function showFiltrar()
     {
         try{
-            return view('Centro.show-filter');
+
+            if(PermisosController::authAdmin()){
+                   
+                return view('Centro.show-filter');
+
+            }else{
+                
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no tiene permisos para realizar esta acción. Pongase en contacto con su administrador.']);
+
+            }
 
         }catch(Exepcion $e){
         
@@ -423,5 +462,21 @@ class CentroController extends Controller
      
 
 
+    }
+
+    public function perteneceCentro($id_centro){
+
+        try{
+
+            if(auth()->user()->id_centro == $id_centro){
+                return true;
+            }else{
+                return false;
+            }
+
+        }catch(Exception $e){
+            
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

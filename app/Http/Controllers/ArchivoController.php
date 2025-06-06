@@ -22,7 +22,8 @@ class ArchivoController extends Controller
 
             }else{
 
-                return view('Mensaje.advertencia', ['Operación no disponible' => $titulo, 'Este usuario no tiene permisos para acceder a este recurso.' => $mensaje]);
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no tiene permisos para acceder a este recurso.']);
+
             }
 
 
@@ -44,7 +45,8 @@ class ArchivoController extends Controller
 
             }else{
 
-                return view('Mensaje.advertencia', ['Operación no disponible' => $titulo, 'Este usuario no tiene permisos para acceder a este recurso.' => $mensaje]);
+                return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no tiene permisos para acceder a este recurso.']);
+
             }
 
 
@@ -78,7 +80,8 @@ class ArchivoController extends Controller
                 }
                 else{
 
-                    return view('Mensaje.advertencia', ['Operación no disponible' => $titulo, 'Este usuario no tiene permisos para acceder a este recurso.' => $mensaje]);
+                    return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no tiene permisos para acceder a este recurso.']);
+
                
                 }
 
@@ -110,14 +113,14 @@ class ArchivoController extends Controller
 
 
                //Para evitar el intento de acceso por url: Si por el contrario no es rol administrador, consultamos si dicho usuario autentificado esta incluido en el proyecto y ver el archivo. Si no redirigimos a la vista de advertencia
-                if(proyectoEmpleado($evento->id_proyecto)){
+                if($this->proyectoEmpleado($evento->id_proyecto)){
                 
                     return response()->file(storage_path('app/' . $evento->adjunto));
 
                 }
                 else{
 
-                    return view('Mensaje.advertencia', ['Operación no disponible' => $titulo, 'Este usuario no tiene permisos para acceder a este recurso.' => $mensaje]);
+                    return view('Mensaje.advertencia', ['titulo' => 'Operación no disponible', 'mensaje' => 'Este usuario no tiene permisos para acceder a este recurso.']);
                
                 }
 
