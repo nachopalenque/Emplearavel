@@ -135,6 +135,20 @@ class ArchivoController extends Controller
         }
     }
 
+    public function verManualUsuario(){
+        try{
+                
+            return response()->file(public_path('docs/Manual-usuario.pdf'));
+
+            
+
+        }catch(Exception $e){
+            
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+    }
+
 
     //a esta función le pasamos el id del proyecto y nos devuelve si el empleado autentificado esta incluido en dicho proyecto mediante true o false
     public function proyectoEmpleado($id){

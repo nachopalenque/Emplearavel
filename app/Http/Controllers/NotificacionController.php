@@ -494,7 +494,7 @@ class NotificacionController extends Controller
         try{
 
             $notificacion = Notificacion::find($id_notificacion);
-            if($notificacion->id_empleado_destino == auth()->user()->empleado->id){
+            if($notificacion->id_empleado_destino == auth()->user()->empleado->id || $notificacion->id_empleado_origen == auth()->user()->empleado->id){
                 return true;
             }else{
                 return false;

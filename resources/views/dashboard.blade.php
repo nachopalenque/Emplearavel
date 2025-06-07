@@ -51,6 +51,12 @@ Use App\Http\Controllers\NotificacionController;
     icon="fas fa-lg fa-calendar-check"
     onclick="window.location.href='{{ route('fichaje.index') }}'"
     />
+        <x-adminlte-button 
+    class="btn-sm bg-gradient-maroon" 
+    type="button" label="Ver manual de usuario" 
+    icon="fas fa-lg fa-book"
+    onclick="window.open('{{ route('ver.manual.usuario') }}', '_blank')"
+   />
 
     </div>
 

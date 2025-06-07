@@ -105,6 +105,10 @@ Route::middleware([
     Route::get('/descargar/archivo/{id}', [ArchivoController::class,"descargaArchivoEmpleado"])
     ->name('descarga.archivo.empleado');
 
+    Route::get('/ver/manual-usuario', [ArchivoController::class,"verManualUsuario"])
+    ->name('ver.manual.usuario');
+
+
     Route::get('/ver/archivo/{id}', [ArchivoController::class,"verArchivoEmpleado"])
     ->name('ver.archivo.empleado');
 
