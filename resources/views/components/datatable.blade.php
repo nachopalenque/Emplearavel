@@ -1144,7 +1144,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
           const btn = e.target.closest('#btnEmpFichShow');
           const id = btn.dataset.id;
           document.getElementById('modalBody').innerHTML = '';
-          document.getElementById('tituloModal').innerHTML = 'Listado de tareas del empleado:';
+          document.getElementById('tituloModal').innerHTML = 'Listado de fichajes del empleado:';
           fetch(`/fichaje/${id}`)
               .then(res => res.text())
               .then(html => {

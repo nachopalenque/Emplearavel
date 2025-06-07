@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Evento;
 use App\Models\Proyecto;
+use App\Http\Controllers\PermisosController;
 
 class ArchivoController extends Controller
 {
@@ -137,8 +138,13 @@ class ArchivoController extends Controller
 
     public function verManualUsuario(){
         try{
-                
-            return response()->file(public_path('docs/Manual-usuario.pdf'));
+            
+
+            if(PermisosController::authAdmin()){
+                return response()->file(public_path('docs/Manual-administrador.pdf'));
+            }else{
+                return response()->file(public_path('docs/Manual-usuario.pdf'));
+            }
 
             
 
