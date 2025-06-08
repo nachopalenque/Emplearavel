@@ -300,7 +300,7 @@ $rolAuth = auth()->user()->getRoleNames()->first();
                                   
                               <!-- Solo se muestra el filtro si hay registros -->
 
-                              @if(count($items)>0)
+                              @if(count($items)>0 || $selectMesFichajes != null)
 
                                   <div class="input-group input-group-sm m-1">
                                 <label class="text-lightblue m-2">Filtrar mes/año actual:</label>
@@ -1078,7 +1078,6 @@ $rolAuth = auth()->user()->getRoleNames()->first();
       if (e.target.closest('#btnProyectosEmp')) {
           const btn = e.target.closest('#btnProyectosEmp');
           const id = btn.dataset.id;
-          document.getElementById('modalBody').innerHTML = '';
           document.getElementById('tituloModal').innerHTML = 'Incluir o quitar empleados al proyecto';
           
 

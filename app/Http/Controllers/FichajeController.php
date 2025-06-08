@@ -19,6 +19,7 @@ class FichajeController extends Controller
     {
         try{
             session()->forget('fichajes_fecha');
+            session()->forget('fichajes_mes');
             $fichajes = Fichaje::where('id_usuario', auth()->user()->id)
             ->orderBy('id', 'desc')
             ->paginate(10);  
