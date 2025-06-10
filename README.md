@@ -34,50 +34,50 @@
 </p>
 <p>4 - Crear el archivo llamado docker-compose.yml con el siguiente contenido :
 
- version: "3.8"
-
-services:
-  emplearavel:
-    build: .
-    restart: unless-stopped
-    command: sh -c "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"
-    container_name: emplearavel
-    ports:
-      - "8000:8000"
-    environment:
-      DB_HOST: mariadb
-      DB_PORT: 3306
-      DB_DATABASE: emplearavel
-      DB_USERNAME: emplearaveluser
-      DB_PASSWORD: emplearavelpass 
-    networks:
-      - emplearavel  
-    depends_on:
-      - mariadb
-
-  mariadb:
-    image: bitnami/mariadb:latest
-    restart: unless-stopped
-    container_name: mariadb
-    environment:
-      MARIADB_ROOT_PASSWORD: emplearavelpass
-      MARIADB_ROOT_USER: root
-      MARIADB_DATABASE: emplearavel
-      MARIADB_USER: emplearaveluser
-      MARIADB_PASSWORD: emplearavelpass
-    ports:
-      - "3306:3306"
+    version: "3.8"
+    
+    services:
+      emplearavel:
+        build: .
+        restart: unless-stopped
+        command: sh -c "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"
+        container_name: emplearavel
+        ports:
+          - "8000:8000"
+        environment:
+          DB_HOST: mariadb
+          DB_PORT: 3306
+          DB_DATABASE: emplearavel
+          DB_USERNAME: emplearaveluser
+          DB_PASSWORD: emplearavelpass 
+        networks:
+          - emplearavel  
+        depends_on:
+          - mariadb
+    
+      mariadb:
+        image: bitnami/mariadb:latest
+        restart: unless-stopped
+        container_name: mariadb
+        environment:
+          MARIADB_ROOT_PASSWORD: emplearavelpass
+          MARIADB_ROOT_USER: root
+          MARIADB_DATABASE: emplearavel
+          MARIADB_USER: emplearaveluser
+          MARIADB_PASSWORD: emplearavelpass
+        ports:
+          - "3306:3306"
+        volumes:
+          - mariadb_data:/var/lib/mysql
+        networks:
+          - emplearavel
+    
     volumes:
-      - mariadb_data:/var/lib/mysql
+      mariadb_data:
+      
     networks:
-      - emplearavel
-
-volumes:
-  mariadb_data:
-  
-networks:
-  emplearavel:
-    driver: bridge 
+      emplearavel:
+        driver: bridge 
 
 
 
