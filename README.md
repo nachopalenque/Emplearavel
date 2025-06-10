@@ -8,6 +8,32 @@
 </p>
 <strong>Proceso de instalación recomendado con docker</strong><br>
 <p>1- Cree el directorio donde se va instalar la aplicación</p>
+<p>2- Clone o descarge este repositorio en el directorio que acaba de crear</p>
+<p>3- Genere el siguiente archivo Dockerfile : 
+    
+FROM bitnami/laravel:10
+
+WORKDIR /app
+
+COPY Emplearavel/. /app/
+
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer
+
+RUN composer install --no-dev --optimize-autoloader
+RUN cp /app/.env.example /app/.env
+RUN php artisan key:generate
+RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+RUN npm install
+RUN npm run build
+
+EXPOSE 8000
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+
+
+</p>
+
+
 
 
 ## About Laravel
