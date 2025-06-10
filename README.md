@@ -7,28 +7,78 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 <strong>Proceso de instalación recomendado con docker</strong><br>
-<p>1- Cree el directorio donde se va instalar la aplicación</p>
-<p>2- Clone o descarge este repositorio en el directorio que acaba de crear</p>
-<p>3- Genere el siguiente archivo Dockerfile : 
+<p>1 - Cree el directorio donde se va instalar la aplicación</p>
+<p>2 - Clone o descarge este repositorio en el directorio que acaba de crear</p>
+<p>3 - Crear archivo llamado Dockerfile con el siguiente contenido : 
     
-FROM bitnami/laravel:10
+    FROM bitnami/laravel:10
+    
+    WORKDIR /app
+    
+    COPY Emplearavel/. /app/
+    
+    RUN curl -sS https://getcomposer.org/installer | php && \
+        mv composer.phar /usr/local/bin/composer
+    
+    RUN composer install --no-dev --optimize-autoloader
+    RUN cp /app/.env.example /app/.env
+    RUN php artisan key:generate
+    RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+    RUN npm install
+    RUN npm run build
+    
+    EXPOSE 8000
+    CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
 
-WORKDIR /app
 
-COPY Emplearavel/. /app/
+</p>
+<p>4 - Crear el archivo llamado docker-compose.yml con el siguiente contenido :
 
-RUN curl -sS https://getcomposer.org/installer | php && \
-    mv composer.phar /usr/local/bin/composer
+ version: "3.8"
 
-RUN composer install --no-dev --optimize-autoloader
-RUN cp /app/.env.example /app/.env
-RUN php artisan key:generate
-RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
-RUN npm install
-RUN npm run build
+services:
+  emplearavel:
+    build: .
+    restart: unless-stopped
+    command: sh -c "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"
+    container_name: emplearavel
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: 3306
+      DB_DATABASE: emplearavel
+      DB_USERNAME: emplearaveluser
+      DB_PASSWORD: emplearavelpass 
+    networks:
+      - emplearavel  
+    depends_on:
+      - mariadb
 
-EXPOSE 8000
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+  mariadb:
+    image: bitnami/mariadb:latest
+    restart: unless-stopped
+    container_name: mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: emplearavelpass
+      MARIADB_ROOT_USER: root
+      MARIADB_DATABASE: emplearavel
+      MARIADB_USER: emplearaveluser
+      MARIADB_PASSWORD: emplearavelpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - emplearavel
+
+volumes:
+  mariadb_data:
+  
+networks:
+  emplearavel:
+    driver: bridge 
+
 
 
 </p>
