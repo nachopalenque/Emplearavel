@@ -6,7 +6,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
-<strong><a href="https://github.com/nachopalenque/repositorioPalenque/tree/main/public/docs">Clic aquí para ver la documentación</a></strong>
+<strong><a href="https://github.com/nachopalenque/repositorioPalenque/tree/main/public/docs">Clic aquí para ver la documentación</a></strong><br>
 <strong>Proceso de instalación recomendado con docker: </strong><br>
 <p>1 - Cree el directorio donde se va instalar la aplicación</p>
 <p>2 - Clone o descarge este repositorio en el directorio que acaba de crear</p>
