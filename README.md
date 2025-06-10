@@ -86,9 +86,9 @@
     
         docker-compose up -d
 </p>
-<p>Nota: Probablemente para finalizar el despligue de la aplicación sea necesario volver a arrancar del contenedor de mariadb
-Comprobamos que esta activo: con docker ps -a
-Y si no lo esta ejecutamos: docker start mariadb
+<p><strong>Nota: Probablemente para finalizar el despligue de la aplicación sea necesario volver a arrancar del contenedor de mariadb
+Comprobamos que esta activo: con docker ps -a <br>
+Y si no lo esta ejecutamos: docker start mariadb</strong>
 </p>
 
 
